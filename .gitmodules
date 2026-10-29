@@ -1,0 +1,3 @@
+[submodule "airplay/receiver"]
+	path = airplay/receiver
+	url = https://github.com/jqssun/android-airplay-server.git

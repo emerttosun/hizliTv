@@ -15,8 +15,13 @@ Wrapper, Apache License 2.0. JUnit test dependency, EPL 1.0.
 
 AirPlay Server by jqssun is a SEPARATE application licensed under GPL-3.0:
 https://github.com/jqssun/android-airplay-server
-Its APK and source are not bundled in this repository. HızlıTV can open an
-installed receiver. This does not implement Apple's AirPlay protocol itself.
+Its unmodified source is pinned as the airplay/receiver Git submodule; its
+license is preserved there and in airplay/RECEIVER-LICENSE. Recursive checkout
+also retrieves native dependencies with their own licenses. The receiver is
+not linked into HızlıTV's MIT application. Its APK is downloaded separately
+from upstream with a pinned checksum; no receiver APK is committed here.
+HızlıTV can open the installed receiver. See airplay/README.md for provenance,
+build instructions and dependency license locations.
 
 Apple TV is a product of Apple. This independent Android TV project uses its
 own code and graphics, with no Apple assets or implied affiliation. Installed

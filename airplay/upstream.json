@@ -1,0 +1,13 @@
+{
+  "name": "AirPlay Server for Android",
+  "author": "jqssun and upstream contributors",
+  "repository": "https://github.com/jqssun/android-airplay-server",
+  "tag": "v0.0.36",
+  "commit": "a46cca0a6a1274e9e33c0e750f0f1c1eb1d881ea",
+  "license": "GPL-3.0",
+  "package": "io.github.jqssun.airplay",
+  "apk_url": "https://github.com/jqssun/android-airplay-server/releases/download/v0.0.36/app-release.apk",
+  "apk_sha256": "b8c7c595ed93f91562feedce92c27800f08f9c84df424f6ac2045e82324cf2a4",
+  "modified": false,
+  "integration": "Separate optional receiver, opened by HızlıTV; not linked into the MIT launcher/player APK."
+}

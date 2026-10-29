@@ -1,0 +1,10 @@
+{
+  "server_name": "HizliTV",
+  "require_pin": true,
+  "sync_client_volume": false,
+  "resolution": "1920x1080",
+  "max_fps": 30,
+  "low_latency": true,
+  "audio_auto_buffer": false,
+  "audio_cushion_ms": 20
+}
