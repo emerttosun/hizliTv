@@ -22,7 +22,7 @@ jobs:
       - name: Test, lint and assemble
         run: |
           chmod +x gradlew
-          ./gradlew --no-daemon :media-core:test :player:testDebugUnitTest :launcher:lintDebug :player:lintDebug :launcher:assembleDebug
+          ./gradlew --no-daemon :media-core:test :player:testDebugUnitTest :launcher:lintDebug :player:lintDebug :tv-ui:lintDebug :launcher:assembleDebug
       - name: Check optional legacy migration tool
         run: ./gradlew --no-daemon -PincludeLegacyBridge=true :legacy-bridge:lintDebug :legacy-bridge:assembleDebug
       - uses: actions/upload-artifact@v4

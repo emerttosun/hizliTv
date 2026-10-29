@@ -13,7 +13,7 @@ flowchart LR
     Player --> ZXing[ZXing: QR oluşturma]
 ```
 
-`launcher` uygulama modülüdür; `player` Android kütüphanesine derleme bağımlılığı vardır. Çıktı tek APK’dır. Player ekranları dış uygulamalara kapalı (`exported=false`) Activity’lerdir ve açık Intent ile aynı görev içinde açılır. Media3 APK içinde bulunur ama ExoPlayer nesnesi yalnız oynatma ekranında oluşturulur. `media-core` Android sınıflarına ihtiyaç duymaz; bir URL veya listeyi masaüstü Java testinde de işleyebilir. `tv-ui` bir ürün ekranı içermez; renkler, yazı biçimi ve odaklanabilir düğmeler sunar.
+`launcher` uygulama modülüdür; `player` Android kütüphanesine derleme bağımlılığı vardır. Çıktı tek APK’dır. Player ekranları dış uygulamalara kapalı (`exported=false`) Activity’lerdir ve açık Intent ile aynı görev içinde açılır. Media3 APK içinde bulunur ama ExoPlayer nesnesi yalnız oynatma ekranında oluşturulur. `media-core` Android sınıflarına ihtiyaç duymaz; bir URL veya listeyi masaüstü Java testinde de işleyebilir. `tv-ui` bir ürün ekranı içermez; renkler, yazı biçimi, odaklanabilir düğmeler ve tekrar kullanılabilir `TvDialog` sunar. Metin ve işlemleri çağıran ekran sağlar; ortak pencere medya modeli, ağ veya kayıt işlemlerini bilmez.
 
 ## Ana ekran
 

@@ -31,3 +31,11 @@ Renk ve ortak bileşenler `tv-ui`, ana ekranın ölçüleri `HomeScreen`, işlem
 Player aynı statik arka planı, yazı ölçülerini ve beyaz odak çerçevesini kullanır. Telefondan ekle, bağlantı/liste ve geri alma görünür kalır. Boş kütüphanede iki büyük kart, QR ile gönderme ve kanal listesi ekleme işlerini anlatır. Başlıktaki HızlıTV düğmesi aynı APK içindeki ana ekrana döner. Video gösterilmedikçe decoder/tampon oluşturulmaz.
 
 Odak çerçeveleri bir kez oluşturulup `StateListDrawable` ile seçilir; her tuşta yeni şekil üretilmez. Ağır dinamik gölge kullanılmaz. Kare ölçümleri cihazda yapılır; 60 fps her cihazda garanti edilmez.
+
+## Bağlantı sonrası pencereler
+
+Kaynak onayı, kanal listesi onayı, birden fazla kaynak seçimi ve bağlantı hatası `tv-ui/TvDialog` bileşenini kullanır. Koyu mavi panel, ortak yazı biçimi ve beyaz odaklı düğmeler ana ekranla aynı görsel dili taşır. İlk işlem otomatik odaklanır; yön tuşlarıyla diğer işlemlere geçilir. Kaynak seçimi listesi satırları yeniden kullanır; animasyon, WebView veya uzak görsel servisi yoktur. Activity görünmez olunca pencere kapatılır.
+
+![Sentetik test kaynağıyla gerçek TV kaynak onayı](images/source-confirm.png)
+
+Film oynatırken pencere, video çevresi ve yükleme arka planı siyahtır. Görüntü kırpılmadan kendi oranında gösterilir. Bu tema yalnız oynatma Activity’sine uygulanır.

@@ -1,6 +1,6 @@
 # Doğrulama ve sınırlar
 
-Sürüm: **HızlıTV 0.8.1**, gömülü Player, tek APK. Tarih: 29 Ekim 2026.
+Sürüm: **HızlıTV 0.8.3**, gömülü Player, tek APK. Tarih: 29 Ekim 2026.
 
 ## Otomatik kontroller
 
@@ -12,7 +12,7 @@ Sürüm: **HızlıTV 0.8.1**, gömülü Player, tek APK. Tarih: 29 Ekim 2026.
 python3 scripts/check_public.py
 ```
 
-15 test, sıfır hata ve sıfır atlanan testle geçti. Tam Android lint kontrolü geçti; kaynaklarda çeviri/araç önizlemesi gibi ölümcül olmayan uyarılar kalabilir. Android 6/API23 için `Map.getOrDefault` ve `java.util.function.Consumer` bağımlılığı kaldırıldı. Media3'ün kararsız API yüzeyine yalnız PlayerActivity içinde açık opt-in verildi; lint genel olarak kapatılmadı.
+0.8.1’de mevcut 15 işlev testi, sıfır hata ve sıfır atlanan testle geçti. 0.8.3’te oynatma zemini ve bağlantı sonrası pencereler değişti; launcher/player/tv-ui Android lint ve release derlemesi tekrar geçti. Tam Android lint kontrolü geçti; kaynaklarda çeviri/araç önizlemesi gibi ölümcül olmayan uyarılar kalabilir. Android 6/API23 için `Map.getOrDefault` ve `java.util.function.Consumer` bağımlılığı kaldırıldı. Media3'ün kararsız API yüzeyine yalnız PlayerActivity içinde açık opt-in verildi; lint genel olarak kapatılmadı.
 
 | Alan | Kanıt |
 | --- | --- |
@@ -29,6 +29,14 @@ python3 scripts/check_public.py
 Testler özel hesap, çalışan kanal listesi veya kişisel HTML yedeği gerektirmez. Socket testleri loopback üzerinde geçici port açar; harici film sitelerine bağlanmaz. `org.json` JVM test bağımlılığı Android'in gerçek çalışma zamanı uygulaması yerine yalnız test ortamında kullanılır.
 
 ## Gerçek cihaz
+
+### 0.8.3 arayüz güncellemesi
+
+VersionCode22 aynı imzayla kuruldu. Siyah oynatma teması yalnız video ekranına uygulandı. Kaynak onayı, kanal listesi onayı, çoklu kaynak seçimi ve hata mesajı ortak `TvDialog` ile TV’de doğrulandı. İlk Oynat odağı, sağ tuşuyla diğer düğmeye geçiş ve çoklu kaynakta tek OK ile onay açılması sınandı. Yerel, sentetik HTML/HTTP404 fixture’ı kullanıldı; gerçek kullanıcı bağlantısı veya kanal listesi gerekmedi. Açık örnek video yeni pencereden OK ile başlatıldı ve ilk video karesi callback’i alındı. Test kaynağı kaydedilmedi; boş kütüphane korundu.
+
+`launcher`, `player` ve `tv-ui` lint kontrolleri ve release derlemesi geçti. Kaynaklar yerel Git’te tutulur; özel imza ayarları, cihaz günlükleri ve APK’lar Git’e alınmaz.
+
+### Önceki 0.8.1 temel doğrulaması
 
 HızlıTV 0.8.1 aynı imzayla Android11 Mi TV Stick’e kuruldu. Ana ekran ve kütüphanenin gerçek ekran görüntüleri incelendi. HOME ataması ve uygulama verilerini temizleme işlemi yapılmadı.
 

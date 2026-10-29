@@ -17,6 +17,7 @@ import tr.hizlitv.media.LibraryIndex;
 import tr.hizlitv.media.MediaEntry;
 import tr.hizlitv.media.Urls;
 import tr.hizlitv.ui.TvUi;
+import tr.hizlitv.ui.TvDialog;
 
 /** Embedded library. Disk/index work and source resolution never block remote navigation. */
 public final class MainActivity extends Activity implements LibraryScreen.Actions {
@@ -27,6 +28,7 @@ public final class MainActivity extends Activity implements LibraryScreen.Action
     private LibraryRepository repository;
     private LibraryScreen screen;
     private PhoneCompanion phone;
+    private TvDialog sourceDialog;
     private volatile boolean alive, started, libraryBusy = true, libraryReady;
     @Override public void onCreate(Bundle state) {
         super.onCreate(state); alive = true; TvUi.prepare(this); repository = new LibraryRepository(this);
@@ -72,31 +74,36 @@ public final class MainActivity extends Activity implements LibraryScreen.Action
             } catch (Exception failure) {
                 String message = failure.getMessage() == null ? "Kaynak okunamadı." : failure.getMessage();
                 ui.post(() -> { if (alive && started) { phone.closeDialog(); screen.status("Bağlantı açılamadı.");
-                    new AlertDialog.Builder(this).setTitle("Bağlantı açılamadı").setMessage(message).setPositiveButton("Tamam", null).show(); } });
+                    showSource(new TvDialog(this, "HızlıTV Player · Bağlantı", "Bağlantı açılamadı", message).action("Tamam", null)); } });
             } finally { busy.set(false); }
         });
         return true;
     }
     private void results(Resolver.Result result) {
         if (result.playlist) {
-            new AlertDialog.Builder(this).setTitle(result.items.size() + " kanal bulundu")
-                .setMessage("Kanal listesi kütüphanene eklensin mi? Son değişikliği geri alabilirsin.")
-                .setPositiveButton("Listeyi ekle", (d, w) -> merge(result.items)).setNegativeButton("Vazgeç", null).show(); return;
+            showSource(new TvDialog(this, "HızlıTV Player · Kanal listesi", result.items.size() + " kanal bulundu",
+                "Kanal listesi kütüphanene eklensin mi? Son değişikliği geri alabilirsin.")
+                .action("Listeyi ekle", () -> merge(result.items)).action("Vazgeç", null)); return;
         }
         if (result.items.size() == 1) { confirm(result.items.get(0)); return; }
         String[] names = new String[result.items.size()];
         for (int i = 0; i < names.length; i++) names[i] = result.items.get(i).title + " · " + Urls.host(result.items.get(i).url);
-        new AlertDialog.Builder(this).setTitle("Bulunan kaynaklar").setItems(names, (d, n) -> confirm(result.items.get(n))).setNegativeButton("Geri", null).show();
+        showSource(new TvDialog(this, "HızlıTV Player · Kaynak bulundu", "Bir kaynak seç", "")
+            .choices(names, n -> confirm(result.items.get(n))).action("Geri", null));
+    }
+    private void showSource(TvDialog dialog) {
+        if (sourceDialog != null) sourceDialog.dismiss(); sourceDialog = dialog;
+        dialog.setOnDismissListener(d -> { if (sourceDialog == dialog) sourceDialog = null; }); dialog.show();
     }
     private void confirm(MediaEntry entry) {
-        new AlertDialog.Builder(this).setTitle(entry.title)
-            .setMessage("Kaynak: " + Urls.host(entry.url) + (entry.subtitles.isEmpty() ? "" : "\n" + entry.subtitles.size() + " altyazı seçeneği") + "\nİzlemeye hazır.")
-            .setPositiveButton("Oynat", (d, w) -> {
+        showSource(new TvDialog(this, "HızlıTV Player · Kaynak bulundu", entry.title,
+            "Kaynak: " + Urls.host(entry.url) + (entry.subtitles.isEmpty() ? "" : "\n" + entry.subtitles.size() + " altyazı seçeneği") + "\nİzlemeye hazır.")
+            .action("Oynat", () -> {
                 try { repository.audit("play_request", 1); startActivity(new Intent(this, PlayerActivity.class).putExtra("media", Store.json(entry).toString())); }
                 catch (Exception failure) { screen.status("Oynatıcı açılamadı."); }
             })
-            .setNeutralButton("Kütüphaneye ekle", (d, w) -> merge(Collections.singletonList(entry)))
-            .setNegativeButton("Vazgeç", null).show();
+            .action("Kütüphaneye ekle", () -> merge(Collections.singletonList(entry)))
+            .action("Vazgeç", null));
     }
     @Override public void edit(MediaEntry entry) {
         new AlertDialog.Builder(this).setTitle(entry.title)
@@ -110,6 +117,6 @@ public final class MainActivity extends Activity implements LibraryScreen.Action
     }
     @Override public void undo() { if (beginEdit()) repository.undo(result("Geri alınacak değişiklik yok veya yedek okunamadı.")); }
     @Override protected void onStart() { super.onStart(); started = true; if (libraryReady) phone.onStart(); }
-    @Override protected void onStop() { started = false; phone.stop(); super.onStop(); }
+    @Override protected void onStop() { started = false; if (sourceDialog != null) sourceDialog.dismiss(); phone.stop(); super.onStop(); }
     @Override protected void onDestroy() { alive = false; phone.stop(); repository.close(); worker.shutdownNow(); ui.removeCallbacksAndMessages(null); super.onDestroy(); }
 }

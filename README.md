@@ -4,7 +4,7 @@ Android TV için sade bir ana ekran ve kişisel medya oynatıcısı. Büyük kar
 
 ![HızlıTV ana ekranı](docs/images/home.png)
 
-**Tek APK: HızlıTV 0.8.1** (`tr.hizlitv.home`). Ana ekran, cihaz araçları ve Player aynı uygulamanın içindedir. Player kartı; M3U kanallarını, bağlantıdan video bulmayı, altyazı/ses/kalite seçimini ve telefonla göndermeyi açar. Oynatma motoru yalnız video oynatıldığında oluşturulur.
+**Tek APK: HızlıTV 0.8.3** (`tr.hizlitv.home`). Ana ekran, cihaz araçları ve Player aynı uygulamanın içindedir. Player kartı; M3U kanallarını, bağlantıdan video bulmayı, altyazı/ses/kalite seçimini ve telefonla göndermeyi açar. Oynatma motoru yalnız video oynatıldığında oluşturulur.
 
 Android 6 / API 23 ve üzeri TV cihazları hedeflenir. Gerçek cihaz doğrulaması Android 11 çalıştıran Mi TV Stick üzerinde yapılır; diğer üretici/sürüm kombinasyonları ayrıca denenmelidir. Uygulama target SDK 35 kullanır. HOME tuşu veya varsayılan sistem başlatıcısı değiştirilmez. Player ayrı bir uygulama olarak kurulmaz.
 

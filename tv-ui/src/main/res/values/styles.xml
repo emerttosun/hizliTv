@@ -1,0 +1,8 @@
+<resources>
+    <style name="HizliTvDialogTheme" parent="android:style/Theme.Material.Dialog.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.65</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+</resources>

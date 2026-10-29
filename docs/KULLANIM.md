@@ -22,9 +22,11 @@ HızlıTV'yi TV'nin uygulama listesinden aç. Ana ekran yalnızca favorileri gö
 
 Kanalları bir kez içe aktarınca listede adlarıyla seçebilirsin. Bir yayın adresi değişirse güncel listeyi yeniden gönder. Şu anda zamanlanmış otomatik liste yenileme veya EPG rehberi yoktur.
 
+Bağlantı gönderince HızlıTV tasarımlı onay penceresi açılır. **Oynat**, **Kütüphaneye ekle** veya **Vazgeç** seçilebilir. Birden fazla kaynak bulunduysa önce kaynak seçilir. Gönderim kendiliğinden oynatmayı veya kaydetmeyi başlatmaz.
+
 ## Film oynarken
 
-OK ile Media3 kontrollerini göster. Kumandanın Menü tuşu kalite, ses dili ve altyazı seçeneklerini açar. Kaynağın sunmadığı seçenek üretilmez. Aynı yayın içindeki desteklenen seçenekler gösterilir. Geri, önce görünen kontrol çubuğunu gizler; sonraki Geri oynatmadan çıkar.
+Video çevresindeki boşluklar siyah gösterilir. OK ile Media3 kontrollerini göster. Kumandanın Menü tuşu kalite, ses dili ve altyazı seçeneklerini açar. Kaynağın sunmadığı seçenek üretilmez. Aynı yayın içindeki desteklenen seçenekler gösterilir. Geri, önce görünen kontrol çubuğunu gizler; sonraki Geri oynatmadan çıkar.
 
 Ses tuşları sistemin medya akışını kontrol eder. TV'nin kendi ses ayarı ile Android TV cihazının medya sesi iki ayrı seviye olabilir. Ses düşükse önce cihazın medya sesini kontrol et. Bu uygulama her açılışta sesi yükseltmez.
 

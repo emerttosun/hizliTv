@@ -51,7 +51,11 @@ public final class PlayerActivity extends Activity {
             StringBuilder key = new StringBuilder(); for (byte b : digest) key.append(String.format(java.util.Locale.US, "%02x", b & 255)); positionKey = key.toString();
             position = state == null ? getSharedPreferences("playback", 0).getLong(positionKey, 0) : state.getLong("position", 0);
             resume = state == null || state.getBoolean("play", true);
-            view = new PlayerView(this); view.setShowSubtitleButton(true); view.setShowBuffering(PlayerView.SHOW_BUFFERING_WHEN_PLAYING);
+            view = new PlayerView(this);
+            // The video keeps its aspect ratio; uncovered space and loading frames stay black.
+            view.setBackgroundColor(android.graphics.Color.BLACK);
+            view.setShutterBackgroundColor(android.graphics.Color.BLACK);
+            view.setShowSubtitleButton(true); view.setShowBuffering(PlayerView.SHOW_BUFFERING_WHEN_PLAYING);
             view.setControllerAutoShow(true); view.setControllerShowTimeoutMs(5000); setContentView(view); view.requestFocus();
         } catch (Exception e) { finish(); }
     }
