@@ -1,0 +1,4 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+  <item><shape><solid android:color="#14213A"/><size android:width="320dp" android:height="180dp"/></shape></item>
+  <item android:width="72dp" android:height="72dp" android:gravity="center" android:drawable="@drawable/icon"/>
+</layer-list>

@@ -1,0 +1,5 @@
+#EXTM3U
+#EXTINF:-1 group-title="Haber",Örnek Haber
+https://media.example.org/haber/master.m3u8
+#EXTINF:-1 group-title="Belgesel",Örnek Belgesel
+https://media.example.org/belgesel/master.m3u8

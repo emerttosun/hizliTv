@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application android:label="HızlıTV veri aktarımı" android:allowBackup="false" android:fullBackupContent="false">
+        <!-- openFile verifies the caller's signing certificate before any data access. -->
+        <provider android:name="tr.hizlitv.migration.LegacyExportProvider"
+            android:authorities="tr.hizlitv.player.migration" android:exported="true"
+            android:grantUriPermissions="false" />
+    </application>
+</manifest>

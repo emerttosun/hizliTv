@@ -1,0 +1,17 @@
+// Public builds produce unsigned release APKs unless the owner supplies a key.
+// This file contains no signing identity. Keep local-signing.properties private.
+def signing = new Properties()
+def signingFile = rootProject.file('local-signing.properties')
+if (signingFile.exists()) signingFile.withInputStream { signing.load(it) }
+def keyPath = signing.getProperty('storeFile', System.getenv('HIZLITV_KEYSTORE'))
+if (keyPath) {
+    android.signingConfigs {
+        releaseOwner {
+            storeFile rootProject.file(keyPath)
+            storePassword signing.getProperty('storePassword', System.getenv('HIZLITV_STORE_PASSWORD'))
+            keyAlias signing.getProperty('keyAlias', System.getenv('HIZLITV_KEY_ALIAS'))
+            keyPassword signing.getProperty('keyPassword', System.getenv('HIZLITV_KEY_PASSWORD'))
+        }
+    }
+    android.buildTypes.release.signingConfig = android.signingConfigs.releaseOwner
+}

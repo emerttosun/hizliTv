@@ -1,0 +1,25 @@
+plugins { id 'com.android.library' }
+android {
+    namespace 'tr.hizlitv.player'
+    compileSdk 35
+    defaultConfig {
+        minSdk 23
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    testOptions { unitTests.returnDefaultValues = true }
+}
+dependencies {
+    implementation project(':tv-ui')
+    implementation project(':media-core')
+    implementation 'androidx.media3:media3-exoplayer:1.8.0'
+    implementation 'androidx.media3:media3-exoplayer-hls:1.8.0'
+    implementation 'androidx.media3:media3-exoplayer-dash:1.8.0'
+    implementation 'androidx.media3:media3-ui:1.8.0'
+    implementation 'org.jsoup:jsoup:1.21.2'
+    implementation 'com.google.zxing:core:3.5.3'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.json:json:20240303'
+}

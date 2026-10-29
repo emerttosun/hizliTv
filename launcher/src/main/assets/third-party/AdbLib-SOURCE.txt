@@ -1,0 +1,3 @@
+https://github.com/cgutman/AdbLib
+Commit d6937951eb98557c76ee2081e383d50886ce109a
+Included: AdbBase64, AdbCrypto, AdbProtocol. Local changes: host label; bounded message validation; public packet type.

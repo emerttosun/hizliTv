@@ -1,0 +1,36 @@
+name: Android
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Android SDK
+        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+      - name: Check distributable sources
+        run: python3 scripts/check_public.py
+      - name: Test, lint and assemble
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon :media-core:test :player:testDebugUnitTest :launcher:lintDebug :player:lintDebug :launcher:assembleDebug
+      - name: Check optional legacy migration tool
+        run: ./gradlew --no-daemon -PincludeLegacyBridge=true :legacy-bridge:lintDebug :legacy-bridge:assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: debug-apk-and-test-reports
+          path: |
+            launcher/build/outputs/apk/debug/*.apk
+            media-core/build/reports/tests/
+            player/build/reports/tests/
+            launcher/build/reports/lint-results-debug.html
+            player/build/reports/lint-results-debug.html

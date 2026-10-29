@@ -1,0 +1,10 @@
+plugins { id 'com.android.library' }
+android {
+    namespace 'tr.hizlitv.ui'
+    compileSdk 35
+    defaultConfig { minSdk 23 }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}

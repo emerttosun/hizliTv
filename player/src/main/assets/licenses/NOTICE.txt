@@ -1,0 +1,13 @@
+HızlıTV Player
+
+AndroidX Media3 1.8.0 — Android Open Source Project — Apache-2.0
+https://github.com/androidx/media/tree/1.8.0
+
+ZXing Core 3.5.3 — ZXing Authors — Apache-2.0
+https://github.com/zxing/zxing/tree/zxing-3.5.3
+
+jsoup 1.21.2 — Jonathan Hedley — MIT
+https://github.com/jhy/jsoup/tree/jsoup-1.21.2
+
+Transitive AndroidX, Guava, Kotlin dependencies retain their original license notices in the build dependency records.
+No ad SDK or analytics library is added.

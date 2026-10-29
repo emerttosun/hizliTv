@@ -1,0 +1,17 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'tr.hizlitv.migration'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'tr.hizlitv.player'
+        minSdk 23
+        targetSdk 35
+        versionCode 100
+        versionName 'migration-1'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+apply from: rootProject.file('gradle/app-signing.gradle')

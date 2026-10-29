@@ -1,0 +1,23 @@
+HızlıTV's original code is provided under the MIT License.
+
+Bundled AdbLib source: BSD 3-Clause. Preserve its original copyright and terms:
+launcher/src/main/assets/third-party/AdbLib-LICENSE.txt
+launcher/src/main/assets/third-party/AdbLib-SOURCE.txt
+
+Player dependencies:
+- AndroidX Media3: Apache License 2.0, https://github.com/androidx/media
+- ZXing core: Apache License 2.0, https://github.com/zxing/zxing
+- jsoup: MIT License, https://jsoup.org/
+License texts are bundled in player/src/main/assets/licenses/.
+
+Build tools (not bundled application code): Android Gradle Plugin and Gradle
+Wrapper, Apache License 2.0. JUnit test dependency, EPL 1.0.
+
+AirPlay Server by jqssun is a SEPARATE application licensed under GPL-3.0:
+https://github.com/jqssun/android-airplay-server
+Its APK and source are not bundled in this repository. HızlıTV can open an
+installed receiver. This does not implement Apple's AirPlay protocol itself.
+
+Apple TV is a product of Apple. This independent Android TV project uses its
+own code and graphics, with no Apple assets or implied affiliation. Installed
+app banners belong to their respective owners and are read from the device.
