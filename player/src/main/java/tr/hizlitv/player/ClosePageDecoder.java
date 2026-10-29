@@ -26,7 +26,7 @@ final class ClosePageDecoder {
         String literal = (String)new JSONTokener(m.group(1)).nextValue();
         String separator = (String)new JSONTokener(m.group(2)).nextValue();
         if (separator.isEmpty() || separator.length() > 4) return "";
-        if (literal.length() > 65536) throw new IllegalArgumentException("Kaynak verisi sınırı aşıldı.");
+        if (literal.length() > 65536) throw new IllegalArgumentException("Source data limit exceeded.");
         ArrayList<String> chunks = new ArrayList<>(java.util.Arrays.asList(literal.split(Pattern.quote(separator), -1)));
         int n = chunks.size() - 2;
         if (n < 10 || n > 4096) return "";
@@ -67,7 +67,7 @@ final class ClosePageDecoder {
         int acc = 0, bits = 0;
         for (char c : text.toCharArray()) {
             if (c == '=') break;
-            int digit = alphabet.indexOf(c); if (digit < 0) throw new IllegalArgumentException("Kaynak biçimi değişmiş.");
+            int digit = alphabet.indexOf(c); if (digit < 0) throw new IllegalArgumentException("The source format has changed.");
             acc = (acc << 6) | digit; bits += 6;
             if (bits >= 8) { bits -= 8; bytes.write((acc >> bits) & 255); }
         }

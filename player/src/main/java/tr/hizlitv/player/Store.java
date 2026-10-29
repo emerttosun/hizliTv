@@ -50,7 +50,7 @@ final class Store {
     List<MediaEntry> read() throws Exception {
         ArrayList<MediaEntry> out = new ArrayList<>();
         if (!file.getBaseFile().exists()) return out;
-        byte[] bytes = file.readFully(); if (bytes.length > 8_000_000) throw new java.io.IOException("Kayıt boyutu sınırı aşıldı.");
+        byte[] bytes = file.readFully(); if (bytes.length > 8_000_000) throw new java.io.IOException("Stored data limit exceeded.");
         JSONArray array = new JSONArray(new String(bytes, StandardCharsets.UTF_8));
         for (int i = 0; i < array.length() && i < 5000; i++) out.add(entry(array.getJSONObject(i)));
         return out;
@@ -58,7 +58,7 @@ final class Store {
     void write(List<MediaEntry> items, String action) throws Exception {
         JSONArray array = new JSONArray(); for (MediaEntry e : items) array.put(json(e));
         byte[] current = array.toString().getBytes(StandardCharsets.UTF_8);
-        if (current.length > 8_000_000) throw new java.io.IOException("Kütüphane boyutu sınırı aşıldı; mevcut kayıtlar korundu.");
+        if (current.length > 8_000_000) throw new java.io.IOException("Library size limit exceeded; existing records are preserved.");
         byte[] previous = file.getBaseFile().exists() ? file.readFully() : "[]".getBytes(StandardCharsets.UTF_8);
         atomic(undo, previous);
         atomic(file, current);
@@ -70,19 +70,19 @@ final class Store {
         for (MediaEntry e : incoming) {
             MediaEntry previous = all.get(identity(e)); if (previous != null) e.favorite = previous.favorite || e.favorite;
             all.put(identity(e), e);
-            if (all.size() > 5000) throw new java.io.IOException("Kütüphane en fazla 5000 kayıt tutabilir.");
+            if (all.size() > 5000) throw new java.io.IOException("The library can hold up to 5000 entries.");
         }
         write(new ArrayList<>(all.values()), "library_import");
     }
     static String identity(MediaEntry e) { return e.sourcePage.isEmpty() ? "url:" + e.url : "page:" + e.sourcePage; }
     void restore() throws Exception {
-        if (!undo.getBaseFile().exists()) throw new java.io.IOException("Geri alınacak kütüphane değişikliği yok.");
+        if (!undo.getBaseFile().exists()) throw new java.io.IOException("There is no library change to undo.");
         atomic(file, undo.readFully()); undo.delete(); audit("library_undo", read().size());
     }
     void audit(String action, int count) throws Exception {
         JSONObject event = new JSONObject(); event.put("time_ms", System.currentTimeMillis());
         event.put("action", action); event.put("count", count);
-        event.put("undo", "Kütüphane değişikliği: Son değişikliği geri al. Oynatma: Geri tuşu.");
+        event.put("undo", "Library changes: Undo latest change. Playback: Back button.");
         synchronized (AUDIT_LOCK) { try (java.io.FileWriter out = new java.io.FileWriter(new File(context.getFilesDir(), "operations.jsonl"), true)) {
             out.write(event.toString()); out.write('\n');
         } }

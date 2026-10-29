@@ -1,5 +1,7 @@
 # GitHub ve sürüm hazırlama
 
+[English](en/RELEASING.md) · **Türkçe**
+
 Bu klasör tek başına paylaşılacak Android TV projesidir. Üstteki eski Samsung/widget çalışmasını, cihaz günlüklerini, yedekleri veya yerel araç önbelleklerini aynı Git deposuna ekleme. Buradaki komutlar bir rehberdir; GitHub deposu kendiliğinden açılmaz ve kaynaklar otomatik yayımlanmaz.
 
 ## Yüklenecek klasör
@@ -31,7 +33,7 @@ git push -u origin main
 
 ## CI ne yapıyor?
 
-`.github/workflows/android.yml`, push ve pull request'te JDK17/SDK35 ortamında testleri, Android lint'i ve tek debug APK derlemesini çalıştırır. İsteğe bağlı eski Player geçiş aracının lint/derlemesini de kontrol eder; normal uygulama dağıtımı tek APK kalır. Sonuçları artifact olarak saklar. Herhangi bir release anahtarı veya hesap sırrı istemez. Bu workflow gerçek TV'ye veya iPhone'a bağlanmaz; gerçek cihaz kontrolleri ayrıca yapılır.
+`.github/workflows/android.yml`, push ve pull request'te JDK 17/SDK 35 ortamında testleri, Android lint'i ve tek debug APK derlemesini çalıştırır. İsteğe bağlı eski Player geçiş aracının lint/derlemesini de kontrol eder; normal uygulama dağıtımı tek APK kalır. Sonuçları artifact olarak saklar. Herhangi bir release anahtarı veya hesap sırrı istemez. Bu workflow gerçek TV'ye veya iPhone'a bağlanmaz; gerçek cihaz kontrolleri ayrıca yapılır.
 
 ## Debug ile release farkı
 
@@ -77,3 +79,7 @@ python3 scripts/export_source.py ../HizliTV-source.zip
 
 İhracat, açık bir dosya/klasör izin listesi kullanır. Yerel SDK yolu, imzalama ayarları, anahtarlar, derleme çıktıları ve günlükler dışarıda kalır. `gradle-wrapper.jar` kaynağı derlemek için bilinçli olarak dâhil edilir. ZIP'i başka klasöre açıp JDK/SDK dışında kendi makinenin özel dosyaları olmadan derlemeyi dene.
 
+
+## İki dil ve AirPlay kaynakları
+
+Yayın öncesi `python3 scripts/check_translations.py` ve `python3 -m unittest discover -s airplay/tests` de çalıştır. Actions, `hizlitv-debug-apk` ile `verification-reports` çıktılarını ayrı üretir. CI debug APK’sı kalıcı imzalı Release değildir. AirPlay kaynağı `airplay/receiver` Git alt modülüne sabitlenmiştir; ana Gradle derlemesi alıcıyı derlemez. Profil dosyaları genel, `.state` geri alma kayıtları özeldir. İngilizce README ana giriş, README.tr.md Türkçe giriş olarak korunur.

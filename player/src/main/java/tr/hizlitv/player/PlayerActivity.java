@@ -1,5 +1,6 @@
 package tr.hizlitv.player;
 
+import tr.hizlitv.ui.R;
 import tr.hizlitv.media.MediaEntry;
 import tr.hizlitv.media.M3u;
 import tr.hizlitv.media.Urls;
@@ -32,7 +33,7 @@ import java.util.Map;
 import org.json.JSONObject;
 
 @androidx.annotation.OptIn(markerClass = androidx.media3.common.util.UnstableApi.class)
-public final class PlayerActivity extends Activity {
+public final class PlayerActivity extends tr.hizlitv.ui.LocalizedActivity {
     private final java.util.concurrent.ExecutorService audit = java.util.concurrent.Executors.newSingleThreadExecutor();
     private ExoPlayer player;
     private PlayerView view;
@@ -72,14 +73,14 @@ public final class PlayerActivity extends Activity {
                 .setPrioritizeTimeOverSizeThresholds(false).build();
             player = new ExoPlayer.Builder(this).setMediaSourceFactory(new DefaultMediaSourceFactory(data)).setLoadControl(buffer).build();
             player.setTrackSelectionParameters(player.getTrackSelectionParameters().buildUpon()
-                .setMaxVideoSize(1920, 1080).setPreferredAudioLanguage("tr").setPreferredTextLanguage("tr").build());
+                .setMaxVideoSize(1920, 1080).setPreferredAudioLanguage(tr.hizlitv.ui.Language.code(this)).setPreferredTextLanguage(tr.hizlitv.ui.Language.code(this)).build());
             player.addListener(new Player.Listener() {
                 @Override public void onPlayerError(PlaybackException error) {
                     if (!alive || isFinishing()) return;
-                    new AlertDialog.Builder(PlayerActivity.this).setTitle("Yayın oynatılamadı")
-                        .setMessage("Kaynak bağlantısı süresi dolmuş, sunucu erişimi kısıtlı veya biçim bu cihazda desteklenmiyor olabilir. Hata: " + error.getErrorCodeName())
-                        .setPositiveButton("Yeniden dene", (d, w) -> { if (player != null) { player.prepare(); player.play(); } })
-                        .setNegativeButton("Geri", (d, w) -> finish()).show();
+                    new AlertDialog.Builder(PlayerActivity.this).setTitle(getString(R.string.text_cannot_play_this_stream))
+                        .setMessage(getString(R.string.text_the_link_may_have_expired_access_may_be_restricted_or_the) + error.getErrorCodeName())
+                        .setPositiveButton(getString(R.string.text_retry), (d, w) -> { if (player != null) { player.prepare(); player.play(); } })
+                        .setNegativeButton(getString(R.string.text_back), (d, w) -> finish()).show();
                 }
                 @Override public void onRenderedFirstFrame() {
                     audit.execute(() -> { try { new Store(getApplicationContext()).audit("video_first_frame", 1); } catch (Exception ignored) { } });
@@ -102,32 +103,32 @@ public final class PlayerActivity extends Activity {
             item.setSubtitleConfigurations(subtitles); view.setPlayer(player);
             player.setMediaItem(item.build()); if (position > 0) player.seekTo(position);
             player.setPlayWhenReady(resume); player.prepare();
-        } catch (Exception e) { new AlertDialog.Builder(this).setMessage("Oynatıcı hazırlanamadı.").setPositiveButton("Geri", (d, w) -> finish()).show(); }
+        } catch (Exception e) { new AlertDialog.Builder(this).setMessage(getString(R.string.text_the_player_could_not_be_prepared)).setPositiveButton(getString(R.string.text_back), (d, w) -> finish()).show(); }
     }
     private void settings() {
-        new AlertDialog.Builder(this).setTitle("Oynatma seçenekleri").setItems(new String[]{"Kalite", "Ses dili", "Altyazı"}, (d, n) -> tracks(n == 0 ? C.TRACK_TYPE_VIDEO : n == 1 ? C.TRACK_TYPE_AUDIO : C.TRACK_TYPE_TEXT)).show();
+        new AlertDialog.Builder(this).setTitle(getString(R.string.text_playback_options)).setItems(new String[]{getString(R.string.text_quality), getString(R.string.text_audio_language), getString(R.string.text_subtitles)}, (d, n) -> tracks(n == 0 ? C.TRACK_TYPE_VIDEO : n == 1 ? C.TRACK_TYPE_AUDIO : C.TRACK_TYPE_TEXT)).show();
     }
     private void tracks(int type) {
         if (player == null) return;
         ArrayList<String> labels = new ArrayList<>(); ArrayList<TrackSelectionOverride> choices = new ArrayList<>();
-        labels.add(type == C.TRACK_TYPE_TEXT ? "Altyazı kapalı" : "Otomatik"); choices.add(null);
-        if (type == C.TRACK_TYPE_TEXT) { labels.add("Otomatik (Türkçe tercih)"); choices.add(null); }
+        labels.add(type == C.TRACK_TYPE_TEXT ? getString(R.string.text_subtitles_off) : getString(R.string.text_automatic)); choices.add(null);
+        if (type == C.TRACK_TYPE_TEXT) { labels.add(getString(R.string.text_automatic_preferred_language)); choices.add(null); }
         for (Tracks.Group g : player.getCurrentTracks().getGroups()) if (g.getType() == type)
             for (int i = 0; i < g.length; i++) {
                 if (!g.isTrackSupported(i)) continue;
                 androidx.media3.common.Format f = g.getTrackFormat(i);
-                String label = f.label != null ? f.label : f.language != null ? f.language : "Seçenek " + (choices.size());
+                String label = f.label != null ? f.label : f.language != null ? f.language : getString(R.string.text_option) + (choices.size());
                 if (type == C.TRACK_TYPE_VIDEO) label = f.height > 0 ? f.height + "p" : label;
                 if (type == C.TRACK_TYPE_VIDEO && f.bitrate > 0) label += String.format(java.util.Locale.US, " · %.1f Mbps", f.bitrate / 1_000_000d);
                 labels.add(label); choices.add(new TrackSelectionOverride(g.getMediaTrackGroup(), Collections.singletonList(i)));
             }
-        new AlertDialog.Builder(this).setTitle(type == C.TRACK_TYPE_VIDEO ? "Kaynağın sunduğu kalite" : type == C.TRACK_TYPE_AUDIO ? "Ses" : "Altyazı")
+        new AlertDialog.Builder(this).setTitle(type == C.TRACK_TYPE_VIDEO ? getString(R.string.text_available_source_quality) : type == C.TRACK_TYPE_AUDIO ? getString(R.string.text_audio) : getString(R.string.text_subtitles))
             .setItems(labels.toArray(new String[0]), (d, n) -> {
                 if (player == null) return;
                 TrackSelectionParameters.Builder parameters = player.getTrackSelectionParameters().buildUpon().clearOverridesOfType(type);
                 parameters.setTrackTypeDisabled(type, type == C.TRACK_TYPE_TEXT && n == 0);
                 if (choices.get(n) != null) parameters.addOverride(choices.get(n)); player.setTrackSelectionParameters(parameters.build());
-            }).setNegativeButton("Geri", null).show();
+            }).setNegativeButton(getString(R.string.text_back), null).show();
     }
     @Override public boolean onKeyDown(int key, KeyEvent event) {
         if (key == KeyEvent.KEYCODE_MENU && event.getRepeatCount() == 0) { settings(); return true; }

@@ -24,4 +24,11 @@ public class LibraryIndexTest {
         assertEquals(1,next.filter(true,"","yeni").size());
         assertEquals(1,first.filter(false,"","ışık").size());
     }
+    @Test public void englishAndTurkishCapitalizationShareTheSameSearchIndex() {
+        MediaEntry entry=new MediaEntry();entry.title="Film İstanbul Işık";
+        LibraryIndex index=new LibraryIndex(Collections.singletonList(entry));
+        assertEquals(1,index.filter(false,"","FILM").size());
+        assertEquals(1,index.filter(false,"","İSTANBUL").size());
+        assertEquals(1,index.filter(false,"","ışık").size());
+    }
 }

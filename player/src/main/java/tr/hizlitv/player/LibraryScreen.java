@@ -1,5 +1,6 @@
 package tr.hizlitv.player;
 
+import tr.hizlitv.ui.R;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -46,19 +47,19 @@ final class LibraryScreen extends LinearLayout {
         TvUi.addButton(header, TvUi.button(c, "← HızlıTV", actions::home)); addView(header, new LayoutParams(-1, d(46)));
         LinearLayout intro = TvUi.row(c); intro.setPadding(0, d(13), 0, d(10));
         LinearLayout titles = new LinearLayout(c); titles.setOrientation(VERTICAL);
-        titles.addView(TvUi.text(c, "Kütüphanen", 30, TvUi.TEXT, true));
-        status = TvUi.text(c, "Filmler ve canlı kanallar, tek yerde.", 12, 0xffafc2d5, false);
+        titles.addView(TvUi.text(c, getContext().getString(R.string.text_your_library), 30, TvUi.TEXT, true));
+        status = TvUi.text(c, getContext().getString(R.string.text_films_and_live_channels_together), 12, 0xffafc2d5, false);
         status.setSingleLine(); status.setEllipsize(TextUtils.TruncateAt.END); status.setPadding(0, d(4), 0, 0); titles.addView(status);
         intro.addView(titles, new LayoutParams(0, -2, 1));
-        Button send = TvUi.button(c, "Telefondan ekle", actions::phone); edits.add(send); TvUi.addButton(intro, send);
-        Button input = TvUi.button(c, "Bağlantı / liste", actions::input); edits.add(input); TvUi.addButton(intro, input);
-        Button undo = TvUi.button(c, "Geri al", actions::undo); edits.add(undo); TvUi.addButton(intro, undo); addView(intro);
+        Button send = TvUi.button(c, getContext().getString(R.string.text_add_from_phone), actions::phone); edits.add(send); TvUi.addButton(intro, send);
+        Button input = TvUi.button(c, getContext().getString(R.string.text_link_playlist), actions::input); edits.add(input); TvUi.addButton(intro, input);
+        Button undo = TvUi.button(c, getContext().getString(R.string.text_undo), actions::undo); edits.add(undo); TvUi.addButton(intro, undo); addView(intro);
         LinearLayout filters = TvUi.row(c); filters.setPadding(0, d(18), 0, d(14));
-        all = TvUi.button(c, "Tümü", () -> { favorites = false; render(); }); TvUi.addButton(filters, all);
-        favoritesButton = TvUi.button(c, "Favoriler", () -> { favorites = true; render(); }); TvUi.addButton(filters, favoritesButton);
-        groups = TvUi.button(c, "Gruplar", actions::groups); TvUi.addButton(filters, groups);
+        all = TvUi.button(c, getContext().getString(R.string.text_all), () -> { favorites = false; render(); }); TvUi.addButton(filters, all);
+        favoritesButton = TvUi.button(c, getContext().getString(R.string.text_favorites), () -> { favorites = true; render(); }); TvUi.addButton(filters, favoritesButton);
+        groups = TvUi.button(c, getContext().getString(R.string.text_groups), actions::groups); TvUi.addButton(filters, groups);
         search = new EditText(c); search.setSingleLine(); search.setTextSize(14); search.setTextColor(TvUi.TEXT);
-        search.setHintTextColor(TvUi.MUTED); search.setHint("Kanal veya film ara"); search.setPadding(d(16), 0, d(12), 0);
+        search.setHintTextColor(TvUi.MUTED); search.setHint(getContext().getString(R.string.text_search_channels_or_films)); search.setPadding(d(16), 0, d(12), 0);
         search.setBackground(TvUi.shape(c, TvUi.SURFACE, 22, 0));
         search.setOnFocusChangeListener((v, focused) -> search.setBackground(TvUi.shape(c, TvUi.SURFACE, 22, focused ? TvUi.TEXT : 0)));
         filters.addView(search, new LayoutParams(0, d(42), 1)); addView(filters);
@@ -85,24 +86,24 @@ final class LibraryScreen extends LinearLayout {
                     row.setTag(new TextView[]{marker, name, info, favorite});
                 }
                 MediaEntry entry = visible.get(n); name.setText(entry.title);
-                info.setText(entry.group.isEmpty() ? "Kütüphane" : entry.group); favorite.setText(entry.favorite ? "★" : "");
-                row.setContentDescription(entry.title + (entry.favorite ? ", favori" : "") + ", " + info.getText()); return row;
+                info.setText(entry.group.isEmpty() ? getContext().getString(R.string.text_library) : entry.group); favorite.setText(entry.favorite ? "★" : "");
+                row.setContentDescription(entry.title + (entry.favorite ? getContext().getString(R.string.text_favorite) : "") + ", " + info.getText()); return row;
             }
         };
         list.setAdapter(adapter); list.setOnItemClickListener((p, v, n, id) -> actions.open(visible.get(n)));
         list.setOnItemLongClickListener((p, v, n, id) -> { actions.edit(visible.get(n)); return true; }); content.addView(list, new FrameLayout.LayoutParams(-1, -1));
         empty = new LinearLayout(c); empty.setOrientation(VERTICAL); empty.setGravity(Gravity.CENTER);
-        emptyTitle = TvUi.text(c, "Bu akşam ne izleyelim?", 25, TvUi.TEXT, true); emptyTitle.setGravity(Gravity.CENTER); empty.addView(emptyTitle);
-        emptyHint = TvUi.text(c, "Bağlantını gönder. Kanal listeni ekle. İzlemeye başla.", 13, 0xffafc2d5, false);
+        emptyTitle = TvUi.text(c, getContext().getString(R.string.text_what_shall_we_watch_tonight), 25, TvUi.TEXT, true); emptyTitle.setGravity(Gravity.CENTER); empty.addView(emptyTitle);
+        emptyHint = TvUi.text(c, getContext().getString(R.string.text_send_a_link_add_your_channels_start_watching), 13, 0xffafc2d5, false);
         emptyHint.setGravity(Gravity.CENTER); emptyHint.setPadding(0, d(7), 0, d(20)); empty.addView(emptyHint);
         LinearLayout choices = TvUi.row(c); choices.setGravity(Gravity.CENTER);
-        View phoneCard = entryCard(c, "▶", "Telefondan gönder", "QR kodunu aç · iPhone ile paylaş", 0xff355d80, actions::phone);
-        View listCard = entryCard(c, "≡", "Kanal listesi ekle", "M3U veya yayın bağlantısı", 0xff3d486c, actions::input);
+        View phoneCard = entryCard(c, "▶", getContext().getString(R.string.text_send_from_phone), getContext().getString(R.string.text_open_qr_code_share_from_iphone), 0xff355d80, actions::phone);
+        View listCard = entryCard(c, "≡", getContext().getString(R.string.text_add_channel_list), getContext().getString(R.string.text_m3u_or_stream_link), 0xff3d486c, actions::input);
         edits.add(phoneCard); edits.add(listCard);
         LayoutParams cp = new LayoutParams(d(270), d(127)); cp.rightMargin = d(16); choices.addView(phoneCard, cp);
         choices.addView(listCard, new LayoutParams(d(270), d(127))); empty.addView(choices);
         content.addView(empty, new FrameLayout.LayoutParams(-1, -1));
-        TextView hint = TvUi.text(c, "OK  Oynat     ·     Uzun OK  Favori / kaldır     ·     Oynatıcıda Menü  Ses, altyazı ve kalite", 10, TvUi.MUTED, false);
+        TextView hint = TvUi.text(c, getContext().getString(R.string.text_ok_play_hold_ok_favorite_remove_player_menu_audio_subtitle), 10, TvUi.MUTED, false);
         hint.setPadding(0, d(12), 0, 0); addView(hint);
         search.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -125,18 +126,18 @@ final class LibraryScreen extends LinearLayout {
     }
     private int d(float n) { return TvUi.dp(getContext(), n); }
     void showLibrary(LibraryIndex next) { index = next; render(); }
-    void working(boolean busy) { for (View control : edits) { control.setEnabled(!busy); control.setAlpha(busy ? .45f : 1f); } if (busy) status("Kütüphane hazırlanıyor…"); }
+    void working(boolean busy) { for (View control : edits) { control.setEnabled(!busy); control.setAlpha(busy ? .45f : 1f); } if (busy) status(getContext().getString(R.string.text_preparing_library)); }
     @Override protected void onDetachedFromWindow() { ui.removeCallbacksAndMessages(null); super.onDetachedFromWindow(); }
     void status(String text) { status.setText(text); }
     void group(String selected) { group = selected; render(); }
     private void render() {
         visible = index.filter(favorites, group, search.getText().toString());
-        status.setText(visible.size() + " kayıt" + (favorites ? " · Favoriler" : "") + (group.isEmpty() ? "" : " · " + group));
-        all.setText(favorites ? "Tümü" : "✓ Tümü"); favoritesButton.setText(favorites ? "✓ Favoriler" : "Favoriler");
-        groups.setText(group.isEmpty() ? "Gruplar" : group);
+        status.setText(getResources().getQuantityString(R.plurals.library_entries, visible.size(), visible.size()) + (favorites ? getContext().getString(R.string.text_favorites_28d989) : "") + (group.isEmpty() ? "" : " · " + group));
+        all.setText(favorites ? getContext().getString(R.string.text_all) : getContext().getString(R.string.text_all_324c00)); favoritesButton.setText(favorites ? getContext().getString(R.string.text_favorites_3db4af) : getContext().getString(R.string.text_favorites));
+        groups.setText(group.isEmpty() ? getContext().getString(R.string.text_groups) : group);
         boolean isEmpty = visible.isEmpty(); empty.setVisibility(isEmpty ? VISIBLE : GONE); list.setVisibility(isEmpty ? GONE : VISIBLE);
-        emptyTitle.setText(index.entries().isEmpty() ? "Bu akşam ne izleyelim?" : "Burada henüz bir kayıt yok.");
-        emptyHint.setText(index.entries().isEmpty() ? "Bağlantını gönder. Kanal listeni ekle. İzlemeye başla." : "Aramayı temizle veya farklı bir grup seç.");
+        emptyTitle.setText(index.entries().isEmpty() ? getContext().getString(R.string.text_what_shall_we_watch_tonight) : getContext().getString(R.string.text_nothing_here_yet));
+        emptyHint.setText(index.entries().isEmpty() ? getContext().getString(R.string.text_send_a_link_add_your_channels_start_watching) : getContext().getString(R.string.text_clear_your_search_or_choose_a_different_group));
         adapter.notifyDataSetChanged();
     }
 }

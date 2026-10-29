@@ -77,12 +77,12 @@ final class PhonePortal implements AutoCloseable {
         return new String(out.toByteArray(), StandardCharsets.US_ASCII);
     }
     private void handle(Socket socket) {
-        String phase = "request_line";
+        String phase = "request_line"; boolean turkish = false;
         note("connected");
         try (Socket peer = socket) {
             BufferedInputStream in = new BufferedInputStream(peer.getInputStream());
             String[] request = line(in, 8192).split(" ");
-            if (request.length != 3) { reply(peer, 400, "text/plain", "Geçersiz istek"); return; }
+            if (request.length != 3) { reply(peer, 400, "text/plain", PhonePage.text("invalid_request", turkish)); return; }
             phase = "headers";
             Map<String,String> headers = new HashMap<>(); int size = 0;
             while (true) {
@@ -98,24 +98,25 @@ final class PhonePortal implements AutoCloseable {
                 " length_present=" + headers.containsKey("content-length") +
                 " transfer_encoding=" + headers.containsKey("transfer-encoding") +
                 " expect_continue=" + "100-continue".equalsIgnoreCase(headers.get("expect")));
+            turkish = PhonePage.turkish(header(headers, "accept-language", ""));
             phase = "validation";
-            if (!running || System.nanoTime() >= expires) { reply(peer, 410, "text/plain", "Eşleştirme süresi doldu."); return; }
+            if (!running || System.nanoTime() >= expires) { reply(peer, 410, "text/plain", PhonePage.text("expired", turkish)); return; }
             String path = "/" + token;
-            if (!request[1].equals(path)) { reply(peer, 404, "text/plain", "Bulunamadı"); return; }
-            if (request[0].equals("GET")) { reply(peer, 200, "text/html; charset=utf-8", page(token)); return; }
-            if (!request[0].equals("POST")) { reply(peer, 405, "text/plain", "Desteklenmiyor"); return; }
+            if (!request[1].equals(path)) { reply(peer, 404, "text/plain", PhonePage.text("not_found", turkish)); return; }
+            if (request[0].equals("GET")) { reply(peer, 200, "text/html; charset=utf-8", PhonePage.render(token, turkish)); return; }
+            if (!request[0].equals("POST")) { reply(peer, 405, "text/plain", PhonePage.text("not_supported", turkish)); return; }
             if (!MessageDigest.isEqual(token.getBytes(StandardCharsets.US_ASCII), header(headers, "x-hizlitv-token", "").getBytes(StandardCharsets.US_ASCII))) {
-                reply(peer, 403, "text/plain", "Eşleştirme gerekli"); return;
+                reply(peer, 403, "text/plain", PhonePage.text("pairing", turkish)); return;
             }
             String origin = header(headers, "origin", "");
-            if (!origin.isEmpty() && !origin.equals("http://" + header(headers, "host", ""))) { reply(peer, 403, "text/plain", "Farklı kaynaktan istek engellendi"); return; }
+            if (!origin.isEmpty() && !origin.equals("http://" + header(headers, "host", ""))) { reply(peer, 403, "text/plain", PhonePage.text("origin", turkish)); return; }
             String contentType = header(headers, "content-type", "");
             if (headers.containsKey("transfer-encoding") || !(contentType.startsWith("text/plain") || contentType.startsWith("application/json"))) {
-                reply(peer, 400, "text/plain", "Düz metin veya JSON gerekli"); return;
+                reply(peer, 400, "text/plain", PhonePage.text("content_type", turkish)); return;
             }
             int length;
             try { length = Integer.parseInt(header(headers, "content-length", "-1")); } catch (NumberFormatException e) { length = -1; }
-            if (length < 1 || length > 2_000_000) { reply(peer, 413, "text/plain", "Bağlantı/liste en fazla 2 MB olabilir."); return; }
+            if (length < 1 || length > 2_000_000) { reply(peer, 413, "text/plain", PhonePage.text("too_large", turkish)); return; }
             byte[] bytes = new byte[length]; int pos = 0, n;
             phase = "body";
             long bodyDeadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(8);
@@ -130,12 +131,12 @@ final class PhonePortal implements AutoCloseable {
                     Object value = new org.json.JSONObject(submitted).get("url");
                     if (!(value instanceof String)) throw new IllegalArgumentException();
                     submitted = (String)value;
-                } catch (Exception malformed) { reply(peer, 400, "text/plain", "JSON içinde url metin alanı gerekli."); return; }
+                } catch (Exception malformed) { reply(peer, 400, "text/plain", PhonePage.text("json", turkish)); return; }
             }
             phase = "receiver";
             boolean accepted = receiver.receive(submitted);
             phase = "reply";
-            reply(peer, accepted ? 202 : 409, "text/plain; charset=utf-8", accepted ? "TV’ye gönderildi. Kaynak seçimini TV’de yap." : "TV şu anda başka bir bağlantıyı inceliyor; biraz sonra tekrar dene.");
+            reply(peer, accepted ? 202 : 409, "text/plain; charset=utf-8", accepted ? PhonePage.text("accepted", turkish) : PhonePage.text("busy", turkish));
         } catch (Exception error) {
             String reason = "unspecified";
             for (String known : new String[]{"EOF", "header limit", "headers limit", "header format", "duplicate header", "body timeout", "short body"})
@@ -149,24 +150,12 @@ final class PhonePortal implements AutoCloseable {
     private void note(String event) { try { diagnostic.accept(event); } catch (Exception ignored) { } }
     private void reply(Socket peer, int code, String type, String body) throws IOException {
         note("response code=" + code);
+        if (type.startsWith("text/") && !type.contains("charset=")) type += "; charset=utf-8";
         byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
         String head = "HTTP/1.1 " + code + " Response\r\nContent-Type: " + type + "\r\nContent-Length: " + bytes.length +
             "\r\nConnection: close\r\nCache-Control: no-store\r\nX-Content-Type-Options: nosniff\r\nReferrer-Policy: no-referrer\r\n" +
             "Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'\r\n\r\n";
         OutputStream out = peer.getOutputStream(); out.write(head.getBytes(StandardCharsets.US_ASCII)); out.write(bytes); out.flush();
-    }
-    private static String page(String token) {
-        return "<!doctype html><html lang=tr><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'>" +
-            "<title>HızlıTV’ye gönder</title><style>body{color:#e8f0fb;background:#101b2b;font:17px system-ui;margin:0;padding:28px;max-width:650px}h1{font-size:29px}p{color:#b6c8dc;line-height:1.5}textarea{box-sizing:border-box;width:100%;min-height:180px;background:#1d3049;color:white;border:1px solid #7facc0;border-radius:12px;padding:15px;font:16px system-ui}button{background:#99dfdc;color:#102235;border:0;border-radius:12px;padding:16px 22px;font:600 17px system-ui;margin-top:18px}#status{white-space:pre-wrap}</style>" +
-            "<h1>HızlıTV’ye gönder</h1><p>Video sayfası, doğrudan video bağlantısı veya M3U kanal listesi yapıştır. Oynatmayı TV’de onaylayacaksın.</p>" +
-            "<textarea id=input aria-label='Bağlantı veya kanal listesi' placeholder='https://… veya #EXTM3U…' maxlength=2000000></textarea><br><button id=send>TV’ye gönder</button><p id=status role=status></p>" +
-            "<p>Bu sayfa yalnızca yerel ağında, HızlıTV Player ana ekranı açıkken çalışır. Buluta gönderim yapılmaz.</p>" +
-            "<details><summary>iPhone Paylaş menüsünden gönderme</summary><p>Kestirmeler’de ‘HızlıTV’ye gönder’ adlı bir kestirme oluştur. Paylaşım Sayfasında Göster’i aç ve girdi türünü URL seç.</p>" +
-            "<p>‘URL’nin İçeriğini Al’ eylemi: URL olarak bu sayfanın adresi; yöntem POST; gövde JSON. Bir Metin alanı ekle: anahtarı <code>url</code>, değeri Kestirme Girdisi. Aşağıdaki başlığı da ekle.</p>" +
-            "<p>X-HizliTV-Token: <code style='overflow-wrap:anywhere'>" + token + "</code></p>" +
-            "<p>Safari’de Paylaş → HızlıTV’ye gönder’i seç. Bu alıcı adresini ve anahtarı sakla; yeniden QR okutman gerekmez. TV’nin IP’si değişirse adresi güncelle. Anahtarı paylaşma.</p>" +
-            "<p>Kopyaladığın URL’yi gönderen ikinci bir kestirme için aynı isteğin <code>url</code> alanına ‘Panoyu Al’ eyleminin sonucunu ver. Panoyu yalnızca kestirmeyi çalıştırdığında okur.</p></details>" +
-            "<script>const b=document.getElementById('send'),i=document.getElementById('input'),s=document.getElementById('status');b.onclick=async()=>{if(!i.value.trim()){s.textContent='Bir bağlantı veya liste gir.';return}b.disabled=true;s.textContent='Gönderiliyor…';try{const r=await fetch(location.pathname,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8','X-HizliTV-Token':'" + token + "'},body:i.value.trim()});s.textContent=await r.text();if(r.ok)i.value=''}catch(e){s.textContent='TV’ye ulaşılamadı. Aynı Wi-Fi’da ol ve TV’den yeni QR kod aç.'}finally{b.disabled=false}};</script></html>";
     }
     public void close() { running = false; try { listener.close(); } catch (IOException ignored) { } workers.shutdown(); }
 }

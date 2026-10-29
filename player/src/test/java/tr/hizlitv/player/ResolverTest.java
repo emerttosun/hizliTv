@@ -24,7 +24,7 @@ public class ResolverTest {
             Resolver.Result result = new Resolver(java.util.Collections.singletonList(adapter)).resolve(base + "/custom");
             assertEquals("https://media.example.org/custom.m3u8", result.items.get(0).url);
             try { new Resolver(java.util.Collections.emptyList()).resolve(base + "/custom"); fail(); }
-            catch (java.io.IOException expected) { assertTrue(expected.getMessage().contains("bulunamadı")); }
+            catch (java.io.IOException expected) { assertTrue(expected.getMessage().contains("No playable source was found")); }
         } finally { server.close(); }
     }
     @Test public void findsIframeVideoAndSubtitlesWithoutLoadingAdScripts() throws Exception {

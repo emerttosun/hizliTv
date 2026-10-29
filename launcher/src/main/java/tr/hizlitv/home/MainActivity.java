@@ -1,5 +1,6 @@
 package tr.hizlitv.home;
 
+import tr.hizlitv.ui.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.BroadcastReceiver;
@@ -13,7 +14,7 @@ import android.widget.Toast;
 import tr.hizlitv.ui.TvUi;
 
 /** Coordinates the screen, installed apps and optional device tools. Never claims HOME. */
-public final class MainActivity extends Activity implements HomeScreen.Actions {
+public final class MainActivity extends tr.hizlitv.ui.LocalizedActivity implements HomeScreen.Actions {
     private AppCatalog catalog;
     private HomeScreen screen;
     private MemoryController memory;
@@ -35,16 +36,17 @@ public final class MainActivity extends Activity implements HomeScreen.Actions {
     @Override public void onPause() { memory.stop(); screen.stopClock(); super.onPause(); }
     @Override public void onDestroy() { unregisterReceiver(packages); memory.close(); super.onDestroy(); }
     @Override protected void onSaveInstanceState(Bundle state) { state.putBoolean("all_apps", allApps); super.onSaveInstanceState(state); }
+    @Override public void language() { tr.hizlitv.ui.Language.show(this); }
     @Override public void section(boolean all) { allApps = all; catalog.refresh(); screen.show(catalog, all); }
     @Override public void open(AppCatalog.Entry app) { launch(app.intent); }
     @Override public void pin(AppCatalog.Entry app) {
         boolean pinned = catalog.toggle(app);
-        Toast.makeText(this, pinned ? "Favorilere eklendi" : "Favorilerden çıkarıldı", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, pinned ? getString(R.string.text_added_to_favorites) : getString(R.string.text_removed_from_favorites), Toast.LENGTH_SHORT).show();
         screen.show(catalog, allApps);
     }
     private void launch(Intent intent) {
         try { if (intent == null) throw new IllegalStateException(); startActivity(intent); }
-        catch (Exception failure) { Toast.makeText(this, "Uygulama bulunamadı veya açılamadı.", Toast.LENGTH_SHORT).show(); }
+        catch (Exception failure) { Toast.makeText(this, getString(R.string.text_app_not_found_or_could_not_be_opened), Toast.LENGTH_SHORT).show(); }
     }
     @Override public void action(HomeAction action) {
         switch (action) {

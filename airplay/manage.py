@@ -119,6 +119,7 @@ def main():
         if state.get('schema') != 1: raise ValueError('Unsupported saved state')
         values = validate(state['before'])
     path = ROOT / '.state' / (time.strftime('%Y%m%d-%H%M%S') + '-' + uuid.uuid4().hex[:8] + '.json')
+    print('Undo state path (saved before any changes):', path, flush=True)
     apply(receiver, values, path)
     print('Verified. Private undo state:', path)
     print('Restore with: python3 airplay/manage.py --serial YOUR_TV restore ' + str(path))

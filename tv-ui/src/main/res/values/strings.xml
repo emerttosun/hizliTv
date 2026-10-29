@@ -1,0 +1,442 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="text_enjoy_watching">"Enjoy watching."</string>
+    <string name="text_your_channels_films_and_favorites_together">"Your channels, films and favorites, together."</string>
+    <string name="text_measuring">"Measuring…"</string>
+    <string name="text_open_apps_in_memory">"Open apps in memory"</string>
+    <string name="text_ok_open_hold_ok_pin_unpin_menu_all_apps">"OK  Open     ·     Hold OK  Pin / unpin     ·     Menu  All apps"</string>
+    <string name="text_mb_available">" MB available"</string>
+    <string name="text_all_apps">"All apps"</string>
+    <string name="text_favorites">"Favorites"</string>
+    <string name="text_choose_a_card_in_all_apps_and_hold_ok_to_pin_it">"Choose a card in All apps and hold OK to pin it."</string>
+    <string name="text_your_channels_films_and_shared_links">"Your channels, films and shared links."</string>
+    <string name="text_in_your_favorites_press_ok_to_open">"In your favorites  ·  Press OK to open."</string>
+    <string name="text_press_ok_to_open">"Press OK to open."</string>
+    <string name="text_measuring_ram">"Measuring RAM…"</string>
+    <string name="text_refresh">"Refresh"</string>
+    <string name="text_close_selected_0">"Close selected (0)"</string>
+    <string name="text_select_cached">"Select cached"</string>
+    <string name="text_clear_selection">"Clear selection"</string>
+    <string name="text_adb_connected">"ADB connected"</string>
+    <string name="text_connect_adb">"Connect ADB"</string>
+    <string name="text_back">"Back"</string>
+    <string name="text_cached">"Cached"</string>
+    <string name="text_processes">" processes"</string>
+    <string name="text_not_measured">"Not measured"</string>
+    <string name="text_selected">"Selected"</string>
+    <string name="text_not_selected">"Not selected"</string>
+    <string name="text_ok_select_clear_hold_ok_details_ram_values_are_android_s_l">"OK: select / clear  ·  Hold OK: details  ·  RAM values are Android’s latest sample"</string>
+    <string name="text_close_selected">"Close selected ("</string>
+    <string name="text_select_the_apps_to_close_with_ok">"Select the apps to close with OK."</string>
+    <string name="text_apps_selected_press_close_selected_above">" apps selected. Press Close selected above."</string>
+    <string name="text_memory_diagnostics_permission_is_not_enabled">"Memory diagnostics permission is not enabled."</string>
+    <string name="text_the_usage_access_permission_required_by_android_is_not_ena">"The usage access permission required by Android is not enabled."</string>
+    <string name="text_diagnostics_output_is_too_large">"Diagnostics output is too large."</string>
+    <string name="text_memory_information_could_not_be_read">"Memory information could not be read."</string>
+    <string name="text_android_did_not_allow_access_to_the_memory_list">"Android did not allow access to the memory list."</string>
+    <string name="text_on_device_adb_connection">"On-device ADB connection"</string>
+    <string name="text_closing_selected_apps_directly_on_this_device_requires_adb">"Closing selected apps directly on this device requires ADB pairing. "</string>
+    <string name="text_adb_provides_broader_device_control_h_zl_tv_connects_only">"ADB provides broader device control. HızlıTV connects only to this device and stops the apps you select. "</string>
+    <string name="text_no_root_is_used_you_must_approve_the_debugging_request_on">"No root is used. You must approve the debugging request on the TV yourself. "</string>
+    <string name="text_if_available_select_always_allow_from_this_computer_to_avo">"If available, select ‘Always allow from this computer’ to avoid repeated permission requests."</string>
+    <string name="text_start_connection">"Start connection"</string>
+    <string name="text_forget_connection">"Forget connection"</string>
+    <string name="text_cancel">"Cancel"</string>
+    <string name="text_connection_identity_could_not_be_deleted">"Connection identity could not be deleted."</string>
+    <string name="text_h_zl_tv_s_connection_identity_was_deleted_a_new_approval_o">"HızlıTV’s connection identity was deleted. A new approval on the TV is required to reconnect."</string>
+    <string name="text_could_not_forget_the_connection">"Could not forget the connection: "</string>
+    <string name="text_connecting_locally_the_tv_may_ask_for_permission">"Connecting locally; the TV may ask for permission."</string>
+    <string name="text_allow_h_zl_tv_in_the_tv_s_usb_debugging_dialog">"Allow HızlıTV in the TV’s USB debugging dialog."</string>
+    <string name="text_the_process_list_could_not_be_verified_after_reconnecting">"The process list could not be verified after reconnecting."</string>
+    <string name="text_connection_ready_select_apps_and_press_close_selected">"Connection ready. Select apps and press Close selected."</string>
+    <string name="text_the_connection_could_not_be_verified_persistently_select_a">"The connection could not be verified persistently. Select ‘Always allow’ on the TV and reconnect."</string>
+    <string name="text_the_process_list_could_not_be_read">"The process list could not be read."</string>
+    <string name="text_available_ram">"Available RAM: "</string>
+    <string name="text_tv_apps_in_memory">" TV apps in memory"</string>
+    <string name="text_the_app_list_has_not_been_read_yet">"The app list has not been read yet"</string>
+    <string name="text_forget_connection_removes_h_zl_tv_s_identity_reconnecting">"Forget connection: removes HızlıTV’s identity. Reconnecting requires a new approval on the TV."</string>
+    <string name="text_reopen_the_app_its_data_was_not_deleted">"Reopen the app; its data was not deleted."</string>
+    <string name="text_the_operation_log_could_not_be_created">"The operation log could not be created."</string>
+    <string name="text_apps_no_longer_appear_in_memory">" apps no longer appear in memory"</string>
+    <string name="text_apps_remain_in_memory_or_have_restarted">" apps remain in memory or have restarted."</string>
+    <string name="text_close_background_process">"Close background process"</string>
+    <string name="text_app_details_force_stop">"App details / Force stop"</string>
+    <string name="text_open_app">"Open app"</string>
+    <string name="text_app_details">"App details"</string>
+    <string name="text_app_details_could_not_be_opened">"App details could not be opened."</string>
+    <string name="text_first_select_the_apps_you_want_to_close">"First select the apps you want to close."</string>
+    <string name="text_closing_selected_background_processes">"Closing selected background processes…"</string>
+    <string name="text_the_operation_could_not_be_completed">"The operation could not be completed: "</string>
+    <string name="text_removed_from_favorites">"Removed from favorites"</string>
+    <string name="text_app_not_found_or_could_not_be_opened">"App not found or could not be opened."</string>
+    <string name="text_reopen_the_app_no_data_was_deleted">"Reopen the app. No data was deleted."</string>
+    <string name="text_this_android_version_does_not_allow_freeing_other_apps_mem">"This Android version does not allow freeing other apps’ memory."</string>
+    <string name="text_checking_background_memory">"Checking background memory…"</string>
+    <string name="text_the_operation_could_not_be_logged_no_changes_were_made">"The operation could not be logged; no changes were made."</string>
+    <string name="text_permission_restricted">" · permission restricted"</string>
+    <string name="text_logging_error">" · logging error"</string>
+    <string name="text_the_adb_key_directory_could_not_be_created">"The ADB key directory could not be created."</string>
+    <string name="text_the_adb_packet_could_not_be_verified">"The ADB packet could not be verified."</string>
+    <string name="text_adb_pairing_could_not_be_completed">"ADB pairing could not be completed."</string>
+    <string name="text_first_use_connect_adb_and_allow_h_zl_tv_on_the_tv">"First use Connect ADB and allow HızlıTV on the TV."</string>
+    <string name="text_the_adb_connection_could_not_be_opened">"The ADB connection could not be opened."</string>
+    <string name="text_unexpected_adb_stream">"Unexpected ADB stream."</string>
+    <string name="text_adb_output_is_too_large">"ADB output is too large."</string>
+    <string name="text_the_adb_stream_did_not_complete">"The ADB stream did not complete."</string>
+    <string name="text_the_expected_non_root_android_shell_could_not_be_verified">"The expected non-root Android shell could not be verified."</string>
+    <string name="text_this_package_cannot_be_stopped">"This package cannot be stopped."</string>
+    <string name="text_android_could_not_stop_the_app">"Android could not stop the app: "</string>
+    <string name="text_h_zl_tv_player">"HızlıTV Player"</string>
+    <string name="text_the_playlist_exceeds_the_2_mb_limit">"The playlist exceeds the 2 MB limit."</string>
+    <string name="text_this_is_an_hls_video_stream_not_a_channel_list">"This is an HLS video stream, not a channel list."</string>
+    <string name="text_enter_a_valid_http_https_link">"Enter a valid HTTP/HTTPS link."</string>
+    <string name="text_invalid_link_format">"Invalid link format."</string>
+    <string name="text_only_http_https_links_are_supported">"Only HTTP/HTTPS links are supported."</string>
+    <string name="text_the_phone_receiver_could_not_start_try_add_from_phone">"The phone receiver could not start; try Add from phone."</string>
+    <string name="text_no_local_network_address_was_found">"No local network address was found."</string>
+    <string name="text_scan_with_your_iphone_camera_paste_a_link_or_channel_list">"Scan with your iPhone camera. Paste a link or channel list.\nNext time, use your Share → Watch on TV shortcut.\nKeep this library screen open when sending."</string>
+    <string name="text_forget_pairing">"Forget pairing"</string>
+    <string name="text_close">"Close"</string>
+    <string name="text_phone_transfer_could_not_start_check_that_both_devices_are">"Phone transfer could not start. Check that both devices are on the same local network."</string>
+    <string name="text_forget_phone_pairing">"Forget phone pairing?"</string>
+    <string name="text_the_current_qr_address_and_iphone_shortcut_will_stop_worki">"The current QR address and iPhone shortcut will stop working. You can pair again."</string>
+    <string name="text_phone_pairing_forgotten">"Phone pairing forgotten."</string>
+    <string name="text_a_signed_migration_bridge_is_required_for_the_old_player_r">"A signed migration bridge is required for the old Player; records were not changed."</string>
+    <string name="text_manual_migration_is_required_to_preserve_both_libraries">"Manual migration is required to preserve both libraries."</string>
+    <string name="text_the_migration_source_could_not_be_opened">"The migration source could not be opened."</string>
+    <string name="text_source_discovery_timed_out">"Source discovery timed out."</string>
+    <string name="text_live_stream_video">"Live stream / video"</string>
+    <string name="text_no_playable_source_was_found_the_page_may_require_sign_in">"No playable source was found. The page may require sign-in, a different player or unsupported JavaScript."</string>
+    <string name="text_the_page_s_video_source_could_not_be_read">"The page’s video source could not be read: "</string>
+    <string name="text_response">" response."</string>
+    <string name="text_the_page_or_playlist_exceeds_the_2_mb_limit">"The page or playlist exceeds the 2 MB limit."</string>
+    <string name="text_too_many_redirects">"Too many redirects."</string>
+    <string name="text_subtitles">"Subtitles"</string>
+    <string name="text_your_library">"Your library"</string>
+    <string name="text_films_and_live_channels_together">"Films and live channels, together."</string>
+    <string name="text_link_playlist">"Link / playlist"</string>
+    <string name="text_all">"All"</string>
+    <string name="text_groups">"Groups"</string>
+    <string name="text_library">"Library"</string>
+    <string name="text_what_shall_we_watch_tonight">"What shall we watch tonight?"</string>
+    <string name="text_send_a_link_add_your_channels_start_watching">"Send a link. Add your channels. Start watching."</string>
+    <string name="text_send_from_phone">"Send from phone"</string>
+    <string name="text_open_qr_code_share_from_iphone">"Open QR code · Share from iPhone"</string>
+    <string name="text_m3u_or_stream_link">"M3U or stream link"</string>
+    <string name="text_ok_play_hold_ok_favorite_remove_player_menu_audio_subtitle">"OK  Play     ·     Hold OK  Favorite / remove     ·     Player Menu  Audio, subtitles and quality"</string>
+    <string name="text_preparing_library">"Preparing library…"</string>
+    <string name="text_entries">" entries"</string>
+    <string name="text_all_324c00">"✓ All"</string>
+    <string name="text_nothing_here_yet">"Nothing here yet."</string>
+    <string name="text_clear_your_search_or_choose_a_different_group">"Clear your search or choose a different group."</string>
+    <string name="text_the_library_could_not_be_read_old_player_records_are_prese">"The library could not be read. Old Player records are preserved; check migration."</string>
+    <string name="text_could_not_save_existing_records_are_preserved">"Could not save; existing records are preserved."</string>
+    <string name="text_link_or_channel_list">"Link or channel list"</string>
+    <string name="text_find_sources">"Find sources"</string>
+    <string name="text_finding_sources">"Finding sources…"</string>
+    <string name="text_the_source_could_not_be_read">"The source could not be read."</string>
+    <string name="text_the_link_could_not_be_opened">"The link could not be opened."</string>
+    <string name="text_h_zl_tv_player_link">"HızlıTV Player · Link"</string>
+    <string name="text_could_not_open_link">"Could not open link"</string>
+    <string name="text_ok">"OK"</string>
+    <string name="text_h_zl_tv_player_channel_list">"HızlıTV Player · Channel list"</string>
+    <string name="text_add_this_channel_list_to_your_library_you_can_undo_the_lat">"Add this channel list to your library? You can undo the latest change."</string>
+    <string name="text_h_zl_tv_player_source_found">"HızlıTV Player · Source found"</string>
+    <string name="text_choose_a_source">"Choose a source"</string>
+    <string name="text_subtitle_options">" subtitle options"</string>
+    <string name="text_ready_to_watch">"\nReady to watch."</string>
+    <string name="text_play">"Play"</string>
+    <string name="text_the_player_could_not_be_opened">"The player could not be opened."</string>
+    <string name="text_add_to_library">"Add to library"</string>
+    <string name="text_remove_favorite">"Remove favorite"</string>
+    <string name="text_remove_entry">"Remove entry"</string>
+    <string name="text_changes_could_not_be_saved">"Changes could not be saved."</string>
+    <string name="text_all_groups">"All groups"</string>
+    <string name="text_nothing_to_undo_or_the_backup_could_not_be_read">"Nothing to undo, or the backup could not be read."</string>
+    <string name="text_cannot_play_this_stream">"Cannot play this stream"</string>
+    <string name="text_the_link_may_have_expired_access_may_be_restricted_or_the">"The link may have expired, access may be restricted, or the format may be unsupported on this device. Error: "</string>
+    <string name="text_the_player_could_not_be_prepared">"The player could not be prepared."</string>
+    <string name="text_playback_options">"Playback options"</string>
+    <string name="text_subtitles_off">"Subtitles off"</string>
+    <string name="text_automatic">"Automatic"</string>
+    <string name="text_automatic_preferred_language">"Automatic (preferred language)"</string>
+    <string name="text_option">"Option "</string>
+    <string name="text_available_source_quality">"Available source quality"</string>
+    <string name="text_source_data_limit_exceeded">"Source data limit exceeded."</string>
+    <string name="text_the_source_format_has_changed">"The source format has changed."</string>
+    <string name="text_stored_data_limit_exceeded">"Stored data limit exceeded."</string>
+    <string name="text_library_size_limit_exceeded_existing_records_are_preserved">"Library size limit exceeded; existing records are preserved."</string>
+    <string name="text_the_library_can_hold_up_to_5000_entries">"The library can hold up to 5000 entries."</string>
+    <string name="text_there_is_no_library_change_to_undo">"There is no library change to undo."</string>
+    <string name="text_library_changes_undo_latest_change_playback_back_button">"Library changes: Undo latest change. Playback: Back button."</string>
+    <string name="text_apps_in_memory">"Apps in memory"</string>
+    <string name="text_background_service">"Background / service"</string>
+    <string name="text_this_screen">"This screen"</string>
+    <string name="text_protected">" · Protected"</string>
+    <string name="text_protected_0904d0">"Protected"</string>
+    <string name="text_is_protected_and_cannot_be_selected_for_closure">" is protected and cannot be selected for closure."</string>
+    <string name="text_system_memory_state">" · System memory state: "</string>
+    <string name="text_mb_system_memory_state">" MB  ·  System memory state: "</string>
+    <string name="text_favorites_28d989">" · Favorites"</string>
+    <string name="text_favorites_3db4af">"✓ Favorites"</string>
+    <string name="text_your_favorites">"Your favorites"</string>
+    <string name="text_added_to_favorites">"Added to favorites"</string>
+    <string name="text_add_favorite">"Add favorite"</string>
+    <string name="text_apps_in_memory_90966c">"Apps in memory"</string>
+    <string name="text_free_memory">"Free memory"</string>
+    <string name="text_settings">"Settings"</string>
+    <string name="text_stock_home">"Stock home"</string>
+    <string name="text_add_from_phone">"Add from phone"</string>
+    <string name="text_undo">"Undo"</string>
+    <string name="text_add_channel_list">"Add channel list"</string>
+    <string name="text_search_channels_or_films">"Search channels or films"</string>
+    <string name="text_favorite">", favorite"</string>
+    <string name="text_channels_found">" channels found"</string>
+    <string name="text_source">"Source: "</string>
+    <string name="text_source_site_returned_http">"Source site returned HTTP "</string>
+    <string name="text_audio">"Audio"</string>
+    <string name="text_audio_language">"Audio language"</string>
+    <string name="text_quality">"Quality"</string>
+    <string name="text_retry">"Retry"</string>
+    <string name="text_forget">"Forget"</string>
+    <string name="text_low">" low"</string>
+    <string name="text_normal">" normal"</string>
+    <string name="text_low_aced4c">"low"</string>
+    <string name="text_normal_9c2a6e">"normal"</string>
+    <string name="text_this_app_is_protected">"This app is protected."</string>
+    <string name="text_no_valid_channel_links_were_found_in_the_list">"No valid channel links were found in the list."</string>
+    <string name="text_invalid_stream_header">"Invalid stream header."</string>
+    <string name="text_reading_apps_in_memory">"Reading apps in memory…"</string>
+    <string name="action_player">Player</string>
+    <string name="action_airplay">AirPlay</string>
+    <string name="language">Language</string>
+    <string name="language_system">System language</string>
+    <string name="language_english">English</string>
+    <string name="language_turkish">Türkçe</string>
+    <string name="ram_percent">%1$d%%</string>
+    <string name="ram_available">%1$d MB available</string>
+    <string name="network_timeout">The connection timed out. Try again.</string>
+    <string name="network_unavailable">The source could not be reached. Check the connection.</string>
+    <array name="translation_catalog">
+        <item>@string/text_enjoy_watching</item>
+        <item>@string/text_your_channels_films_and_favorites_together</item>
+        <item>@string/text_measuring</item>
+        <item>@string/text_open_apps_in_memory</item>
+        <item>@string/text_ok_open_hold_ok_pin_unpin_menu_all_apps</item>
+        <item>@string/text_mb_available</item>
+        <item>@string/text_all_apps</item>
+        <item>@string/text_favorites</item>
+        <item>@string/text_choose_a_card_in_all_apps_and_hold_ok_to_pin_it</item>
+        <item>@string/text_your_channels_films_and_shared_links</item>
+        <item>@string/text_in_your_favorites_press_ok_to_open</item>
+        <item>@string/text_press_ok_to_open</item>
+        <item>@string/text_measuring_ram</item>
+        <item>@string/text_refresh</item>
+        <item>@string/text_close_selected_0</item>
+        <item>@string/text_select_cached</item>
+        <item>@string/text_clear_selection</item>
+        <item>@string/text_adb_connected</item>
+        <item>@string/text_connect_adb</item>
+        <item>@string/text_back</item>
+        <item>@string/text_cached</item>
+        <item>@string/text_processes</item>
+        <item>@string/text_not_measured</item>
+        <item>@string/text_selected</item>
+        <item>@string/text_not_selected</item>
+        <item>@string/text_ok_select_clear_hold_ok_details_ram_values_are_android_s_l</item>
+        <item>@string/text_close_selected</item>
+        <item>@string/text_select_the_apps_to_close_with_ok</item>
+        <item>@string/text_apps_selected_press_close_selected_above</item>
+        <item>@string/text_memory_diagnostics_permission_is_not_enabled</item>
+        <item>@string/text_the_usage_access_permission_required_by_android_is_not_ena</item>
+        <item>@string/text_diagnostics_output_is_too_large</item>
+        <item>@string/text_memory_information_could_not_be_read</item>
+        <item>@string/text_android_did_not_allow_access_to_the_memory_list</item>
+        <item>@string/text_on_device_adb_connection</item>
+        <item>@string/text_closing_selected_apps_directly_on_this_device_requires_adb</item>
+        <item>@string/text_adb_provides_broader_device_control_h_zl_tv_connects_only</item>
+        <item>@string/text_no_root_is_used_you_must_approve_the_debugging_request_on</item>
+        <item>@string/text_if_available_select_always_allow_from_this_computer_to_avo</item>
+        <item>@string/text_start_connection</item>
+        <item>@string/text_forget_connection</item>
+        <item>@string/text_cancel</item>
+        <item>@string/text_connection_identity_could_not_be_deleted</item>
+        <item>@string/text_h_zl_tv_s_connection_identity_was_deleted_a_new_approval_o</item>
+        <item>@string/text_could_not_forget_the_connection</item>
+        <item>@string/text_connecting_locally_the_tv_may_ask_for_permission</item>
+        <item>@string/text_allow_h_zl_tv_in_the_tv_s_usb_debugging_dialog</item>
+        <item>@string/text_the_process_list_could_not_be_verified_after_reconnecting</item>
+        <item>@string/text_connection_ready_select_apps_and_press_close_selected</item>
+        <item>@string/text_the_connection_could_not_be_verified_persistently_select_a</item>
+        <item>@string/text_the_process_list_could_not_be_read</item>
+        <item>@string/text_available_ram</item>
+        <item>@string/text_tv_apps_in_memory</item>
+        <item>@string/text_the_app_list_has_not_been_read_yet</item>
+        <item>@string/text_forget_connection_removes_h_zl_tv_s_identity_reconnecting</item>
+        <item>@string/text_reopen_the_app_its_data_was_not_deleted</item>
+        <item>@string/text_the_operation_log_could_not_be_created</item>
+        <item>@string/text_apps_no_longer_appear_in_memory</item>
+        <item>@string/text_apps_remain_in_memory_or_have_restarted</item>
+        <item>@string/text_close_background_process</item>
+        <item>@string/text_app_details_force_stop</item>
+        <item>@string/text_open_app</item>
+        <item>@string/text_app_details</item>
+        <item>@string/text_app_details_could_not_be_opened</item>
+        <item>@string/text_first_select_the_apps_you_want_to_close</item>
+        <item>@string/text_closing_selected_background_processes</item>
+        <item>@string/text_the_operation_could_not_be_completed</item>
+        <item>@string/text_removed_from_favorites</item>
+        <item>@string/text_app_not_found_or_could_not_be_opened</item>
+        <item>@string/text_reopen_the_app_no_data_was_deleted</item>
+        <item>@string/text_this_android_version_does_not_allow_freeing_other_apps_mem</item>
+        <item>@string/text_checking_background_memory</item>
+        <item>@string/text_the_operation_could_not_be_logged_no_changes_were_made</item>
+        <item>@string/text_permission_restricted</item>
+        <item>@string/text_logging_error</item>
+        <item>@string/text_the_adb_key_directory_could_not_be_created</item>
+        <item>@string/text_the_adb_packet_could_not_be_verified</item>
+        <item>@string/text_adb_pairing_could_not_be_completed</item>
+        <item>@string/text_first_use_connect_adb_and_allow_h_zl_tv_on_the_tv</item>
+        <item>@string/text_the_adb_connection_could_not_be_opened</item>
+        <item>@string/text_unexpected_adb_stream</item>
+        <item>@string/text_adb_output_is_too_large</item>
+        <item>@string/text_the_adb_stream_did_not_complete</item>
+        <item>@string/text_the_expected_non_root_android_shell_could_not_be_verified</item>
+        <item>@string/text_this_package_cannot_be_stopped</item>
+        <item>@string/text_android_could_not_stop_the_app</item>
+        <item>@string/text_h_zl_tv_player</item>
+        <item>@string/text_the_playlist_exceeds_the_2_mb_limit</item>
+        <item>@string/text_this_is_an_hls_video_stream_not_a_channel_list</item>
+        <item>@string/text_enter_a_valid_http_https_link</item>
+        <item>@string/text_invalid_link_format</item>
+        <item>@string/text_only_http_https_links_are_supported</item>
+        <item>@string/text_the_phone_receiver_could_not_start_try_add_from_phone</item>
+        <item>@string/text_no_local_network_address_was_found</item>
+        <item>@string/text_scan_with_your_iphone_camera_paste_a_link_or_channel_list</item>
+        <item>@string/text_forget_pairing</item>
+        <item>@string/text_close</item>
+        <item>@string/text_phone_transfer_could_not_start_check_that_both_devices_are</item>
+        <item>@string/text_forget_phone_pairing</item>
+        <item>@string/text_the_current_qr_address_and_iphone_shortcut_will_stop_worki</item>
+        <item>@string/text_phone_pairing_forgotten</item>
+        <item>@string/text_a_signed_migration_bridge_is_required_for_the_old_player_r</item>
+        <item>@string/text_manual_migration_is_required_to_preserve_both_libraries</item>
+        <item>@string/text_the_migration_source_could_not_be_opened</item>
+        <item>@string/text_source_discovery_timed_out</item>
+        <item>@string/text_live_stream_video</item>
+        <item>@string/text_no_playable_source_was_found_the_page_may_require_sign_in</item>
+        <item>@string/text_the_page_s_video_source_could_not_be_read</item>
+        <item>@string/text_response</item>
+        <item>@string/text_the_page_or_playlist_exceeds_the_2_mb_limit</item>
+        <item>@string/text_too_many_redirects</item>
+        <item>@string/text_subtitles</item>
+        <item>@string/text_your_library</item>
+        <item>@string/text_films_and_live_channels_together</item>
+        <item>@string/text_link_playlist</item>
+        <item>@string/text_all</item>
+        <item>@string/text_groups</item>
+        <item>@string/text_library</item>
+        <item>@string/text_what_shall_we_watch_tonight</item>
+        <item>@string/text_send_a_link_add_your_channels_start_watching</item>
+        <item>@string/text_send_from_phone</item>
+        <item>@string/text_open_qr_code_share_from_iphone</item>
+        <item>@string/text_m3u_or_stream_link</item>
+        <item>@string/text_ok_play_hold_ok_favorite_remove_player_menu_audio_subtitle</item>
+        <item>@string/text_preparing_library</item>
+        <item>@string/text_entries</item>
+        <item>@string/text_all_324c00</item>
+        <item>@string/text_nothing_here_yet</item>
+        <item>@string/text_clear_your_search_or_choose_a_different_group</item>
+        <item>@string/text_the_library_could_not_be_read_old_player_records_are_prese</item>
+        <item>@string/text_could_not_save_existing_records_are_preserved</item>
+        <item>@string/text_link_or_channel_list</item>
+        <item>@string/text_find_sources</item>
+        <item>@string/text_finding_sources</item>
+        <item>@string/text_the_source_could_not_be_read</item>
+        <item>@string/text_the_link_could_not_be_opened</item>
+        <item>@string/text_h_zl_tv_player_link</item>
+        <item>@string/text_could_not_open_link</item>
+        <item>@string/text_ok</item>
+        <item>@string/text_h_zl_tv_player_channel_list</item>
+        <item>@string/text_add_this_channel_list_to_your_library_you_can_undo_the_lat</item>
+        <item>@string/text_h_zl_tv_player_source_found</item>
+        <item>@string/text_choose_a_source</item>
+        <item>@string/text_subtitle_options</item>
+        <item>@string/text_ready_to_watch</item>
+        <item>@string/text_play</item>
+        <item>@string/text_the_player_could_not_be_opened</item>
+        <item>@string/text_add_to_library</item>
+        <item>@string/text_remove_favorite</item>
+        <item>@string/text_remove_entry</item>
+        <item>@string/text_changes_could_not_be_saved</item>
+        <item>@string/text_all_groups</item>
+        <item>@string/text_nothing_to_undo_or_the_backup_could_not_be_read</item>
+        <item>@string/text_cannot_play_this_stream</item>
+        <item>@string/text_the_link_may_have_expired_access_may_be_restricted_or_the</item>
+        <item>@string/text_the_player_could_not_be_prepared</item>
+        <item>@string/text_playback_options</item>
+        <item>@string/text_subtitles_off</item>
+        <item>@string/text_automatic</item>
+        <item>@string/text_automatic_preferred_language</item>
+        <item>@string/text_option</item>
+        <item>@string/text_available_source_quality</item>
+        <item>@string/text_source_data_limit_exceeded</item>
+        <item>@string/text_the_source_format_has_changed</item>
+        <item>@string/text_stored_data_limit_exceeded</item>
+        <item>@string/text_library_size_limit_exceeded_existing_records_are_preserved</item>
+        <item>@string/text_the_library_can_hold_up_to_5000_entries</item>
+        <item>@string/text_there_is_no_library_change_to_undo</item>
+        <item>@string/text_library_changes_undo_latest_change_playback_back_button</item>
+        <item>@string/text_apps_in_memory</item>
+        <item>@string/text_background_service</item>
+        <item>@string/text_this_screen</item>
+        <item>@string/text_protected</item>
+        <item>@string/text_protected_0904d0</item>
+        <item>@string/text_is_protected_and_cannot_be_selected_for_closure</item>
+        <item>@string/text_system_memory_state</item>
+        <item>@string/text_mb_system_memory_state</item>
+        <item>@string/text_favorites_28d989</item>
+        <item>@string/text_favorites_3db4af</item>
+        <item>@string/text_your_favorites</item>
+        <item>@string/text_added_to_favorites</item>
+        <item>@string/text_add_favorite</item>
+        <item>@string/text_apps_in_memory_90966c</item>
+        <item>@string/text_free_memory</item>
+        <item>@string/text_settings</item>
+        <item>@string/text_stock_home</item>
+        <item>@string/text_add_from_phone</item>
+        <item>@string/text_undo</item>
+        <item>@string/text_add_channel_list</item>
+        <item>@string/text_search_channels_or_films</item>
+        <item>@string/text_favorite</item>
+        <item>@string/text_channels_found</item>
+        <item>@string/text_source</item>
+        <item>@string/text_source_site_returned_http</item>
+        <item>@string/text_audio</item>
+        <item>@string/text_audio_language</item>
+        <item>@string/text_quality</item>
+        <item>@string/text_retry</item>
+        <item>@string/text_forget</item>
+        <item>@string/text_low</item>
+        <item>@string/text_normal</item>
+        <item>@string/text_low_aced4c</item>
+        <item>@string/text_normal_9c2a6e</item>
+        <item>@string/text_this_app_is_protected</item>
+        <item>@string/text_no_valid_channel_links_were_found_in_the_list</item>
+        <item>@string/text_invalid_stream_header</item>
+        <item>@string/text_reading_apps_in_memory</item>
+    </array>
+    <string name="low_memory">Low memory</string>
+    <plurals name="library_entries">
+        <item quantity="one">%1$d entry</item>
+        <item quantity="other">%1$d entries</item>
+    </plurals>
+    <plurals name="channels_found">
+        <item quantity="one">%1$d channel found</item>
+        <item quantity="other">%1$d channels found</item>
+    </plurals>
+    <string name="link_example">"https://… or #EXTM3U…"</string>
+    <string name="source_ready_status">"Source found; confirm on the TV."</string>
+    <string name="add_playlist">"Add playlist"</string>
+    <string name="adb_command_rejected">"The ADB command was not accepted."</string>
+</resources>

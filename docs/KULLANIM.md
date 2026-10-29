@@ -1,5 +1,7 @@
 # Kumandayla günlük kullanım
 
+[English](en/USAGE.md) · **Türkçe**
+
 ## Ana ekran
 
 HızlıTV'yi TV'nin uygulama listesinden aç. Ana ekran yalnızca favorileri gösterir. Sağ/sol/yukarı/aşağı ile kart seç; beyaz çerçeve hangi kartın seçili olduğunu gösterir. **OK** uygulamayı açar. **Uzun OK** seçili uygulamayı favoriye ekler veya favoriden çıkarır.
@@ -40,4 +42,10 @@ Seçilen uygulamaları doğrudan durdurma için cihaz içi ADB eşleştirmesi ay
 
 ## AirPlay
 
-Ana ekrandaki AirPlay kısayolundan kurulu alıcıyı açabilirsin. iPhone ekran yansıtması o uygulamanın sağladığı özelliklerle çalışır. QR/Kestirme gönderimi, AirPlay ekran yansıtmasından farklıdır: film URL'si gönderilince videoyu Mi Stick kendi oynatıcısında açar; telefon ekranını sürekli aktarmak gerekmez. AirPlay alıcısı bu deponun içinde dağıtılmaz.
+Ana ekrandaki AirPlay kısayolundan kurulu alıcıyı açabilirsin. iPhone ekran yansıtması o uygulamanın sağladığı özelliklerle çalışır. QR/Kestirme gönderimi, AirPlay ekran yansıtmasından farklıdır: film URL'si gönderilince videoyu Mi Stick kendi oynatıcısında açar; telefon ekranını sürekli aktarmak gerekmez. AirPlay alıcısının kaynağı ayrı lisanslı Git alt modülüne sabitlenmiştir; özgün APK ayrıca indirilir.
+
+## Dil seçimi
+
+Ana ekranın üstündeki **EN/TR** düğmesi, Sistem dili / English / Türkçe seçeneklerini açar. İngilizce kaynak dili ve desteklenmeyen diller için varsayılandır. Tercih yalnız HızlıTV’yi etkiler; Android dili değişmez. Player ve hata mesajları aynı tercihi izler. Telefon sayfası tarayıcı dilini kullanır; sayfanın dil seçicisinden de değiştirilebilir.
+
+AirPlay ayrı isteğe bağlı uygulamadır. [Türkçe AirPlay kurulumu ve geri alınabilir profiller](../airplay/README.tr.md).

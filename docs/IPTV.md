@@ -1,5 +1,7 @@
 # M3U listesi nasıl hazırlanır?
 
+[English](en/IPTV.md) · **Türkçe**
+
 M3U, kanal adlarını ve yayın adreslerini yazdığın bir metin biçimidir. HızlıTV bir kanal aboneliği veya hazır yayın listesi sağlamaz; kendi yayın bağlantılarını eklersin.
 
 En küçük örnek:

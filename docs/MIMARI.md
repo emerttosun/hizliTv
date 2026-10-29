@@ -1,5 +1,7 @@
 # Mimari ve çalışma mantığı
 
+[English](en/ARCHITECTURE.md) · **Türkçe**
+
 Uygulamayı dört Gradle modülüne ayırıyoruz. Bir modül, kendi kaynaklarına ve derleme ayarlarına sahip bir kod bölümüdür. Modüller birbirlerine açıkça bağımlı olur; her ekranın tüm işi yapan tek bir dosyaya dönüşmesini önler.
 
 ```mermaid
@@ -95,7 +97,7 @@ Bu örnek ağ isteği yapmaz. Bağdaştırıcıyı registry'ye ekle ve kendi ür
 
 `Store`, uygulamanın özel alanına `AtomicFile` ile yazar. Atomik yazma, yarım kalmış bir kayıt yüzünden mevcut kütüphanenin kaybolmasını önlemeye yardımcı olur. Her değişiklikten önce bir önceki sürüm tutulur; geri alma tek seviyelidir. En fazla 5000 kayıt ve 8 MB kütüphane sınırı vardır. Yayın URL'si hesap bilgisi içerebileceği için kütüphane herkese açık loga aktarılmaz.
 
-`PlayerActivity`, Media3 ExoPlayer'a `MediaItem` verir. Media3 akışı indirir, tamponlar ve Android'in codec/donanım yolunu kullanır. Ayrı bir video dönüştürme sunucusu yoktur. Varsayılan video üst sınırı 1920×1080; ses ve altyazıda Türkçe tercih edilir. Kaynağın gerçekten sunduğu desteklenen seçenekler Menü'den seçilebilir.
+`PlayerActivity`, Media3 ExoPlayer'a `MediaItem` verir. Media3 akışı indirir, tamponlar ve Android'in codec/donanım yolunu kullanır. Ayrı bir video dönüştürme sunucusu yoktur. Varsayılan video üst sınırı 1920×1080; ses ve altyazıda seçilen uygulama dili tercih edilir. Kaynağın gerçekten sunduğu desteklenen seçenekler Menü'den seçilebilir.
 
 Oynatma ekranı kapanınca motor serbest bırakılır, VOD konumu saklanır. Canlı yayın konumu saklanmaz. Sistem medya sesi uygulama açılırken zorla değiştirilmez. Kaynakların ses yüksekliği değişebilir; telefonla eşitleme yapan ayrı AirPlay alıcısı sistem sesini etkileyebilir.
 
@@ -109,3 +111,7 @@ Oynatma ekranı kapanınca motor serbest bırakılır, VOD konumu saklanır. Can
 - Oynatma politikası: `PlayerActivity`; codec ve altyazıyı gerçek cihazda kontrol et.
 
 Genel kod, cihaz IP'sini veya kullanıcının kanal listesini bilmemelidir. Cihazdan alınan günlük/yedekler bu deponun parçası değildir.
+
+## Yerelleştirme ve AirPlay
+
+`tv-ui/Language` uygulama tercihinden İngilizce/Türkçe bir Context üretir; `LocalizedActivity` bunu ekranlara uygular. `I18n`, düz Java çekirdeğinin bilinen hata mesajlarını arayüz sınırında çevirir. Android sistem dili değiştirilmez. Telefon sayfasının iki dilli metinleri `PhonePage` içindedir. AirPlay kaynağı ayrı GPL alt modülüdür; ana Gradle projesine bağlanmaz.

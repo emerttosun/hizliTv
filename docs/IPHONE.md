@@ -1,5 +1,7 @@
 # iPhone'dan TV'ye bağlantı gönderme
 
+[English](en/IPHONE.md) · **Türkçe**
+
 En kolay ilk deneme: TV'de **Player → Telefondan ekle**, iPhone kamerasıyla QR'ı okut, açılan sayfaya bağlantını yapıştır ve **TV'ye gönder** düğmesine bas. İki cihaz aynı yerel ağda olsun. TV'de bulunan kaynağı **Oynat** ile onayla. M3U gönderdiysen **Listeyi ekle** seç.
 
 QR sayfası internetteki bir site değil, TV'de çalışan küçük bir HTTP alıcısıdır. URL'nin sonundaki rastgele kod, o kuruluma ait eşleştirme kimliğidir. Güncellemede korunur. TV'nin IP adresi değişirse adresin başlangıcı değişebilir; modemden DHCP rezervasyonu yaparak TV'ye aynı yerel adresin verilmesini sağlayabilirsin. Menü adı modem modeline göre değişir.

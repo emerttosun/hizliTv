@@ -1,5 +1,7 @@
 # Sıfırdan HızlıTV geliştirmek
 
+[English](en/GETTING_STARTED.md) · **Türkçe**
+
 Bu rehber TV uygulaması geliştirmemiş biri içindir. İlk hedef, kaynak koddan bir APK üretip kendi TV'nde açmaktır. Root veya TV yazılımını değiştirme işlemi gerekmez.
 
 ## 1. Kelimeler ne demek?
@@ -89,3 +91,9 @@ HızlıTV, HOME tuşuna bağlanmaz. Sistem başlatıcısından normal bir uygula
 ## Sonraki okuma
 
 [Mimari rehberi](MIMARI.md) bir bağlantının telefondan oynatıcıya nasıl ulaştığını gösterir. [Android TV gezinme kılavuzu](https://developer.android.com/training/tv/get-started/navigation), kumanda odağının ve Geri tuşunun neden önemli olduğunu açıklar. Oynatma motoru için [Media3 ExoPlayer belgelerini](https://developer.android.com/media/media3/exoplayer) inceleyebilirsin.
+
+## Dil seçimi
+
+Ana ekranın üstündeki **EN/TR** düğmesi, Sistem dili / English / Türkçe seçeneklerini açar. İngilizce kaynak dili ve desteklenmeyen diller için varsayılandır. Tercih yalnız HızlıTV’yi etkiler; Android dili değişmez. Player ve hata mesajları aynı tercihi izler. Telefon sayfası tarayıcı dilini kullanır; sayfanın dil seçicisinden de değiştirilebilir.
+
+AirPlay ayrı isteğe bağlı uygulamadır. [Türkçe AirPlay kurulumu ve geri alınabilir profiller](../airplay/README.tr.md).

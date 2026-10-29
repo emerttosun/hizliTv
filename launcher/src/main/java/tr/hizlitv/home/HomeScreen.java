@@ -1,5 +1,6 @@
 package tr.hizlitv.home;
 
+import tr.hizlitv.ui.R;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.GradientDrawable;
@@ -15,7 +16,7 @@ import tr.hizlitv.ui.TvUi;
 
 /** Quiet native dashboard with individually visible tools and real Android DPAD focus. */
 final class HomeScreen extends LinearLayout {
-    interface Actions { void action(HomeAction action); void section(boolean all); void open(AppCatalog.Entry app); void pin(AppCatalog.Entry app); }
+    interface Actions { void language(); void action(HomeAction action); void section(boolean all); void open(AppCatalog.Entry app); void pin(AppCatalog.Entry app); }
     private final Actions actions;
     private final TextView headline, caption, clock, dateLabel, ramPercent, ramAvailable, heading, feedback;
     private final LinearLayout rows;
@@ -25,13 +26,18 @@ final class HomeScreen extends LinearLayout {
     private int shownRevision = -1;
     private boolean shownAll;
     private String focusedPackage = "";
-    private final SimpleDateFormat time = new SimpleDateFormat("HH:mm", Locale.getDefault());
-    private final SimpleDateFormat date = new SimpleDateFormat("d MMMM EEEE", new Locale("tr", "TR"));
+    private final SimpleDateFormat time;
+    private final SimpleDateFormat date;
     HomeScreen(Context c, Actions actions) {
-        super(c); this.actions = actions; setOrientation(VERTICAL); setClipChildren(false);
+        super(c); this.actions = actions;
+        time = new SimpleDateFormat("HH:mm", tr.hizlitv.ui.Language.locale(c));
+        date = new SimpleDateFormat("d MMMM EEEE", tr.hizlitv.ui.Language.locale(c)); setOrientation(VERTICAL); setClipChildren(false);
         setPadding(d(42), d(18), d(42), d(14)); setBackground(new AmbientBackground());
         LinearLayout header = TvUi.row(c);
         TextView brand = TvUi.text(c, "HızlıTV", 23, TvUi.TEXT, true); header.addView(brand, new LayoutParams(0, -2, 1));
+        Button language = TvUi.button(c, tr.hizlitv.ui.Language.code(c).toUpperCase(Locale.ROOT), actions::language);
+        language.setTextSize(11); language.setContentDescription(c.getString(R.string.language));
+        LayoutParams languageParams = new LayoutParams(-2, d(32)); languageParams.rightMargin = d(18); header.addView(language, languageParams);
         dateLabel = TvUi.text(c, "", 11, 0xffa6b7ca, false); dateLabel.setPadding(0, 0, d(18), 0); header.addView(dateLabel);
         clock = TvUi.text(c, "", 22, TvUi.TEXT, true); header.addView(clock); addView(header, new LayoutParams(-1, d(42)));
 
@@ -39,17 +45,17 @@ final class HomeScreen extends LinearLayout {
         LinearLayout welcome = new LinearLayout(c); welcome.setOrientation(VERTICAL); welcome.setGravity(Gravity.CENTER_VERTICAL); welcome.setPadding(d(21), 0, d(20), 0);
         GradientDrawable glow = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{0x70334d68, 0x302d3d52});
         glow.setCornerRadius(d(17)); glow.setStroke(d(1), 0x18ffffff); welcome.setBackground(glow);
-        headline = TvUi.text(c, "İyi seyirler.", 27, TvUi.TEXT, true); headline.setSingleLine(); headline.setEllipsize(TextUtils.TruncateAt.END);
-        caption = TvUi.text(c, "Kanalların, filmlerin ve favorilerin burada.", 12, 0xffb6c8db, false); caption.setSingleLine(); caption.setEllipsize(TextUtils.TruncateAt.END); caption.setPadding(0, d(5), 0, 0);
+        headline = TvUi.text(c, getContext().getString(R.string.text_enjoy_watching), 27, TvUi.TEXT, true); headline.setSingleLine(); headline.setEllipsize(TextUtils.TruncateAt.END);
+        caption = TvUi.text(c, getContext().getString(R.string.text_your_channels_films_and_favorites_together), 12, 0xffb6c8db, false); caption.setSingleLine(); caption.setEllipsize(TextUtils.TruncateAt.END); caption.setPadding(0, d(5), 0, 0);
         welcome.addView(headline); welcome.addView(caption); LayoutParams wp = new LayoutParams(0, -1, 1); wp.rightMargin = d(16); hero.addView(welcome, wp);
         LinearLayout memory = new LinearLayout(c); memory.setOrientation(VERTICAL); memory.setGravity(Gravity.CENTER_VERTICAL); memory.setPadding(d(16), d(8), d(16), d(8)); memory.setBackground(TvUi.shape(c, 0x65324457, 17, 0x16ffffff));
         LinearLayout memoryTop = TvUi.row(c); memoryTop.addView(TvUi.text(c, "RAM", 11, 0xffacbfd2, true), new LayoutParams(0, -2, 1));
         ramPercent = TvUi.text(c, "", 22, TvUi.TEXT, true); memoryTop.addView(ramPercent); memory.addView(memoryTop);
-        ramAvailable = TvUi.text(c, "Ölçülüyor…", 11, 0xffb8cbdb, false); memory.addView(ramAvailable);
+        ramAvailable = TvUi.text(c, getContext().getString(R.string.text_measuring), 11, 0xffb8cbdb, false); memory.addView(ramAvailable);
         ramTrack = new FrameLayout(c); ramTrack.setBackground(TvUi.shape(c, 0x24ffffff, 2, 0));
         ramFill = new View(c); ramFill.setBackground(TvUi.shape(c, 0xff96c7dc, 2, 0)); ramTrack.addView(ramFill, new FrameLayout.LayoutParams(1, -1));
         LayoutParams tp = new LayoutParams(-1, d(3)); tp.topMargin = d(7); memory.addView(ramTrack, tp);
-        memory.setContentDescription("Bellekteki uygulamaları aç"); memory.setOnClickListener(v -> actions.action(HomeAction.PROCESSES));
+        memory.setContentDescription(getContext().getString(R.string.text_open_apps_in_memory)); memory.setOnClickListener(v -> actions.action(HomeAction.PROCESSES));
         hero.addView(memory, new LayoutParams(d(202), -1)); addView(hero, new LayoutParams(-1, d(88)));
 
         LinearLayout tools = TvUi.row(c); Button apps = null;
@@ -58,22 +64,22 @@ final class HomeScreen extends LinearLayout {
             LayoutParams bp = new LayoutParams(0, -1, action.weight); if (action != HomeAction.STOCK_HOME) bp.rightMargin = d(7); tools.addView(button, bp);
         }
         appsButton = apps; LayoutParams toolsParams = new LayoutParams(-1, d(40)); toolsParams.topMargin = d(9); toolsParams.bottomMargin = d(9); addView(tools, toolsParams);
-        heading = TvUi.text(c, "Favorilerin", 14, 0xffdce5ef, true); heading.setGravity(Gravity.CENTER_VERTICAL); addView(heading, new LayoutParams(-1, d(32)));
+        heading = TvUi.text(c, getContext().getString(R.string.text_your_favorites), 14, 0xffdce5ef, true); heading.setGravity(Gravity.CENTER_VERTICAL); addView(heading, new LayoutParams(-1, d(32)));
         ScrollView scroll = new ScrollView(c); scroll.setClipToPadding(false); scroll.setClipChildren(false); scroll.setVerticalScrollBarEnabled(false); scroll.setPadding(d(3), d(3), d(3), 0);
         rows = new LinearLayout(c); rows.setOrientation(VERTICAL); rows.setClipChildren(false); scroll.addView(rows); addView(scroll, new LayoutParams(-1, 0, 1));
         feedback = TvUi.text(c, "", 11, TvUi.ACCENT, false); feedback.setSingleLine(); feedback.setEllipsize(TextUtils.TruncateAt.END); feedback.setVisibility(GONE); addView(feedback);
-        TextView hint = TvUi.text(c, "OK  Aç     ·     Uzun OK  Favoriye ekle / çıkar     ·     Menü  Tüm uygulamalar", 10, 0xff91a6bc, false); hint.setPadding(0, d(5), 0, 0); addView(hint);
+        TextView hint = TvUi.text(c, getContext().getString(R.string.text_ok_open_hold_ok_pin_unpin_menu_all_apps), 10, 0xff91a6bc, false); hint.setPadding(0, d(5), 0, 0); addView(hint);
     }
     private int d(float n) { return TvUi.dp(getContext(), n); }
     private Button actionButton(HomeAction action) {
-        Button button = TvUi.button(getContext(), action.title, () -> actions.action(action));
+        Button button = TvUi.button(getContext(), getContext().getString(action.title), () -> actions.action(action));
         button.setTextSize(11); button.setSingleLine(); button.setEllipsize(TextUtils.TruncateAt.END); button.setPadding(d(9), 0, d(9), 0);
         StateListDrawable background = new StateListDrawable();
         background.addState(new int[]{android.R.attr.state_focused}, TvUi.shape(getContext(), 0xffedf5fb, 12, 0));
         background.addState(new int[]{android.R.attr.state_pressed}, TvUi.shape(getContext(), 0xffc5dded, 12, 0));
         background.addState(new int[]{}, TvUi.shape(getContext(), action == HomeAction.PLAYER ? 0x90486784 : 0x70303e50, 12, 0x20ffffff)); button.setBackground(background);
         ActionIcon icon = new ActionIcon(action); icon.setBounds(0, 0, d(14), d(14)); button.setCompoundDrawables(icon, null, null, null); button.setCompoundDrawablePadding(d(5));
-        button.setContentDescription(action.title); return button;
+        button.setContentDescription(getContext().getString(action.title)); return button;
     }
     private final Runnable clockTick = new Runnable() {
         public void run() { Date now = new Date(); clock.setText(time.format(now)); dateLabel.setText(date.format(now)); postDelayed(this, 60000 - System.currentTimeMillis() % 60000); }
@@ -82,17 +88,17 @@ final class HomeScreen extends LinearLayout {
     void stopClock() { removeCallbacks(clockTick); }
     @Override protected void onDetachedFromWindow() { stopClock(); super.onDetachedFromWindow(); }
     void memory(int used, long available, String result) {
-        ramPercent.setText("%" + used); ramAvailable.setText(available + " MB kullanılabilir");
+        ramPercent.setText(getContext().getString(R.string.ram_percent, used)); ramAvailable.setText(getContext().getString(R.string.ram_available, available));
         ramTrack.post(() -> { int width = Math.max(d(2), ramTrack.getWidth() * used / 100); android.view.ViewGroup.LayoutParams params = ramFill.getLayoutParams(); if (params.width != width) { params.width = width; ramFill.setLayoutParams(params); } });
         feedback.setText(result); feedback.setVisibility(result.isEmpty() ? GONE : VISIBLE);
     }
     void show(AppCatalog catalog, boolean all) {
         if (shownRevision == catalog.revision() && shownAll == all) return;
         shownRevision = catalog.revision(); shownAll = all;
-        heading.setText(all ? "Tüm uygulamalar" : "Favorilerin"); appsButton.setText(all ? "Favoriler" : HomeAction.APPS.title); rows.removeAllViews();
+        heading.setText(all ? getContext().getString(R.string.text_all_apps) : getContext().getString(R.string.text_your_favorites)); appsButton.setText(all ? getContext().getString(R.string.text_favorites) : getContext().getString(HomeAction.APPS.title)); rows.removeAllViews();
         List<AppCatalog.Entry> visible = catalog.entries(all); View selected = null, first = null;
         if (visible.isEmpty()) {
-            TextView empty = TvUi.text(getContext(), "Uygulamalar’dan bir kart seçip OK’ye uzun basarak favori ekleyebilirsin.", 16, TvUi.MUTED, false); empty.setPadding(d(8), d(20), d(8), 0); rows.addView(empty); appsButton.requestFocus(); return;
+            TextView empty = TvUi.text(getContext(), getContext().getString(R.string.text_choose_a_card_in_all_apps_and_hold_ok_to_pin_it), 16, TvUi.MUTED, false); empty.setPadding(d(8), d(20), d(8), 0); rows.addView(empty); appsButton.requestFocus(); return;
         }
         for (int start = 0; start < visible.size(); start += 5) {
             LinearLayout row = new LinearLayout(getContext()); row.setClipChildren(false); LayoutParams rp = new LayoutParams(-1, d(123)); rp.bottomMargin = d(8); rows.addView(row, rp);
@@ -105,7 +111,7 @@ final class HomeScreen extends LinearLayout {
         View focus = selected == null ? first : selected; if (focus != null) focus.requestFocus();
     }
     private View tile(AppCatalog.Entry app, boolean pinned, boolean all) {
-        Context c = getContext(); LinearLayout tile = new LinearLayout(c); tile.setOrientation(VERTICAL); tile.setClipChildren(false); tile.setFocusable(true); tile.setClickable(true); tile.setContentDescription(app.name + (pinned ? ", favori" : ""));
+        Context c = getContext(); LinearLayout tile = new LinearLayout(c); tile.setOrientation(VERTICAL); tile.setClipChildren(false); tile.setFocusable(true); tile.setClickable(true); tile.setContentDescription(app.name + (pinned ? getContext().getString(R.string.text_favorite) : ""));
         FrameLayout frame = new FrameLayout(c);
         StateListDrawable focusFrame = new StateListDrawable();
         focusFrame.addState(new int[]{android.R.attr.state_activated}, TvUi.shape(c, 0xffe7f3fc, 15, 0));
@@ -122,7 +128,7 @@ final class HomeScreen extends LinearLayout {
         TextView label = TvUi.text(c, app.pkg.equals(AppTargets.PLAYER) ? "Player" : app.name, 12, 0xffa9bdd1, false); label.setSingleLine(); label.setEllipsize(TextUtils.TruncateAt.END); label.setGravity(Gravity.CENTER); label.setPadding(d(2), d(8), d(2), 0); tile.addView(label, new LayoutParams(-1, -2));
         tile.setOnFocusChangeListener((v, focused) -> {
             frame.setActivated(focused); frame.setScaleX(focused ? 1.025f : 1); frame.setScaleY(focused ? 1.025f : 1); label.setTextColor(focused ? TvUi.TEXT : 0xffa9bdd1);
-            if (focused) { focusedPackage = app.pkg; headline.setText(app.pkg.equals(AppTargets.PLAYER) ? "İyi seyirler." : app.name); caption.setText(app.pkg.equals(AppTargets.PLAYER) ? "Kanalların, filmlerin ve telefondan gönderdiklerin." : all && pinned ? "Favorilerinde  ·  Açmak için OK’ye bas." : "Açmak için OK’ye bas."); }
+            if (focused) { focusedPackage = app.pkg; headline.setText(app.pkg.equals(AppTargets.PLAYER) ? getContext().getString(R.string.text_enjoy_watching) : app.name); caption.setText(app.pkg.equals(AppTargets.PLAYER) ? getContext().getString(R.string.text_your_channels_films_and_shared_links) : all && pinned ? getContext().getString(R.string.text_in_your_favorites_press_ok_to_open) : getContext().getString(R.string.text_press_ok_to_open)); }
         });
         tile.setOnClickListener(v -> actions.open(app)); tile.setOnLongClickListener(v -> { actions.pin(app); return true; }); return tile;
     }

@@ -4,7 +4,7 @@
 
 HızlıTV, **jqssun ve diğer katkıcıların AirPlay Server for Android** alıcısını açar. Kaynak kod, [receiver](receiver) altında belirli bir sürüme sabitlenmiş Git alt deposu olarak eklenmiştir. **HızlıTV’nin MIT lisanslı ana ekran/Player APK’sına bağlanmaz.** Alıcı GPL-3.0 lisansını korur: [lisans](RECEIVER-LICENSE), [kaynak kaydı](upstream.json).
 
-Sürüm **v0.0.36**, commit `a46cca0a6a1274e9e33c0e750f0f1c1eb1d881ea`. Android11 Mi TV Stick’te iPhone/iPad ile daha önce denenmiş upstream sürümüdür. Alıcının protokolü veya APK’sı özgün HızlıTV kodu olarak sunulmaz.
+Sürüm **v0.0.36**, commit `a46cca0a6a1274e9e33c0e750f0f1c1eb1d881ea`. Android 11 Mi TV Stick’te iPhone/iPad ile daha önce denenmiş upstream sürümüdür. Alıcının protokolü veya APK’sı özgün HızlıTV kodu olarak sunulmaz.
 
 ## Kurulum
 
@@ -64,6 +64,6 @@ cd airplay/receiver
 ./gradlew assembleDebug
 ```
 
-Bu ayrı bir derlemedir. Sabitlenmiş upstream CI JDK21, derleme dosyaları SDK37 ve NDK27.0.12077973 ister; CMake/native bağımlılıkları da gerekir. HızlıTV’nin SDK35 derlemesi AirPlay alıcısını derlemez. [Upstream derleme dosyalarını](receiver/app/build.gradle.kts) ve [CI’ını](receiver/.github/workflows/apk.yml) izle. Bizim CI, HızlıTV ve profil aracını sınar; bütün native alıcıyı derlediği iddia edilmez. Kendi imzanla üretilen APK orijinal imzalı alıcının üzerine kurulamayabilir.
+Bu ayrı bir derlemedir. Sabitlenmiş upstream CI JDK 21, derleme dosyaları SDK 37 ve NDK 27.0.12077973 ister; CMake/native bağımlılıkları da gerekir. HızlıTV’nin SDK 35 derlemesi AirPlay alıcısını derlemez. [Upstream derleme dosyalarını](https://github.com/jqssun/android-airplay-server/blob/a46cca0a6a1274e9e33c0e750f0f1c1eb1d881ea/app/build.gradle.kts) ve [CI’ını](https://github.com/jqssun/android-airplay-server/blob/a46cca0a6a1274e9e33c0e750f0f1c1eb1d881ea/.github/workflows/apk.yml) izle. Bizim CI, HızlıTV ve profil aracını sınar; bütün native alıcıyı derlediği iddia edilmez. Kendi imzanla üretilen APK orijinal imzalı alıcının üzerine kurulamayabilir.
 
-Upstream Android7+ desteği, görüntü/ses yansıtma ve korumasız medya oynatma bildirir. DRM korumalı içerik desteklenmez. Apple cihaz sürümleri, codec ve gecikme kendi donanımında denenmelidir. Apple ile resmi bir bağlantı yoktur.
+Upstream Android 7+ desteği, görüntü/ses yansıtma ve korumasız medya oynatma bildirir. DRM korumalı içerik desteklenmez. Apple cihaz sürümleri, codec ve gecikme kendi donanımında denenmelidir. Apple ile resmi bir bağlantı yoktur.

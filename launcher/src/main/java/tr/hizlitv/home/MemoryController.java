@@ -1,5 +1,6 @@
 package tr.hizlitv.home;
 
+import tr.hizlitv.ui.R;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -23,7 +24,7 @@ final class MemoryController {
     private boolean active, cleaning, closed;
     private String result = "";
     MemoryController(Context c, Listener listener) {
-        context = c.getApplicationContext(); this.listener = listener;
+        context = tr.hizlitv.ui.Language.wrap(c.getApplicationContext()); this.listener = listener;
         manager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
     }
     private final Runnable tick = new Runnable() {
@@ -43,13 +44,13 @@ final class MemoryController {
         JSONObject item = new JSONObject(); item.put("time_ms", System.currentTimeMillis()); item.put("event", event);
         item.put("before_available_bytes", before); item.put("after_available_bytes", after);
         item.put("requested_packages", new JSONArray(targets)); item.put("errors", errors);
-        item.put("undo", "Uygulamayı tekrar aç. Veriler silinmedi.");
+        item.put("undo", context.getString(R.string.text_reopen_the_app_no_data_was_deleted));
         File dir = context.getExternalFilesDir(null); if (dir == null) throw new java.io.IOException("No audit directory");
         try (FileWriter writer = new FileWriter(new File(dir, "memory-operations.jsonl"), true)) { writer.write(item + "\n"); }
     }
     void relax(List<AppCatalog.Entry> entries) {
         if (cleaning) return;
-        if (Build.VERSION.SDK_INT >= 34) { result = "Bu Android sürümü diğer uygulamaların belleğini boşaltmaya izin vermiyor."; sample(); return; }
+        if (Build.VERSION.SDK_INT >= 34) { result = context.getString(R.string.text_this_android_version_does_not_allow_freeing_other_apps_mem); sample(); return; }
         final long before = info().availMem; final ArrayList<String> targets = new ArrayList<>();
         for (AppCatalog.Entry entry : entries) {
             if (AppTargets.protectedFromCleanup(entry.pkg) || entry.pkg.equals(context.getPackageName())) continue;
@@ -58,20 +59,20 @@ final class MemoryController {
                 if ((app.flags & (ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) == 0) targets.add(entry.pkg);
             } catch (Exception ignored) { }
         }
-        cleaning = true; result = "Arka plan belleği kontrol ediliyor…"; sample();
+        cleaning = true; result = context.getString(R.string.text_checking_background_memory); sample();
         new Thread(() -> {
             int errors = 0;
             try { log("request", before, -1, targets, 0); }
             catch (Exception failure) {
-                handler.post(() -> { cleaning = false; result = "İşlem kaydedilemedi; değişiklik yapılmadı."; sample(); }); return;
+                handler.post(() -> { cleaning = false; result = context.getString(R.string.text_the_operation_could_not_be_logged_no_changes_were_made); sample(); }); return;
             }
             for (String pkg : targets) try { manager.killBackgroundProcesses(pkg); } catch (SecurityException failure) { errors++; }
             final int failures = errors;
             handler.postDelayed(() -> {
                 long after = info().availMem;
-                result = before / 1048576 + " → " + after / 1048576 + " MB kullanılabilir";
-                if (failures > 0) result += " · izin kısıtlı";
-                try { log("result", before, after, targets, failures); } catch (Exception failure) { result += " · kayıt hatası"; }
+                result = before / 1048576 + " → " + after / 1048576 + context.getString(R.string.text_mb_available);
+                if (failures > 0) result += context.getString(R.string.text_permission_restricted);
+                try { log("result", before, after, targets, failures); } catch (Exception failure) { result += context.getString(R.string.text_logging_error); }
                 cleaning = false; sample();
             }, 1500);
         }, "MemoryCleanup").start();

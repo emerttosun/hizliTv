@@ -1,5 +1,7 @@
 # İki APK’dan tek APK’ya geçiş
 
+[English](en/MIGRATION.md) · **Türkçe**
+
 Yeni kurulumda yalnız **HızlıTV** APK’sını kur. Player bir Android kütüphane modülüdür ve aynı uygulamanın içinde açılır. Aşağıdaki araç yalnız eski `tr.hizlitv.home` + `tr.hizlitv.player` kurulumu olan cihazlar içindir.
 
 ## Neden özel aktarım gerekiyor?

@@ -1,5 +1,6 @@
 package tr.hizlitv.home;
 
+import tr.hizlitv.ui.R;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +37,7 @@ final class AppCatalog {
         entries.clear(); favorites.clear();
         pinned = new HashSet<>(preferences.getStringSet("pins", new HashSet<>(Arrays.asList(AppTargets.DEFAULT_FAVORITES))));
         PackageManager pm = context.getPackageManager(); Set<String> seen = new HashSet<>();
-        entries.add(new Entry("HızlıTV Player", AppTargets.PLAYER, AppTargets.player(context), null, false));
+        entries.add(new Entry(context.getString(R.string.text_h_zl_tv_player), AppTargets.PLAYER, AppTargets.player(context), null, false));
         seen.add(AppTargets.PLAYER);
         Intent query = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LEANBACK_LAUNCHER);
         for (ResolveInfo info : pm.queryIntentActivities(query, 0)) {

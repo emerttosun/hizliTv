@@ -6,11 +6,11 @@ import java.util.Locale;
 public final class Urls {
     public static String http(String raw) {
         if (raw == null || raw.length() > 8192 || raw.matches("(?s).*[\\r\\n\\x00].*"))
-            throw new IllegalArgumentException("Geçerli bir HTTP/HTTPS bağlantısı gir.");
+            throw new IllegalArgumentException("Enter a valid HTTP/HTTPS link.");
         URI u;
-        try { u = URI.create(raw.trim()); } catch (Exception e) { throw new IllegalArgumentException("Bağlantı biçimi geçersiz."); }
+        try { u = URI.create(raw.trim()); } catch (Exception e) { throw new IllegalArgumentException("Invalid link format."); }
         if (!("http".equalsIgnoreCase(u.getScheme()) || "https".equalsIgnoreCase(u.getScheme())) || u.getHost() == null)
-            throw new IllegalArgumentException("Yalnızca HTTP/HTTPS bağlantıları destekleniyor.");
+            throw new IllegalArgumentException("Only HTTP/HTTPS links are supported.");
         return u.toASCIIString();
     }
     public static String resolve(String base, String value) {

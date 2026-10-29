@@ -1,5 +1,6 @@
 package tr.hizlitv.player;
 
+import tr.hizlitv.ui.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -20,7 +21,7 @@ import tr.hizlitv.ui.TvUi;
 import tr.hizlitv.ui.TvDialog;
 
 /** Embedded library. Disk/index work and source resolution never block remote navigation. */
-public final class MainActivity extends Activity implements LibraryScreen.Actions {
+public final class MainActivity extends tr.hizlitv.ui.LocalizedActivity implements LibraryScreen.Actions {
     private final Handler ui = new Handler(Looper.getMainLooper());
     private final ExecutorService worker = Executors.newSingleThreadExecutor();
     private final AtomicBoolean busy = new AtomicBoolean();
@@ -37,7 +38,7 @@ public final class MainActivity extends Activity implements LibraryScreen.Action
             public void status(String text) { screen.status(text); }
             public void audit(String event) { repository.audit(event, 0); }
         });
-        repository.load(result("Kütüphane okunamadı. Eski Player kayıtları korunuyor; aktarımı kontrol et."));
+        repository.load(result(getString(R.string.text_the_library_could_not_be_read_old_player_records_are_prese)));
     }
     private LibraryRepository.Result result(String error) {
         return new LibraryRepository.Result() {
@@ -53,69 +54,69 @@ public final class MainActivity extends Activity implements LibraryScreen.Action
         libraryBusy = true; screen.working(true); return true;
     }
     private void merge(List<MediaEntry> entries) {
-        if (beginEdit()) repository.merge(entries, result("Kaydedilemedi; mevcut kayıtlar korunuyor."));
+        if (beginEdit()) repository.merge(entries, result(getString(R.string.text_could_not_save_existing_records_are_preserved)));
     }
     @Override public void home() { finish(); }
     @Override public void phone() { if (libraryReady && !libraryBusy) phone.open(); }
     @Override public void input() {
         if (!libraryReady || libraryBusy) return;
-        EditText field = new EditText(this); field.setTextSize(15); field.setHint("https://… veya #EXTM3U…"); field.setMaxLines(5);
-        new AlertDialog.Builder(this).setTitle("Bağlantı veya kanal listesi").setView(field)
-            .setPositiveButton("Kaynakları bul", (d, w) -> submit(field.getText().toString())).setNegativeButton("Vazgeç", null).show();
+        EditText field = new EditText(this); field.setTextSize(15); field.setHint(getString(R.string.link_example)); field.setMaxLines(5);
+        new AlertDialog.Builder(this).setTitle(getString(R.string.text_link_or_channel_list)).setView(field)
+            .setPositiveButton(getString(R.string.text_find_sources), (d, w) -> submit(field.getText().toString())).setNegativeButton(getString(R.string.text_cancel), null).show();
     }
     @Override public void open(MediaEntry entry) { if (entry.sourcePage.isEmpty()) confirm(entry); else submit(entry.sourcePage); }
     private boolean submit(String input) {
         if (!alive || !started || !libraryReady || libraryBusy || !busy.compareAndSet(false, true)) return false;
-        ui.post(() -> { if (alive) screen.status("Kaynaklar aranıyor…"); });
+        ui.post(() -> { if (alive) screen.status(getString(R.string.text_finding_sources)); });
         worker.execute(() -> {
             try {
-                Resolver.Result result = new Resolver().resolve(input);
-                ui.post(() -> { if (alive && started) { phone.closeDialog(); screen.status("Kaynak bulundu; TV’de onayla."); results(result); } });
+                Resolver.Result result = new Resolver(SourceAdapters.defaults(), getString(R.string.text_live_stream_video), getString(R.string.text_subtitles)).resolve(input);
+                ui.post(() -> { if (alive && started) { phone.closeDialog(); screen.status(getString(R.string.source_ready_status)); results(result); } });
             } catch (Exception failure) {
-                String message = failure.getMessage() == null ? "Kaynak okunamadı." : failure.getMessage();
-                ui.post(() -> { if (alive && started) { phone.closeDialog(); screen.status("Bağlantı açılamadı.");
-                    showSource(new TvDialog(this, "HızlıTV Player · Bağlantı", "Bağlantı açılamadı", message).action("Tamam", null)); } });
+                String message = failure.getMessage() == null ? getString(R.string.text_the_source_could_not_be_read) : tr.hizlitv.ui.I18n.error(this, failure);
+                ui.post(() -> { if (alive && started) { phone.closeDialog(); screen.status(getString(R.string.text_the_link_could_not_be_opened));
+                    showSource(new TvDialog(this, getString(R.string.text_h_zl_tv_player_link), getString(R.string.text_could_not_open_link), message).action(getString(R.string.text_ok), null)); } });
             } finally { busy.set(false); }
         });
         return true;
     }
     private void results(Resolver.Result result) {
         if (result.playlist) {
-            showSource(new TvDialog(this, "HızlıTV Player · Kanal listesi", result.items.size() + " kanal bulundu",
-                "Kanal listesi kütüphanene eklensin mi? Son değişikliği geri alabilirsin.")
-                .action("Listeyi ekle", () -> merge(result.items)).action("Vazgeç", null)); return;
+            showSource(new TvDialog(this, getString(R.string.text_h_zl_tv_player_channel_list), getResources().getQuantityString(R.plurals.channels_found, result.items.size(), result.items.size()),
+                getString(R.string.text_add_this_channel_list_to_your_library_you_can_undo_the_lat))
+                .action(getString(R.string.add_playlist), () -> merge(result.items)).action(getString(R.string.text_cancel), null)); return;
         }
         if (result.items.size() == 1) { confirm(result.items.get(0)); return; }
         String[] names = new String[result.items.size()];
         for (int i = 0; i < names.length; i++) names[i] = result.items.get(i).title + " · " + Urls.host(result.items.get(i).url);
-        showSource(new TvDialog(this, "HızlıTV Player · Kaynak bulundu", "Bir kaynak seç", "")
-            .choices(names, n -> confirm(result.items.get(n))).action("Geri", null));
+        showSource(new TvDialog(this, getString(R.string.text_h_zl_tv_player_source_found), getString(R.string.text_choose_a_source), "")
+            .choices(names, n -> confirm(result.items.get(n))).action(getString(R.string.text_back), null));
     }
     private void showSource(TvDialog dialog) {
         if (sourceDialog != null) sourceDialog.dismiss(); sourceDialog = dialog;
         dialog.setOnDismissListener(d -> { if (sourceDialog == dialog) sourceDialog = null; }); dialog.show();
     }
     private void confirm(MediaEntry entry) {
-        showSource(new TvDialog(this, "HızlıTV Player · Kaynak bulundu", entry.title,
-            "Kaynak: " + Urls.host(entry.url) + (entry.subtitles.isEmpty() ? "" : "\n" + entry.subtitles.size() + " altyazı seçeneği") + "\nİzlemeye hazır.")
-            .action("Oynat", () -> {
+        showSource(new TvDialog(this, getString(R.string.text_h_zl_tv_player_source_found), entry.title,
+            getString(R.string.text_source) + Urls.host(entry.url) + (entry.subtitles.isEmpty() ? "" : "\n" + entry.subtitles.size() + getString(R.string.text_subtitle_options)) + getString(R.string.text_ready_to_watch))
+            .action(getString(R.string.text_play), () -> {
                 try { repository.audit("play_request", 1); startActivity(new Intent(this, PlayerActivity.class).putExtra("media", Store.json(entry).toString())); }
-                catch (Exception failure) { screen.status("Oynatıcı açılamadı."); }
+                catch (Exception failure) { screen.status(getString(R.string.text_the_player_could_not_be_opened)); }
             })
-            .action("Kütüphaneye ekle", () -> merge(Collections.singletonList(entry)))
-            .action("Vazgeç", null));
+            .action(getString(R.string.text_add_to_library), () -> merge(Collections.singletonList(entry)))
+            .action(getString(R.string.text_cancel), null));
     }
     @Override public void edit(MediaEntry entry) {
         new AlertDialog.Builder(this).setTitle(entry.title)
-            .setItems(new String[]{entry.favorite ? "Favoriden çıkar" : "Favoriye ekle", "Kaydı kaldır"}, (d, n) -> {
-                if (beginEdit()) repository.edit(entry, n == 1, result("Değişiklik kaydedilemedi."));
-            }).setNegativeButton("Geri", null).show();
+            .setItems(new String[]{entry.favorite ? getString(R.string.text_remove_favorite) : getString(R.string.text_add_favorite), getString(R.string.text_remove_entry)}, (d, n) -> {
+                if (beginEdit()) repository.edit(entry, n == 1, result(getString(R.string.text_changes_could_not_be_saved)));
+            }).setNegativeButton(getString(R.string.text_back), null).show();
     }
     @Override public void groups() {
-        ArrayList<String> labels = new ArrayList<>(); labels.add("Tüm gruplar"); labels.addAll(library.groups());
-        new AlertDialog.Builder(this).setTitle("Gruplar").setItems(labels.toArray(new String[0]), (d, n) -> screen.group(n == 0 ? "" : labels.get(n))).show();
+        ArrayList<String> labels = new ArrayList<>(); labels.add(getString(R.string.text_all_groups)); labels.addAll(library.groups());
+        new AlertDialog.Builder(this).setTitle(getString(R.string.text_groups)).setItems(labels.toArray(new String[0]), (d, n) -> screen.group(n == 0 ? "" : labels.get(n))).show();
     }
-    @Override public void undo() { if (beginEdit()) repository.undo(result("Geri alınacak değişiklik yok veya yedek okunamadı.")); }
+    @Override public void undo() { if (beginEdit()) repository.undo(result(getString(R.string.text_nothing_to_undo_or_the_backup_could_not_be_read))); }
     @Override protected void onStart() { super.onStart(); started = true; if (libraryReady) phone.onStart(); }
     @Override protected void onStop() { started = false; if (sourceDialog != null) sourceDialog.dismiss(); phone.stop(); super.onStop(); }
     @Override protected void onDestroy() { alive = false; phone.stop(); repository.close(); worker.shutdownNow(); ui.removeCallbacksAndMessages(null); super.onDestroy(); }

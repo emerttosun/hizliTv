@@ -18,7 +18,10 @@ jobs:
       - name: Android SDK
         run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
       - name: Check distributable sources
-        run: python3 scripts/check_public.py
+        run: |
+          python3 scripts/check_public.py
+          python3 scripts/check_translations.py
+          python3 -m unittest discover -s airplay/tests
       - name: Test, lint and assemble
         run: |
           chmod +x gradlew
@@ -27,10 +30,17 @@ jobs:
         run: ./gradlew --no-daemon -PincludeLegacyBridge=true :legacy-bridge:lintDebug :legacy-bridge:assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: debug-apk-and-test-reports
+          name: hizlitv-debug-apk
+          path: launcher/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-reports
           path: |
-            launcher/build/outputs/apk/debug/*.apk
             media-core/build/reports/tests/
             player/build/reports/tests/
             launcher/build/reports/lint-results-debug.html
             player/build/reports/lint-results-debug.html
+            tv-ui/build/reports/lint-results-debug.html
+            legacy-bridge/build/reports/lint-results-debug.html

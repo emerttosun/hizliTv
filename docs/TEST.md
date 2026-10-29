@@ -1,6 +1,8 @@
 # Doğrulama ve sınırlar
 
-Sürüm: **HızlıTV 0.8.3**, gömülü Player, tek APK. Tarih: 29 Ekim 2026.
+[English](en/TESTING.md) · **Türkçe**
+
+Sürüm: **HızlıTV 0.9.0**, gömülü Player, tek APK. Tarih: 29 Ekim 2026.
 
 ## Otomatik kontroller
 
@@ -12,7 +14,7 @@ Sürüm: **HızlıTV 0.8.3**, gömülü Player, tek APK. Tarih: 29 Ekim 2026.
 python3 scripts/check_public.py
 ```
 
-0.8.1’de mevcut 15 işlev testi, sıfır hata ve sıfır atlanan testle geçti. 0.8.3’te oynatma zemini ve bağlantı sonrası pencereler değişti; launcher/player/tv-ui Android lint ve release derlemesi tekrar geçti. Tam Android lint kontrolü geçti; kaynaklarda çeviri/araç önizlemesi gibi ölümcül olmayan uyarılar kalabilir. Android 6/API23 için `Map.getOrDefault` ve `java.util.function.Consumer` bağımlılığı kaldırıldı. Media3'ün kararsız API yüzeyine yalnız PlayerActivity içinde açık opt-in verildi; lint genel olarak kapatılmadı.
+0.8.1’de mevcut 15 işlev testi, sıfır hata ve sıfır atlanan testle geçti. 0.8.3’te oynatma zemini ve bağlantı sonrası pencereler değişti; launcher/player/tv-ui Android lint ve release derlemesi tekrar geçti. Tam Android lint kontrolü geçti; kaynaklarda çeviri/araç önizlemesi gibi ölümcül olmayan uyarılar kalabilir. Android 6/API 23 için `Map.getOrDefault` ve `java.util.function.Consumer` bağımlılığı kaldırıldı. Media3'ün kararsız API yüzeyine yalnız PlayerActivity içinde açık opt-in verildi; lint genel olarak kapatılmadı.
 
 | Alan | Kanıt |
 | --- | --- |
@@ -28,6 +30,10 @@ python3 scripts/check_public.py
 
 Testler özel hesap, çalışan kanal listesi veya kişisel HTML yedeği gerektirmez. Socket testleri loopback üzerinde geçici port açar; harici film sitelerine bağlanmaz. `org.json` JVM test bağımlılığı Android'in gerçek çalışma zamanı uygulaması yerine yalnız test ortamında kullanılır.
 
+## 0.9.0 iki dil doğrulaması
+
+18 JVM testi (8 media-core, 10 player) ve AirPlay araçlarının 3 Python testi geçti. İngilizce/Türkçe kaynaklarda çoğullar ve yer tutucular dahil 226 girdi eşleşiyor. Launcher, Player ve tv-ui lint ile debug/release derlemeleri geçti. Yeni testler iki dilde arama ve telefon sayfası dil seçimini kapsıyor. 0.9.0 aynı imzayla Mi Stick’e kuruldu. Ana ekran, gömülü kütüphane ve kaynak onayı İngilizce/Türkçe kontrol edildi. İngilizce liste onayı ve geçersiz bağlantı hatası, ilk Oynat odağı, iki dilde telefon sayfası yanıtları ve eski eşleştirme adresi doğrulandı. Dil tekrar Sistem dili’ne döndürüldü; kütüphane boş kaldı ve stok HOME korundu. TV düğmelerinde ilk dokunuş yalnız odak aldığı için iptal işlemleri gerçek kumanda OK yolu ile tamamlandı. Yeni belgelerdeki görüntüler gerçek 0.9.0 ekranlarıdır. Önceki performans ölçümleri yeni sürümün ölçümü gibi sunulmaz. Yeni telefon sayfası kontrolü HTTP istemcisiyle yapıldı; fiziksel iPhone testi olarak sunulmaz.
+
 ## Gerçek cihaz
 
 ### 0.8.3 arayüz güncellemesi
@@ -38,7 +44,7 @@ VersionCode22 aynı imzayla kuruldu. Siyah oynatma teması yalnız video ekranı
 
 ### Önceki 0.8.1 temel doğrulaması
 
-HızlıTV 0.8.1 aynı imzayla Android11 Mi TV Stick’e kuruldu. Ana ekran ve kütüphanenin gerçek ekran görüntüleri incelendi. HOME ataması ve uygulama verilerini temizleme işlemi yapılmadı.
+HızlıTV 0.8.1 aynı imzayla Android 11 Mi TV Stick’e kuruldu. Ana ekran ve kütüphanenin gerçek ekran görüntüleri incelendi. HOME ataması ve uygulama verilerini temizleme işlemi yapılmadı.
 
 Doğrulananlar:
 
@@ -59,7 +65,7 @@ Kütüphane disk işlemleri ve indeksleme sıralı arka plan işçisine taşınd
 
 Ölçüm yöntemi: yalnız kendi paketimiz `am force-stop` ile durdurulup üç kez `am start -W` ile açılır. Player’a kumanda OK ile geçilir; ActivityTaskManager’ın Displayed kaydı okunur. Süreç belleği `dumpsys meminfo` PSS değeridir, RAM panelindeki sistem doluluk oranı değildir. Kumanda kareleri `dumpsys gfxinfo` ile ayrıca örneklenir. Üç örnek istatistiksel benchmark değildir; sıcaklık, sistem yükü ve ART önbelleği sonucu değiştirir.
 
-Son sürümdeki kısa örneklem:
+Yerelleştirme öncesi kısa örneklem:
 
 | Ölçüm | Sonuç |
 | --- | --- |
@@ -74,6 +80,8 @@ Bu sayılar cihazın o anki ölçümleridir. Kare sayısı, tuşların kaç kez 
 
 ## Dağıtım kontrolü
 
-CI workflow projede bulunur; GitHub üzerinde çalıştırılmış olduğu iddia edilmez. Yerelde aynı görevler kullanılır. Kaynak ihracatı kişisel veriler için taranır. Temiz ZIP, özel `local.properties` ve imzalama dosyası olmadan başka klasöre açılıp Gradle Wrapper ile test/lint/debug/release derlemesinden geçirildi; başarılı oldu. Debug APK ve beklenen imzasız release APK oluştu. JDK17/SDK35 ve bağımlılık önbelleği dışarıdan sağlandı.
+CI workflow projede bulunur; son sonucu deponun Actions ekranından kontrol et. Workflow dosyasının bulunması tek başına başarı kanıtı değildir. Yerelde aynı görevler kullanılır. Kaynak ihracatı kişisel veriler için taranır. Temiz ZIP, özel `local.properties` ve imzalama dosyası olmadan başka klasöre açılıp Gradle Wrapper ile test/lint/debug/release derlemesinden geçirildi; başarılı oldu. Debug APK ve beklenen imzasız release APK oluştu. JDK 17/SDK 35 ve bağımlılık önbelleği dışarıdan sağlandı.
 
-Android6'dan itibaren derleme/lint uyumluluğu hedeflenir; gerçek cihazda Android11 denenmiştir. Tüm üreticiler, Android sürümleri ve codec'ler doğrulanmış değildir. Arayüz açılışında tek bir süre ölçümü, genel performans karşılaştırması değildir. Kaynak sunucu/ağ yavaşlığı uygulamanın tek başına ortadan kaldırabileceği bir şey değildir.
+Android 6'dan itibaren derleme/lint uyumluluğu hedeflenir; gerçek cihazda Android 11 denenmiştir. Tüm üreticiler, Android sürümleri ve codec'ler doğrulanmış değildir. Arayüz açılışında tek bir süre ölçümü, genel performans karşılaştırması değildir. Kaynak sunucu/ağ yavaşlığı uygulamanın tek başına ortadan kaldırabileceği bir şey değildir.
+
+0.9.0 oynatma kontrolünde aynı APK içindeki Player ilk video karesini ve hazır olayını bildirdi. Açık 320×180 örnekte 3463 kare çizildi, sıfır kare düştü. İlk kare, ağ/hazırlık dahil oynatma isteğinden yaklaşık 8,6 saniye sonra geldi; ilk 7 saniyelik gözlem kısa kaldı. Bu tek örnek açılış hızı/codec garantisi değildir; test kaynağı kütüphaneye eklenmedi.

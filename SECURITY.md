@@ -1,45 +1,49 @@
-# İzinler, yerel veri ve güvenlik sınırları
+# Permissions, local data and security boundaries
 
-## Temel kullanım
+[English](SECURITY.md) · [Türkçe](docs/SECURITY.tr.md)
 
-Tek APK’nın manifesti, Player’ın `INTERNET` ve `ACCESS_NETWORK_STATE` normal izinlerini ve aşağıdaki isteğe bağlı cihaz araçlarının izinlerini içerir. Player temel kullanımında tanılama/ADB yetkisi gerekmez. Kamera, mikrofon, kişiler veya ortak depolama izni istenmez. QR kodunu TV üretir; telefonun kamerası okur.
+## Basic use
 
-Kütüphane, oynatma konumu, telefon eşleştirmesi ve Player işlem günlüğü Android uygulama alanında saklanır. URL'ler sağlayıcı bilgileri içerebilir; genel Logcat kayıtlarına tam URL, gövde veya eşleştirme anahtarı yazılmaz. Uygulamayı kaldırmak ya da verilerini temizlemek bu kayıtları siler. Kaynak deposunda gerçek kanal listesi, hesap, cihaz yedeği veya özel anahtar bulunmaz.
+The single APK declares normal network permissions and optional device-tool permissions. The launcher and Player work without diagnostic or ADB access. No camera, microphone, contacts or shared-storage permission is requested: the TV generates a QR code; the phone reads it.
 
-Telefon alıcısı aynı yerel ağ için tasarlanmıştır. Eşleştirme URL'si gizli bir yetkilendirme bilgisi taşır; POST isteğinde `X-HizliTV-Token` da gerekir. Sunucu yol, belirteç, köken, veri türü ve boyutu kontrol eder. CORS, komut çalıştırma, dosya servisi veya açık proxy sunmaz. Alıcı HTTP kullanır; yerel ağ trafiğini şifrelemez. Modemden bu porta internet erişimi açma. **Eşleştirmeyi unut** mevcut URL'yi geçersiz kılar.
+The library, playback positions, pairing identity and operation journal remain in Android's private application storage. URLs can contain provider credentials. Full URLs, request bodies and pairing tokens are not written to general Logcat. Uninstalling or clearing application data removes these records. Real playlists, accounts, device backups and signing keys are excluded from the source repository.
 
-Güvenlik kontrolleri kaynak çözümleme başarısı garantisi değildir. DRM, oturum açma veya CAPTCHA aşma özelliği yoktur. Site bağdaştırıcıları yalnız tanımlı açık veri biçimlerini okur; JavaScript çalıştırmaz.
+The phone receiver is intended for a trusted local network. Its pairing URL contains a secret; POST also requires `X-HizliTV-Token`. The server checks the path, token, origin, content type and size. It provides no permissive CORS, shell execution, file server or open proxy. It uses **HTTP**, so LAN traffic is not encrypted. Do not forward its port to the internet. **Forget pairing** invalidates the current URL. The receiver stops when the library screen is not visible.
 
-## Launcher'ın isteğe bağlı cihaz araçları
+Source resolution does not bypass login, DRM or CAPTCHA and does not execute arbitrary website JavaScript. User confirmation is required before playback or playlist import.
 
-| İzin / özellik | Ne için var? | Sınır |
+## Optional device tools
+
+| Permission / feature | Purpose | Limit |
 | --- | --- | --- |
-| `KILL_BACKGROUND_PROCESSES` | Kullanıcının başlattığı arka plan bellek isteği | Sistem izin verdiği ölçüde çalışır; Android uygulamayı tekrar açabilir. Android 14+ için diğer uygulamalara temizlik isteği gönderilmez. |
-| `DUMP` | Süreç tanılama raporunu okumak | Normal kurulumda otomatik verilmez; cihaz sahibi geliştirici araçlarıyla açıkça verir. Sistem servisleri hakkında daha geniş tanılama bilgisi sağlayabilir. |
-| `PACKAGE_USAGE_STATS` | Bazı cihazların süreç/uygulama raporu için istediği ek okuma yetkisi | Normal kurulumda otomatik verilmez; Android/üretici uygulaması değişebilir. |
-| `INTERNET` | İsteğe bağlı cihaz içi ADB soketi | ADB istemcisi yalnız loopback adresine bağlanır; UI'dan seçilen uygulamaları yönetmek içindir. |
+| `KILL_BACKGROUND_PROCESSES` | User-requested background-memory cleanup | Android controls the result and may restart apps. Other-app cleanup is not requested on Android 14+. |
+| `DUMP` | Read process diagnostic reports | Explicit owner grant; exposes broader system-service diagnostics. |
+| `PACKAGE_USAGE_STATS` | Additional read access required by some firmware | Explicit owner grant; availability varies. |
+| Local ADB | Stop selected unprotected apps using a user-approved debugging connection | Broader device control than diagnostic reads; optional, separately explained and paired. |
 
-DUMP ve kullanım bilgisi olmadan temel ana ekran ve Player çalışır. RAM'in toplam/kullanılabilir miktarı için bu geniş izinler gerekli değildir; `ActivityManager.getMemoryInfo` kullanılır. Ayrıntılı süreç listesi erişilemezse uygulama bunu bildirir.
-
-Bu tanılama izinlerini vermeyi **kendin seçtiğin** cihazda örnek komutlar:
+System RAM totals use `ActivityManager.getMemoryInfo`; no broad diagnostic permission is needed. If detailed process data is unavailable, the UI says so. On a device you own, optional grants are:
 
 ```sh
 adb shell pm grant tr.hizlitv.home android.permission.DUMP
 adb shell pm grant tr.hizlitv.home android.permission.PACKAGE_USAGE_STATS
 ```
 
-Bir üretici bu komutları reddedebilir; izin verilmiş varsayılmaz. Geri almak için aynı komutlarda `grant` yerine `revoke` kullan. Kullanım erişimi için Android'in Özel Uygulama Erişimi ekranı da üreticiye göre sunulabilir. Kullanıcı izni dışında bu yetkiler uygulama tarafından yükseltilmez.
+Replace `grant` with `revoke` to undo. Firmware may reject a command; access is never assumed. Android's Usage Access settings may also be available.
 
-**Yerel ADB**, bu okuma izinlerinden daha geniş yetkilidir. Uygulama ekranı bunu açıklar; kullanıcı bağlantıyı başlatır ve TV'nin hata ayıklama penceresini onaylar. Anahtar cihazda uygulamanın özel alanında tutulur; dışarı aktarılmaz. Kullanılan yol root gerektirmez. Bazı cihazlar her bağlantıda tekrar onay ister; kalıcı yetki garanti edilmez. Bağlantıyı unutma seçeneği ve Android'deki hata ayıklama yetkilerini iptal etme seçeneği ayrı ayrı kullanılabilir.
+The local ADB client connects only to loopback. The user starts pairing and approves Android's debugging prompt. Its key remains in private app storage. Root is not required. Some firmware requests approval on every connection; persistent authorization is not guaranteed. Forgetting the app's connection and revoking Android debugging authorizations are separate actions.
 
-Zorla durdurma yalnız kullanıcının seçtiği, koruma listesinde olmayan paketlere uygulanır. Veriler/önbellek silinmez; fakat uygulamanın devam eden işi durabilir. Yeni kullanım için uygulamayı tekrar aç. Bu özelliği temel gezinmeyle karıştırma; Bellektekiler kısayolunda ayrı tutulur.
+Force-stop applies only to explicitly selected packages outside the protection list. It does not clear data or cache, but ongoing work stops. Open the app again to resume use. HOME assignment and system volume are never changed automatically.
 
-## Eski Player’dan geçiş
+## Legacy migration
 
-İsteğe bağlı `legacy-bridge` eski paketi aynı imzayla günceller. İçerik sağlayıcısı, veri okumadan önce çağıranın UID sertifikasını kendi sertifikasıyla karşılaştırır; farklı imza veya ADB shell erişimi reddedilir. Ağ/başlatıcı/komut arayüzü sunmaz. Yalnız sabit adlar ve boyut sınırlarıyla bir özel yedek akışı üretir. Yeni Player, arşivi doğrulayıp özel alana kopyalar; eşleştirme anahtarı loglanmaz. [Geçiş ve geri dönüş](docs/GECIS.md).
+The optional same-signature `legacy-bridge` checks the caller UID's signing certificate before reading data; other signatures and ADB shell are rejected. It exposes no network, launcher or command interface. Only bounded, fixed-name backup data is streamed. The new Player validates the archive and imports it privately without logging its pairing token. See [migration and rollback](docs/en/MIGRATION.md).
 
-## Kaynak paylaşma ve hata bildirme
+## Optional AirPlay receiver
 
-`python3 scripts/check_public.py`, kaynak ihracatının dosya listesini ve belirgin kişisel veri kalıplarını kontrol eder. Bu bir tam güvenlik denetimi değildir; gönderilecek dosyaları ayrıca gözden geçir. `local.properties`, `local-signing.properties`, anahtarlar, APK'lar ve derleme klasörleri Git'e eklenmez.
+AirPlay Server is a separate GPL-3.0 application with its own network services and settings. It is not required for HızlıTV. The checked-in integration pins its source/version and validates the original APK checksum. Profiles require pairing PINs and leave receiver-volume synchronization disabled; applying a profile is an explicit command with a private undo record. See [AirPlay setup](airplay/README.md). Do not publish `.state` files or private receiver backups.
 
-Hata bildirirken eşleştirme kodunu, sağlayıcı hesabını, yayın URL'sindeki kimlik bilgilerini ve özel anahtarları kaldır. Güvenlik açığı için hesap/anahtar paylaşmadan yeniden üretim adımlarını ve etkilenen sürümü bildir. Bir özel iletişim kanalı tanımlanmamışsa hassas ayrıntıları açık issue'ya koyma; depo sahibinden özel bildirim kanalı iste.
+## Reporting and publishing
+
+`python3 scripts/check_public.py` checks the distributable file allowlist for obvious private-data patterns; it is not a complete security audit. Review staged changes too. Local SDK/signing properties, keys, APKs and build output are ignored.
+
+Before reporting an issue, remove pairing URLs, provider credentials, private keys and identifying logs. Include the affected version and redacted reproduction steps. If no private reporting channel is configured, request one from the repository owner before disclosing sensitive details publicly.

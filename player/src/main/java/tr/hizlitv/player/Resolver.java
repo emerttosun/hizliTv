@@ -37,11 +37,13 @@ final class Resolver {
     private String sourcePage = "";
     private String frameError = "";
     private final List<SourceAdapter> adapters;
+    private final String liveLabel, subtitleLabel;
     Resolver() { this(SourceAdapters.defaults()); }
-    Resolver(List<SourceAdapter> adapters) { this.adapters = new ArrayList<>(adapters); }
+    Resolver(List<SourceAdapter> adapters) { this(adapters, "Live stream / video", "Subtitles"); }
+    Resolver(List<SourceAdapter> adapters, String liveLabel, String subtitleLabel) { this.adapters = new ArrayList<>(adapters); this.liveLabel = liveLabel; this.subtitleLabel = subtitleLabel; }
     private void note(String message) { android.util.Log.i("HizliTV.Resolve", message); }
     private void checkTime() throws Exception {
-        if (Thread.currentThread().isInterrupted() || System.nanoTime() > deadline) throw new java.io.IOException("Kaynak arama süresi doldu.");
+        if (Thread.currentThread().isInterrupted() || System.nanoTime() > deadline) throw new java.io.IOException("Source discovery timed out.");
     }
     Result resolve(String input) throws Exception {
         deadline = System.nanoTime() + 30_000_000_000L;
@@ -55,14 +57,14 @@ final class Resolver {
             Response response = fetch(url, "");
             if (response.media) add(response.url, "Video · " + Urls.host(response.url), "", response.type);
             else if (response.body.trim().startsWith("#EXTM3U")) {
-                if (M3u.hls(response.body)) add(response.url, "Canlı yayın / video", "", "application/x-mpegURL");
+                if (M3u.hls(response.body)) add(response.url, liveLabel, "", "application/x-mpegURL");
                 else { result.items.addAll(M3u.parse(response.body, response.url)); result.playlist = true; return result; }
             } else { sourcePage = response.url; scan(response, 0, ""); }
         }
         result.items.addAll(found.values());
         if (result.items.isEmpty()) throw new java.io.IOException(frameError.isEmpty()
-            ? "Oynatılabilir kaynak bulunamadı. Sayfa giriş, farklı bir oynatıcı veya desteklenmeyen JavaScript gerektiriyor olabilir."
-            : "Sayfadaki video kaynağı okunamadı: " + frameError);
+            ? "No playable source was found. The page may require sign-in, a different player or unsupported JavaScript."
+            : "The page’s video source could not be read: " + frameError);
         return result;
     }
     private Response fetch(String source, String referer) throws Exception {
@@ -77,7 +79,7 @@ final class Resolver {
                 int status = c.getResponseCode();
                 note("HTTP host=" + Urls.host(url) + " status=" + status);
                 if (status >= 300 && status < 400) { url = Urls.resolve(url, c.getHeaderField("Location")); continue; }
-                if (status != 200 && status != 206) throw new java.io.IOException("Kaynak sitesi HTTP " + status + " yanıtı verdi.");
+                if (status != 200 && status != 206) throw new java.io.IOException("Source site returned HTTP " + status + " response.");
                 Response r = new Response(); r.url = url;
                 r.type = c.getContentType() == null ? "" : c.getContentType().split(";")[0].trim().toLowerCase(java.util.Locale.ROOT);
                 r.media = r.type.startsWith("video/") || r.type.equals("application/dash+xml");
@@ -86,14 +88,14 @@ final class Resolver {
                 try (InputStream in = c.getInputStream()) {
                     byte[] buffer = new byte[8192]; int n;
                     while ((n = in.read(buffer)) != -1) {
-                        checkTime(); if (out.size() + n > 2_000_000) throw new java.io.IOException("Sayfa/liste 2 MB sınırını aşıyor.");
+                        checkTime(); if (out.size() + n > 2_000_000) throw new java.io.IOException("The page or playlist exceeds the 2 MB limit.");
                         out.write(buffer, 0, n);
                     }
                 }
                 r.body = new String(out.toByteArray(), StandardCharsets.UTF_8); return r;
             } finally { c.disconnect(); }
         }
-        throw new java.io.IOException("Çok fazla yönlendirme var.");
+        throw new java.io.IOException("Too many redirects.");
     }
     private MediaEntry add(String url, String title, String referer, String mime) {
         url = Urls.http(url);
@@ -170,7 +172,7 @@ final class Resolver {
                 if (label.equalsIgnoreCase("Turkish")) language = "tr";
                 else if (label.equalsIgnoreCase("English") || label.equalsIgnoreCase("Eng Forced")) language = "en";
             }
-            e.subtitles.add(new MediaEntry.Subtitle(url, label.isEmpty() ? "Altyazı" : M3u.shorten(label, 128), language, mime));
+            e.subtitles.add(new MediaEntry.Subtitle(url, label.isEmpty() ? subtitleLabel : M3u.shorten(label, 128), language, mime));
         } catch (IllegalArgumentException ignored) { }
     }
 }

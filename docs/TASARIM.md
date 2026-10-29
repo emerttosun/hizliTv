@@ -1,5 +1,7 @@
 # Görsel tasarımın mantığı
 
+[English](en/DESIGN.md) · **Türkçe**
+
 HızlıTV'nin ana ekranı, büyük uygulama kartlarını ve açık bir kumanda odağını temel alır. Apple TV'nin görünüm kılavuzundaki büyük ikon düzeni ve Android TV'nin DPAD ilkeleri referanstır. Apple görselleri, yazı tipi dosyaları veya ürün kodu kopyalanmaz.
 
 ## Yerleşim

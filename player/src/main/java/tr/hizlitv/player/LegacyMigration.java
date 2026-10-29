@@ -25,13 +25,13 @@ final class LegacyMigration {
         try { c.getPackageManager().getApplicationInfo("tr.hizlitv.player", 0); }
         catch (PackageManager.NameNotFoundException absent) { checked = true; return; }
         if (c.getPackageManager().resolveContentProvider("tr.hizlitv.player.migration", 0) == null)
-            throw new IOException("Eski Player için imzalı geçiş paketi gerekli; kayıtlar değiştirilmedi.");
+            throw new IOException("A signed migration bridge is required for the old Player; records were not changed.");
         if (new File(c.getFilesDir(), "library.json").exists() && !state.getBoolean("in_progress", false))
-            throw new IOException("İki kütüphaneyi korumak için elle aktarım gerekiyor.");
+            throw new IOException("Manual migration is required to preserve both libraries.");
         AtomicFile archive = new AtomicFile(new File(c.getFilesDir(), "legacy-player-backup.zip"));
         FileOutputStream saved = archive.startWrite();
         try (InputStream in = c.getContentResolver().openInputStream(Uri.parse("content://tr.hizlitv.player.migration/snapshot"))) {
-            if (in == null) throw new IOException("Geçiş kaynağı açılamadı.");
+            if (in == null) throw new IOException("The migration source could not be opened.");
             copy(in, saved, TOTAL_LIMIT); archive.finishWrite(saved);
         } catch (Exception failure) { archive.failWrite(saved); throw failure; }
         File staging = new File(c.getCacheDir(), "player-migration"); if (!staging.exists() && !staging.mkdirs()) throw new IOException("Staging unavailable");

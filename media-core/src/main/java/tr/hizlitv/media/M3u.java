@@ -9,8 +9,8 @@ public final class M3u {
     private static final Pattern ATTR = Pattern.compile("([\\w-]+)=\"([^\"]*)\"");
     public static boolean hls(String value) { return value.contains("#EXT-X-"); }
     public static List<MediaEntry> parse(String value, String base) {
-        if (value.length() > 2_000_000) throw new IllegalArgumentException("Liste 2 MB sınırını aşıyor.");
-        if (hls(value)) throw new IllegalArgumentException("Bu bir HLS video yayını; kanal listesi değil.");
+        if (value.length() > 2_000_000) throw new IllegalArgumentException("The playlist exceeds the 2 MB limit.");
+        if (hls(value)) throw new IllegalArgumentException("This is an HLS video stream, not a channel list.");
         ArrayList<MediaEntry> out = new ArrayList<>();
         MediaEntry next = new MediaEntry();
         for (String raw : value.replace("\ufeff", "").split("\\r?\\n")) {
@@ -38,11 +38,11 @@ public final class M3u {
                 } catch (IllegalArgumentException ignored) { next = new MediaEntry(); }
             }
         }
-        if (out.isEmpty()) throw new IllegalArgumentException("Listede geçerli kanal bağlantısı bulunamadı.");
+        if (out.isEmpty()) throw new IllegalArgumentException("No valid channel links were found in the list.");
         return out;
     }
     public static String safeHeader(String value) {
-        if (value.length() > 1024 || value.matches("(?s).*[\\r\\n\\x00].*")) throw new IllegalArgumentException("Geçersiz yayın başlığı.");
+        if (value.length() > 1024 || value.matches("(?s).*[\\r\\n\\x00].*")) throw new IllegalArgumentException("Invalid stream header.");
         return value;
     }
     public static String shorten(String value, int limit) { return value.length() > limit ? value.substring(0, limit) : value; }
