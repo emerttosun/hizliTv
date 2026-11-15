@@ -4,9 +4,9 @@
 
 ## Ana ekran
 
-HızlıTV'yi TV'nin uygulama listesinden aç. Ana ekran yalnızca favorileri gösterir. Sağ/sol/yukarı/aşağı ile kart seç; beyaz çerçeve hangi kartın seçili olduğunu gösterir. **OK** uygulamayı açar. **Uzun OK** seçili uygulamayı favoriye ekler veya favoriden çıkarır.
+HızlıTV'yi TV'nin uygulama listesinden aç. Favoriler üstte, kurulu tüm uygulamalar hemen altında aynı ekranda durur. Sağ/sol/yukarı/aşağı ile kart seç; beyaz çerçeve hangi kartın seçili olduğunu gösterir. **OK** uygulamayı açar. **Uzun OK** seçili uygulamayı favoriye ekler veya favoriden çıkarır.
 
-Üstteki kısayollar her zaman görünür: **Player, Tüm uygulamalar, AirPlay, Bellektekiler, RAM’i rahatlat, Ayarlar, Eski ana ekran**. Cihaz araçları ayrı bir menünün içine gizlenmez. **Tüm uygulamalar** kurulu TV uygulamalarını gösterir; aynı düğme bu bölümde **Favoriler** olur. **Menü** tuşu da iki görünümü değiştirir. **Geri**, tüm uygulamalardan favorilere, favorilerden önceki ekrana döner. **HOME** sistemin orijinal başlatıcısını açar.
+Saatin yanındaki dört yuvarlak simge **AirPlay** (alıcı kurulu değilse gizlenir), **Bellek**, **Ayarlar** ve **Eski ana ekran**ı açar; odaklanılan simgenin adı selamlama panelinde görünür. **Player** ilk favori karttır. **Menü** tuşu favoriler ile tüm uygulamalar arasında geçer. **Geri**, tüm uygulamalardan favorilere, favorilerden önceki ekrana döner. **HOME** sistemin orijinal başlatıcısını açar.
 
 **Player** kartı kişisel kütüphaneyi açar. Diğer kartlar cihazda zaten kurulu uygulamalardır; HızlıTV onların aboneliklerini veya içeriklerini sağlamaz.
 
@@ -34,9 +34,9 @@ Ses tuşları sistemin medya akışını kontrol eder. TV'nin kendi ses ayarı i
 
 ## Görünür kısayollar ve bellek
 
-RAM kullanım oranı ana ekranda görünür. Yüksek doluluk tek başına sorun değildir; Android boş RAM'i önbellek için de kullanır.
+RAM kullanım oranı ana ekrandaki selamlama panelinde görünür. Yüksek doluluk tek başına sorun değildir; Android boş RAM'i önbellek için de kullanır.
 
-**Bellekteki uygulamalar**, izinlerin sağladığı ölçümleri gösterir. Süreç varlığı ile o an ekranda açık uygulama aynı şey değildir; RAM ölçümleri Android'in son örneği olabilir. **RAM'i rahatlat** yalnızca kullanıcının isteğiyle uygun arka plan uygulamaları için Android'in izin verdiği isteği gönderir. Android onları tekrar başlatabilir; belirli miktarda bellek kazanımı garanti edilmez.
+**Bellekteki uygulamalar**, izinlerin sağladığı ölçümleri gösterir. Süreç varlığı ile o an ekranda açık uygulama aynı şey değildir; RAM ölçümleri Android'in son örneği olabilir. **Bellek** ekranındaki **RAM’i rahatlat** yalnızca kullanıcının isteğiyle uygun arka plan uygulamaları için Android'in izin verdiği isteği gönderir. Android onları tekrar başlatabilir; belirli miktarda bellek kazanımı garanti edilmez.
 
 Seçilen uygulamaları doğrudan durdurma için cihaz içi ADB eşleştirmesi ayrı ve isteğe bağlıdır. Yeni kurulumda otomatik yetkilendirilmez. İzinler ve sınırlamalar [SECURITY.md](../SECURITY.md) içinde açıklanır.
 

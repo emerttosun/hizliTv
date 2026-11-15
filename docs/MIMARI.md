@@ -32,7 +32,7 @@ flowchart LR
 
 Favoriler `SharedPreferences` içinde paket adlarıyla tutulur. Bir uygulamanın görünen adı değişse de paket kimliği aynıysa favori kaydı devam eder. `AppTargets` içindeki varsayılan liste yalnızca başlangıç önerisidir; bulunmayan uygulama gösterilmez. Orijinal ana ekran için Android'in HOME çözümlemesi kullanılır, üreticiye özgü bir Activity sabitlenmez.
 
-Ana ekranda yedi ayrı işlem kısayolu görünür; bellek araçları tek bir Cihaz menüsüne toplanmaz. RAM özeti küçük bir paneldir.
+Ana ekranda dört araç simgesi (AirPlay, Bellek, Ayarlar, Eski ana ekran) görünür; RAM'i rahatlat, Bellek ekranının (`AppManagerActivity`) içindedir. RAM özeti selamlama panelindedir.
 
 Kartlar gerçek Android View bileşenleridir. Odak, dokunmatik bir web sayfası taklit edilerek hesaplanmaz. Android'in DPAD gezinmesi ve ScrollView davranışı kullanılır. Görünüm odağa göre değişir; sürekli çizim veya animasyon döngüsü bulunmaz.
 

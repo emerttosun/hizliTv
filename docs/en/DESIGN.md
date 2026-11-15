@@ -6,7 +6,7 @@ The interface uses large TV cards, restrained blue/slate surfaces and a clear wh
 
 ## Dashboard
 
-The top row contains the brand, app-language choice, date and clock. A compact greeting/selected-app panel sits beside the RAM summary. Seven separate shortcuts remain visible: Player, All apps, AirPlay, Apps in memory, Free memory, Settings and Stock home. Device tools are not hidden inside a combined category. A five-column card grid scrolls vertically when needed.
+The top row contains the brand, four round tool icons (AirPlay, Memory, Settings, Stock home), app-language choice, date and clock. Each tool stays one press away; its name appears in the greeting panel while focused instead of as a permanent label. The wide greeting panel describes the focused card or tool and carries a quiet RAM summary. Below it, a five-column favorites shelf (Player first) and the full app grid share one vertically scrolling screen, so there is no separate All apps mode. Free memory moved into the Memory screen beside the process list.
 
 `AmbientBackground` caches a few gradient shaders. There are no bitmap/video backgrounds, real-time blur or continuous animation loops. `ActionIcon` draws original vector icons. Installed-app banners come from the device. Focus frames are allocated once and switched with StateListDrawable; dynamic focus shadows are avoided. Focus uses real Android Views rather than a web imitation of keyboard navigation.
 

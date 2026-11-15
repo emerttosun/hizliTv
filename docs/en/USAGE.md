@@ -2,9 +2,9 @@
 
 [English](USAGE.md) · [Türkçe](../KULLANIM.md)
 
-Open HızlıTV in the stock TV app list. Directions move focus, OK opens a card, and holding OK pins/unpins an app. HOME stays assigned to the original launcher. Menu switches All apps/Favorites; Back returns from All apps to Favorites, then leaves the app.
+Open HızlıTV in the stock TV app list. Directions move focus, OK opens a card, and holding OK pins/unpins an app. HOME stays assigned to the original launcher. Favorites sit on top and all installed apps follow below on the same screen. Menu jumps between the two; Back from all apps returns to Favorites, then leaves the app.
 
-The seven visible shortcuts open Player, All apps, an installed AirPlay receiver, app-memory diagnostics, explicit memory cleanup, Android Settings, and the stock home screen. The EN/TR button chooses the app language without changing the system language.
+Four round icons beside the clock open an installed AirPlay receiver (hidden when none is installed), Memory, Android Settings and the stock home screen; the focused icon's name appears in the greeting panel. Player is the first favorite card. Memory opens app-memory diagnostics, where Free memory also lives; the RAM summary is shown in the greeting panel. The EN/TR button chooses the app language without changing the system language.
 
 ## Library
 
@@ -28,7 +28,7 @@ Volume keys control the device's media stream. The HDMI TV's volume can be a sec
 
 RAM occupancy includes Android caching, so a high percentage alone is not a fault. Total/free RAM needs no DUMP permission. Detailed process data depends on optional diagnostics/usage access and Android behavior. A process listed in memory is not necessarily a foreground app.
 
-Free memory requests only Android-allowed cleanup, after the user chooses it. Android can restart apps and restrict cleanup on newer releases. Direct selected-app closure uses a separate explicit local-ADB consent/pairing flow. Do not grant it merely to play media. [Security](../../SECURITY.md) explains scope and undo.
+Free memory (on the Memory screen) requests only Android-allowed cleanup, after the user chooses it. Android can restart apps and restrict cleanup on newer releases. Direct selected-app closure uses a separate explicit local-ADB consent/pairing flow. Do not grant it merely to play media. [Security](../../SECURITY.md) explains scope and undo.
 
 ## Phone and AirPlay
 

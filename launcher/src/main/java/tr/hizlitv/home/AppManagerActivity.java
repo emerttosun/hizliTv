@@ -54,6 +54,8 @@ public final class AppManagerActivity extends tr.hizlitv.ui.LocalizedActivity {
     private BaseAdapter adapter;
     private Button closeSelected, selectCached, clearSelected, refresh, adbConnect;
     private boolean busy, alive, hasSnapshot;
+    private MemoryController memory;
+    private AppCatalog catalog;
     private String stockHome = "";
     private final Set<String> selected = new HashSet<>();
     private final Set<String> pendingPackages = new HashSet<>();
@@ -98,8 +100,11 @@ public final class AppManagerActivity extends tr.hizlitv.ui.LocalizedActivity {
         });
         clearSelected = button(getString(R.string.text_clear_selection), () -> { selected.clear(); updateSelection(); });
         adbConnect = button(adbReady() ? getString(R.string.text_adb_connected) : getString(R.string.text_connect_adb), () -> askAdb());
-        Button back = button(getString(R.string.text_back), () -> finish());
-        for (Button b : new Button[]{refresh, closeSelected, selectCached, clearSelected, adbConnect, back}) {
+        // Android-allowed cleanup lives here so the dashboard keeps a single Memory entry point.
+        catalog = new AppCatalog(this);
+        memory = new MemoryController(this, (used, available, result) -> { if (alive && !result.isEmpty()) message.setText(result); });
+        Button free = button(getString(R.string.text_free_memory), () -> { if (!busy) { catalog.refresh(); memory.relax(catalog.entries(true)); } });
+        for (Button b : new Button[]{free, refresh, closeSelected, selectCached, clearSelected, adbConnect}) {
             LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, dp(38));
             p.setMargins(0, 0, dp(12), 0); actions.addView(b, p);
         }
@@ -143,7 +148,7 @@ public final class AppManagerActivity extends tr.hizlitv.ui.LocalizedActivity {
         note.setPadding(0, dp(8), 0, 0); root.addView(note); setContentView(root);
     }
     @Override public void onResume() { super.onResume(); load(null); }
-    @Override public void onDestroy() { alive = false; ui.removeCallbacksAndMessages(null); super.onDestroy(); }
+    @Override public void onDestroy() { alive = false; memory.close(); ui.removeCallbacksAndMessages(null); super.onDestroy(); }
     private boolean protectedPackage(String pkg) {
         return pkg.equals(getPackageName()) || pkg.equals(stockHome) || pkg.equals("com.android.tv.settings") ||
             pkg.equals("io.github.jqssun.airplay") || pkg.equals("com.boost.airplay.receiver");

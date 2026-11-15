@@ -445,4 +445,6 @@
     <string name="phone_panel_scan">"Scan with your phone camera. Confirm on the TV."</string>
     <string name="phone_panel_offline">"Connect the TV to Wi‑Fi to send from your phone."</string>
     <string name="library_filter">"Show"</string>
+    <string name="home_memory">"Memory"</string>
+    <string name="home_hint">"OK open  ·  Hold OK pin/unpin  ·  Menu switch between favorites and all apps"</string>
 </resources>

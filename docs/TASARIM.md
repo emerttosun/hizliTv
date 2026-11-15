@@ -6,13 +6,13 @@ HızlıTV'nin ana ekranı, büyük uygulama kartlarını ve açık bir kumanda o
 
 ## Yerleşim
 
-1. Küçük başlık, tarih ve saat.
-2. Seçili uygulama bilgisi ile sürekli görünen kompakt RAM paneli.
-3. **Yedi ayrı kısayol:** Player, Tüm uygulamalar, AirPlay, Bellektekiler, RAM'i rahatlat, Ayarlar, Eski ana ekran.
-4. Beş sütunlu uygulama kartları. Çok sayıda uygulama dikey kaydırılır.
+1. Küçük başlık; yanında dört yuvarlak araç simgesi (AirPlay, Bellek, Ayarlar, Eski ana ekran), dil seçimi, tarih ve saat.
+2. Odaktaki kartı veya aracı anlatan geniş selamlama paneli; RAM özeti bu panelin içindedir.
+3. Beş sütunlu favori rafı (ilk kart Player).
+4. Aynı ekranda, favorilerin altında tüm uygulamalar ızgarası. Ayrı bir "Tüm uygulamalar" modu yoktur; dikey kaydırılır.
 5. Kumanda kullanımı için kısa alt açıklama.
 
-Bellek ve diğer araçlar tek bir Cihaz menüsüne gizlenmez. Bu, kullanım testinden gelen bir tercihtir: kullanıcı, sık kullandığı araçlara doğrudan ulaşmak istedi. Sadelik, gereken düğmeleri kaldırmak yerine yazı boyutunu, boşluğu ve görsel ağırlığı dengeleyerek sağlanır.
+Araçlar tek bir Cihaz menüsüne gizlenmez; her biri tek tuşla açılır. Kalıcı yazı yerine simge kullanılır, ad odaklanınca selamlama panelinde görünür. Bellekteki uygulamalar ve RAM'i rahatlat tek **Bellek** ekranında birleşir.
 
 ## Teknik uygulama
 

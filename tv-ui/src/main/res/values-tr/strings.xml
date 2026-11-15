@@ -236,4 +236,6 @@
     <string name="phone_panel_scan">"Telefon kamerasıyla okut. Onayı TV’de ver."</string>
     <string name="phone_panel_offline">"Telefondan göndermek için TV’yi Wi‑Fi’a bağla."</string>
     <string name="library_filter">"Göster"</string>
+    <string name="home_memory">"Bellek"</string>
+    <string name="home_hint">"OK aç  ·  Uzun OK sabitle/kaldır  ·  Menü favoriler ile tüm uygulamalar arasında geçer"</string>
 </resources>
