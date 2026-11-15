@@ -12,7 +12,7 @@ import tr.hizlitv.media.MediaEntry;
 
 /** Serializes disk reads, writes and indexing off the UI thread. No background polling. */
 final class LibraryRepository implements AutoCloseable {
-    interface Result { void loaded(LibraryIndex index); void failed(); }
+    interface Result { void loaded(LibraryIndex index, boolean undoable); void failed(); }
     private interface Operation { void run() throws Exception; }
     private final Context context;
     private final Store store;
@@ -24,8 +24,8 @@ final class LibraryRepository implements AutoCloseable {
         if (closed) return;
         io.execute(() -> {
             try {
-                LegacyMigration.ensure(context); operation.run(); LibraryIndex index = new LibraryIndex(store.read());
-                ui.post(() -> { if (!closed) result.loaded(index); });
+                LegacyMigration.ensure(context); operation.run(); LibraryIndex index = new LibraryIndex(store.read()); boolean undoable = store.canUndo();
+                ui.post(() -> { if (!closed) result.loaded(index, undoable); });
             } catch (Exception failure) { android.util.Log.e("HizliTV.Library", "Operation failed: " + failure.getClass().getSimpleName()); ui.post(() -> { if (!closed) result.failed(); }); }
         });
     }

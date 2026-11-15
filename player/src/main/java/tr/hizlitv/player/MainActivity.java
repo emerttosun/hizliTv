@@ -37,13 +37,14 @@ public final class MainActivity extends tr.hizlitv.ui.LocalizedActivity implemen
         phone = new PhoneCompanion(this, this::submit, new PhoneCompanion.Events() {
             public void status(String text) { screen.status(text); }
             public void audit(String event) { repository.audit(event, 0); }
+            public void pairing(android.graphics.Bitmap qr, String address) { screen.pairing(qr, address); }
         });
         repository.load(result(getString(R.string.text_the_library_could_not_be_read_old_player_records_are_prese)));
     }
     private LibraryRepository.Result result(String error) {
         return new LibraryRepository.Result() {
-            public void loaded(LibraryIndex index) {
-                library = index; libraryBusy = false; screen.showLibrary(index); screen.working(false);
+            public void loaded(LibraryIndex index, boolean undoable) {
+                library = index; libraryBusy = false; screen.showLibrary(index, undoable); screen.working(false);
                 if (!libraryReady) { libraryReady = true; if (started) phone.onStart(); }
             }
             public void failed() { libraryBusy = false; screen.working(!libraryReady); screen.status(error); }
@@ -112,9 +113,9 @@ public final class MainActivity extends tr.hizlitv.ui.LocalizedActivity implemen
                 if (beginEdit()) repository.edit(entry, n == 1, result(getString(R.string.text_changes_could_not_be_saved)));
             }).setNegativeButton(getString(R.string.text_back), null).show();
     }
-    @Override public void groups() {
-        ArrayList<String> labels = new ArrayList<>(); labels.add(getString(R.string.text_all_groups)); labels.addAll(library.groups());
-        new AlertDialog.Builder(this).setTitle(getString(R.string.text_groups)).setItems(labels.toArray(new String[0]), (d, n) -> screen.group(n == 0 ? "" : labels.get(n))).show();
+    @Override public void filter() {
+        ArrayList<String> labels = new ArrayList<>(); labels.add(getString(R.string.text_all)); labels.add("★ " + getString(R.string.text_favorites)); labels.addAll(library.groups());
+        new AlertDialog.Builder(this).setTitle(getString(R.string.library_filter)).setItems(labels.toArray(new String[0]), (d, n) -> screen.filter(n == 1, n < 2 ? "" : labels.get(n))).show();
     }
     @Override public void undo() { if (beginEdit()) repository.undo(result(getString(R.string.text_nothing_to_undo_or_the_backup_could_not_be_read))); }
     @Override protected void onStart() { super.onStart(); started = true; if (libraryReady) phone.onStart(); }

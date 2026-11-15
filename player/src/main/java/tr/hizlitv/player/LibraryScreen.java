@@ -22,18 +22,20 @@ import tr.hizlitv.ui.TvUi;
 
 /** The library presentation owns focus and filtering; it does not fetch or store media. */
 final class LibraryScreen extends LinearLayout {
-    interface Actions { void phone(); void input(); void undo(); void home(); void groups(); void open(MediaEntry entry); void edit(MediaEntry entry); }
+    interface Actions { void phone(); void input(); void undo(); void home(); void filter(); void open(MediaEntry entry); void edit(MediaEntry entry); }
     private LibraryIndex index = new LibraryIndex(java.util.Collections.emptyList());
     private final List<View> edits = new ArrayList<>();
     private final Handler ui = new Handler(Looper.getMainLooper());
     private final Runnable searchChanged = this::render;
     private List<MediaEntry> visible = new ArrayList<>();
-    private final TextView status, emptyTitle, emptyHint;
+    private final TextView status, emptyTitle, emptyHint, phoneHint, phoneAddress;
+    private final ImageView phoneQr;
+    private final Button undo;
     private final EditText search;
     private final LinearLayout empty;
     private final ListView list;
     private final BaseAdapter adapter;
-    private final Button all, favoritesButton, groups;
+    private final Button filter;
     private boolean favorites;
     private String group = "";
     LibraryScreen(Context c, Actions actions) {
@@ -51,19 +53,31 @@ final class LibraryScreen extends LinearLayout {
         status = TvUi.text(c, getContext().getString(R.string.text_films_and_live_channels_together), 12, 0xffafc2d5, false);
         status.setSingleLine(); status.setEllipsize(TextUtils.TruncateAt.END); status.setPadding(0, d(4), 0, 0); titles.addView(status);
         intro.addView(titles, new LayoutParams(0, -2, 1));
-        Button send = TvUi.button(c, getContext().getString(R.string.text_add_from_phone), actions::phone); edits.add(send); TvUi.addButton(intro, send);
         Button input = TvUi.button(c, getContext().getString(R.string.text_link_playlist), actions::input); edits.add(input); TvUi.addButton(intro, input);
-        Button undo = TvUi.button(c, getContext().getString(R.string.text_undo), actions::undo); edits.add(undo); TvUi.addButton(intro, undo); addView(intro);
-        LinearLayout filters = TvUi.row(c); filters.setPadding(0, d(18), 0, d(14));
-        all = TvUi.button(c, getContext().getString(R.string.text_all), () -> { favorites = false; render(); }); TvUi.addButton(filters, all);
-        favoritesButton = TvUi.button(c, getContext().getString(R.string.text_favorites), () -> { favorites = true; render(); }); TvUi.addButton(filters, favoritesButton);
-        groups = TvUi.button(c, getContext().getString(R.string.text_groups), actions::groups); TvUi.addButton(filters, groups);
+        // Undo appears only while a one-level backup exists.
+        undo = TvUi.button(c, getContext().getString(R.string.text_undo), actions::undo); edits.add(undo); TvUi.addButton(intro, undo); undo.setVisibility(GONE); addView(intro);
+        LinearLayout filters = TvUi.row(c); filters.setPadding(0, d(14), 0, d(12));
+        filter = TvUi.button(c, filterLabel(), actions::filter); TvUi.addButton(filters, filter);
         search = new EditText(c); search.setSingleLine(); search.setTextSize(14); search.setTextColor(TvUi.TEXT);
         search.setHintTextColor(TvUi.MUTED); search.setHint(getContext().getString(R.string.text_search_channels_or_films)); search.setPadding(d(16), 0, d(12), 0);
         search.setBackground(TvUi.shape(c, TvUi.SURFACE, 22, 0));
         search.setOnFocusChangeListener((v, focused) -> search.setBackground(TvUi.shape(c, TvUi.SURFACE, 22, focused ? TvUi.TEXT : 0)));
         filters.addView(search, new LayoutParams(0, d(42), 1)); addView(filters);
-        FrameLayout content = new FrameLayout(c); addView(content, new LayoutParams(-1, 0, 1));
+        LinearLayout body = TvUi.row(c); body.setGravity(Gravity.TOP); addView(body, new LayoutParams(-1, 0, 1));
+        FrameLayout content = new FrameLayout(c); body.addView(content, new LayoutParams(0, -1, 1));
+        // Always-visible pairing panel: scanning needs no extra dialog. OK enlarges it.
+        LinearLayout phonePanel = new LinearLayout(c); phonePanel.setOrientation(VERTICAL); phonePanel.setGravity(Gravity.CENTER_HORIZONTAL);
+        phonePanel.setPadding(d(14), d(12), d(14), d(12)); phonePanel.setFocusable(true); phonePanel.setClickable(true);
+        StateListDrawable panelStates = new StateListDrawable();
+        panelStates.addState(new int[]{android.R.attr.state_focused}, TvUi.shape(c, 0xff2b4766, 16, TvUi.TEXT));
+        panelStates.addState(new int[]{}, TvUi.shape(c, 0x70303e50, 16, 0)); phonePanel.setBackground(panelStates);
+        TextView phoneTitle = TvUi.text(c, getContext().getString(R.string.text_send_from_phone), 14, TvUi.TEXT, true); phoneTitle.setGravity(Gravity.CENTER); phonePanel.addView(phoneTitle);
+        phoneQr = new ImageView(c); phoneQr.setBackgroundColor(0xffffffff); phoneQr.setVisibility(GONE);
+        LayoutParams qp = new LayoutParams(d(132), d(132)); qp.topMargin = d(8); phonePanel.addView(phoneQr, qp);
+        phoneHint = TvUi.text(c, getContext().getString(R.string.text_preparing_library), 11, 0xffb6cbdf, false); phoneHint.setGravity(Gravity.CENTER); phoneHint.setPadding(0, d(8), 0, 0); phonePanel.addView(phoneHint);
+        phoneAddress = TvUi.text(c, "", 9, TvUi.MUTED, false); phoneAddress.setGravity(Gravity.CENTER); phoneAddress.setPadding(0, d(4), 0, 0); phonePanel.addView(phoneAddress);
+        phonePanel.setContentDescription(getContext().getString(R.string.text_send_from_phone)); phonePanel.setOnClickListener(v -> actions.phone()); edits.add(phonePanel);
+        LayoutParams pp = new LayoutParams(d(188), -2); pp.leftMargin = d(16); body.addView(phonePanel, pp);
         list = new ListView(c); list.setDivider(new android.graphics.drawable.ColorDrawable(0)); list.setDividerHeight(d(8));
         list.setSelector(TvUi.shape(c, 0x223d6baf, 14, TvUi.TEXT)); list.setDrawSelectorOnTop(true); list.setVerticalScrollBarEnabled(false);
         adapter = new BaseAdapter() {
@@ -96,12 +110,8 @@ final class LibraryScreen extends LinearLayout {
         emptyTitle = TvUi.text(c, getContext().getString(R.string.text_what_shall_we_watch_tonight), 25, TvUi.TEXT, true); emptyTitle.setGravity(Gravity.CENTER); empty.addView(emptyTitle);
         emptyHint = TvUi.text(c, getContext().getString(R.string.text_send_a_link_add_your_channels_start_watching), 13, 0xffafc2d5, false);
         emptyHint.setGravity(Gravity.CENTER); emptyHint.setPadding(0, d(7), 0, d(20)); empty.addView(emptyHint);
-        LinearLayout choices = TvUi.row(c); choices.setGravity(Gravity.CENTER);
-        View phoneCard = entryCard(c, "▶", getContext().getString(R.string.text_send_from_phone), getContext().getString(R.string.text_open_qr_code_share_from_iphone), 0xff355d80, actions::phone);
         View listCard = entryCard(c, "≡", getContext().getString(R.string.text_add_channel_list), getContext().getString(R.string.text_m3u_or_stream_link), 0xff3d486c, actions::input);
-        edits.add(phoneCard); edits.add(listCard);
-        LayoutParams cp = new LayoutParams(d(270), d(127)); cp.rightMargin = d(16); choices.addView(phoneCard, cp);
-        choices.addView(listCard, new LayoutParams(d(270), d(127))); empty.addView(choices);
+        edits.add(listCard); empty.addView(listCard, new LayoutParams(d(270), d(127)));
         content.addView(empty, new FrameLayout.LayoutParams(-1, -1));
         TextView hint = TvUi.text(c, getContext().getString(R.string.text_ok_play_hold_ok_favorite_remove_player_menu_audio_subtitle), 10, TvUi.MUTED, false);
         hint.setPadding(0, d(12), 0, 0); addView(hint);
@@ -110,7 +120,7 @@ final class LibraryScreen extends LinearLayout {
             public void onTextChanged(CharSequence s, int start, int before, int count) { ui.removeCallbacks(searchChanged); ui.postDelayed(searchChanged, 150); }
             public void afterTextChanged(Editable s) { }
         });
-        send.requestFocus();
+        input.requestFocus();
     }
     private View entryCard(Context c, String icon, String title, String hint, int color, Runnable action) {
         LinearLayout card = new LinearLayout(c); card.setOrientation(VERTICAL); card.setGravity(Gravity.CENTER_VERTICAL);
@@ -125,16 +135,29 @@ final class LibraryScreen extends LinearLayout {
         card.setContentDescription(title); card.setOnClickListener(v -> action.run()); return card;
     }
     private int d(float n) { return TvUi.dp(getContext(), n); }
-    void showLibrary(LibraryIndex next) { index = next; render(); }
+    void showLibrary(LibraryIndex next, boolean undoable) {
+        index = next; render();
+        if (!undoable && undo.hasFocus()) filter.requestFocus();
+        undo.setVisibility(undoable ? VISIBLE : GONE);
+    }
+    /** Shows the pairing QR, or an offline hint when no local address/receiver is available. */
+    void pairing(android.graphics.Bitmap qr, String address) {
+        phoneQr.setImageBitmap(qr); phoneQr.setVisibility(qr == null ? GONE : VISIBLE);
+        phoneHint.setText(getContext().getString(qr == null ? R.string.phone_panel_offline : R.string.phone_panel_scan));
+        phoneAddress.setText(qr == null ? "" : address.replaceFirst("^http://", "").replaceFirst("/.*$", ""));
+    }
+    private String filterLabel() {
+        return (favorites ? "★ " + getContext().getString(R.string.text_favorites) : group.isEmpty() ? getContext().getString(R.string.text_all) : group) + "  ▾";
+    }
     void working(boolean busy) { for (View control : edits) { control.setEnabled(!busy); control.setAlpha(busy ? .45f : 1f); } if (busy) status(getContext().getString(R.string.text_preparing_library)); }
     @Override protected void onDetachedFromWindow() { ui.removeCallbacksAndMessages(null); super.onDetachedFromWindow(); }
     void status(String text) { status.setText(text); }
-    void group(String selected) { group = selected; render(); }
+    /** One filter choice: everything, favorites only, or a single group. */
+    void filter(boolean favoritesOnly, String selected) { favorites = favoritesOnly; group = favoritesOnly ? "" : selected; render(); }
     private void render() {
         visible = index.filter(favorites, group, search.getText().toString());
         status.setText(getResources().getQuantityString(R.plurals.library_entries, visible.size(), visible.size()) + (favorites ? getContext().getString(R.string.text_favorites_28d989) : "") + (group.isEmpty() ? "" : " · " + group));
-        all.setText(favorites ? getContext().getString(R.string.text_all) : getContext().getString(R.string.text_all_324c00)); favoritesButton.setText(favorites ? getContext().getString(R.string.text_favorites_3db4af) : getContext().getString(R.string.text_favorites));
-        groups.setText(group.isEmpty() ? getContext().getString(R.string.text_groups) : group);
+        filter.setText(filterLabel());
         boolean isEmpty = visible.isEmpty(); empty.setVisibility(isEmpty ? VISIBLE : GONE); list.setVisibility(isEmpty ? GONE : VISIBLE);
         emptyTitle.setText(index.entries().isEmpty() ? getContext().getString(R.string.text_what_shall_we_watch_tonight) : getContext().getString(R.string.text_nothing_here_yet));
         emptyHint.setText(index.entries().isEmpty() ? getContext().getString(R.string.text_send_a_link_add_your_channels_start_watching) : getContext().getString(R.string.text_clear_your_search_or_choose_a_different_group));

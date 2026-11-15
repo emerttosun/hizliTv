@@ -75,6 +75,7 @@ final class Store {
         write(new ArrayList<>(all.values()), "library_import");
     }
     static String identity(MediaEntry e) { return e.sourcePage.isEmpty() ? "url:" + e.url : "page:" + e.sourcePage; }
+    boolean canUndo() { return undo.getBaseFile().exists(); }
     void restore() throws Exception {
         if (!undo.getBaseFile().exists()) throw new java.io.IOException("There is no library change to undo.");
         atomic(file, undo.readFully()); undo.delete(); audit("library_undo", read().size());

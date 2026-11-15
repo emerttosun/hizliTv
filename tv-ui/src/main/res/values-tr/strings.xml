@@ -98,7 +98,7 @@
     <string name="text_forget_pairing">"Eşleştirmeyi unut"</string>
     <string name="text_close">"Kapat"</string>
     <string name="text_phone_transfer_could_not_start_check_that_both_devices_are">"Telefon aktarımı açılamadı. Aynı yerel ağa bağlı olduğunu kontrol et."</string>
-    <string name="text_forget_phone_pairing">"Telefon eşleştirmesi unutulsun mu?"</string>
+    <string name="text_forget_phone_pairing">"Yeni QR kod oluşturulsun mu?"</string>
     <string name="text_the_current_qr_address_and_iphone_shortcut_will_stop_worki">"Mevcut QR adresi ve iPhone kestirmesi çalışmayacak. Yeniden eşleştirebilirsin."</string>
     <string name="text_phone_pairing_forgotten">"Telefon eşleştirmesi unutuldu."</string>
     <string name="text_a_signed_migration_bridge_is_required_for_the_old_player_r">"Eski Player için imzalı geçiş paketi gerekli; kayıtlar değiştirilmedi."</string>
@@ -119,7 +119,7 @@
     <string name="text_groups">"Gruplar"</string>
     <string name="text_library">"Kütüphane"</string>
     <string name="text_what_shall_we_watch_tonight">"Bu akşam ne izleyelim?"</string>
-    <string name="text_send_a_link_add_your_channels_start_watching">"Bağlantını gönder. Kanal listeni ekle. İzlemeye başla."</string>
+    <string name="text_send_a_link_add_your_channels_start_watching">"QR kodu telefonunla okut ya da bir kanal listesi ekle."</string>
     <string name="text_send_from_phone">"Telefondan gönder"</string>
     <string name="text_open_qr_code_share_from_iphone">"QR kodunu aç · iPhone ile paylaş"</string>
     <string name="text_m3u_or_stream_link">"M3U veya yayın bağlantısı"</string>
@@ -230,4 +230,10 @@
     <string name="source_ready_status">"Kaynak bulundu; TV’de onayla."</string>
     <string name="add_playlist">"Listeyi ekle"</string>
     <string name="adb_command_rejected">"ADB komutu kabul edilmedi."</string>
+    <string name="phone_receiver_could_not_start">"Telefon alıcısı başlatılamadı. Denemek için bu ekranı yeniden aç."</string>
+    <string name="phone_new_qr_code">"Yeni QR kod"</string>
+    <string name="phone_pairing_renewed">"Yeni QR kod hazır. Telefonundan yeniden okut."</string>
+    <string name="phone_panel_scan">"Telefon kamerasıyla okut. Onayı TV’de ver."</string>
+    <string name="phone_panel_offline">"Telefondan göndermek için TV’yi Wi‑Fi’a bağla."</string>
+    <string name="library_filter">"Göster"</string>
 </resources>

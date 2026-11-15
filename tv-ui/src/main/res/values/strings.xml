@@ -98,7 +98,7 @@
     <string name="text_forget_pairing">"Forget pairing"</string>
     <string name="text_close">"Close"</string>
     <string name="text_phone_transfer_could_not_start_check_that_both_devices_are">"Phone transfer could not start. Check that both devices are on the same local network."</string>
-    <string name="text_forget_phone_pairing">"Forget phone pairing?"</string>
+    <string name="text_forget_phone_pairing">"Create a new QR code?"</string>
     <string name="text_the_current_qr_address_and_iphone_shortcut_will_stop_worki">"The current QR address and iPhone shortcut will stop working. You can pair again."</string>
     <string name="text_phone_pairing_forgotten">"Phone pairing forgotten."</string>
     <string name="text_a_signed_migration_bridge_is_required_for_the_old_player_r">"A signed migration bridge is required for the old Player; records were not changed."</string>
@@ -119,7 +119,7 @@
     <string name="text_groups">"Groups"</string>
     <string name="text_library">"Library"</string>
     <string name="text_what_shall_we_watch_tonight">"What shall we watch tonight?"</string>
-    <string name="text_send_a_link_add_your_channels_start_watching">"Send a link. Add your channels. Start watching."</string>
+    <string name="text_send_a_link_add_your_channels_start_watching">"Scan the QR code with your phone, or add a channel list."</string>
     <string name="text_send_from_phone">"Send from phone"</string>
     <string name="text_open_qr_code_share_from_iphone">"Open QR code · Share from iPhone"</string>
     <string name="text_m3u_or_stream_link">"M3U or stream link"</string>
@@ -439,4 +439,10 @@
     <string name="source_ready_status">"Source found; confirm on the TV."</string>
     <string name="add_playlist">"Add playlist"</string>
     <string name="adb_command_rejected">"The ADB command was not accepted."</string>
+    <string name="phone_receiver_could_not_start">"The phone receiver could not start. Reopen this screen to try again."</string>
+    <string name="phone_new_qr_code">"New QR code"</string>
+    <string name="phone_pairing_renewed">"New QR code ready. Scan it again on your phone."</string>
+    <string name="phone_panel_scan">"Scan with your phone camera. Confirm on the TV."</string>
+    <string name="phone_panel_offline">"Connect the TV to Wi‑Fi to send from your phone."</string>
+    <string name="library_filter">"Show"</string>
 </resources>
