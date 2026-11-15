@@ -7,10 +7,15 @@ import org.json.JSONObject;
 final class PhonePage {
     private static final String[][] TEXT = {
         {"title", "Send to HızlıTV", "HızlıTV’ye gönder"},
-        {"intro", "Paste a video page, direct video link or M3U channel list. Confirm playback on the TV.", "Video sayfası, doğrudan video bağlantısı veya M3U kanal listesi yapıştır. Oynatmayı TV’de onayla."},
+        {"intro", "Paste a link or channel list, then confirm on the TV.", "Bağlantıyı veya kanal listesini yapıştır, sonra TV’de onayla."},
         {"input", "Link or channel list", "Bağlantı veya kanal listesi"},
         {"example", "https://… or #EXTM3U…", "https://… veya #EXTM3U…"},
         {"send", "Send to TV", "TV’ye gönder"},
+        {"address", "Receiver address", "Alıcı adresi"},
+        {"copy_address", "Copy address", "Adresi kopyala"},
+        {"copy_token", "Copy token", "Anahtarı kopyala"},
+        {"copied", "Copied", "Kopyalandı"},
+        {"copy_failed", "Copy failed; select the text instead.", "Kopyalanamadı; metni seçerek kopyala."},
         {"local", "This page works on your local network while the HızlıTV Player library is open. Nothing is sent to a cloud service.", "Bu sayfa yerel ağında, HızlıTV Player kütüphanesi açıkken çalışır. Buluta gönderim yapılmaz."},
         {"shortcut", "Send from the iPhone Share menu", "iPhone Paylaş menüsünden gönderme"},
         {"shortcut_intro", "Create a shortcut called “Send to HızlıTV”. Enable Show in Share Sheet and accept URLs.", "“HızlıTV’ye gönder” adlı bir kestirme oluştur. Paylaşım Sayfasında Göster’i aç ve URL girdisi kabul et."},
@@ -59,13 +64,27 @@ final class PhonePage {
     }
     private static final String TEMPLATE =
         "<!doctype html><html lang=\"[[language]]\"><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n" +
-        "<title>[[title]]</title><style>body{color:#e8f0fb;background:#101b2b;font:17px system-ui;margin:0;padding:28px;max-width:650px}h1{font-size:29px}p{color:#b6c8dc;line-height:1.5}textarea{box-sizing:border-box;width:100%;min-height:180px;background:#1d3049;color:white;border:1px solid #7facc0;border-radius:12px;padding:15px;font:16px system-ui}button,select{background:#99dfdc;color:#102235;border:0;border-radius:12px;padding:13px 18px;font:600 16px system-ui;margin-top:14px}#status{white-space:pre-wrap}code{overflow-wrap:anywhere}</style>\n" +
-        "<select id=\"language\" aria-label=\"Language / Dil\"><option value=\"en\">English</option><option value=\"tr\">Türkçe</option></select>\n" +
-        "<h1 data-text=\"title\">[[title]]</h1><p data-text=\"intro\">[[intro]]</p>\n" +
-        "<textarea id=\"input\" aria-label=\"[[input]]\" placeholder=\"[[example]]\" maxlength=\"2000000\"></textarea><br><button id=\"send\" data-text=\"send\">[[send]]</button><p id=\"status\" role=\"status\"></p>\n" +
-        "<p data-text=\"local\">[[local]]</p><details><summary data-text=\"shortcut\">[[shortcut]]</summary><p data-text=\"shortcut_intro\">[[shortcut_intro]]</p><p data-text=\"shortcut_request\">[[shortcut_request]]</p><p>X-HizliTV-Token: <code>[[TOKEN]]</code></p><p data-text=\"shortcut_use\">[[shortcut_use]]</p><p data-text=\"clipboard\">[[clipboard]]</p></details>\n" +
-        "<script>const dictionaries=[[DICTIONARIES]],b=document.getElementById('send'),i=document.getElementById('input'),s=document.getElementById('status'),picker=document.getElementById('language');let language=document.documentElement.lang;\n" +
+        "<title>[[title]]</title><style>body{color:#e8f0fb;background:#101b2b;font:17px system-ui;margin:0 auto;padding:20px;max-width:650px}" +
+        "header{display:flex;align-items:center;gap:12px}h1{font-size:26px;margin:8px 0;flex:1}p{color:#b6c8dc;line-height:1.5}" +
+        "textarea{box-sizing:border-box;width:100%;min-height:130px;background:#1d3049;color:white;border:1px solid #7facc0;border-radius:12px;padding:14px;font:16px system-ui}" +
+        "button,select{background:#99dfdc;color:#102235;border:0;border-radius:12px;padding:12px 16px;font:600 16px system-ui}" +
+        "select{background:#1d3049;color:#e8f0fb;padding:8px 10px;font-size:14px}#send{width:100%;margin-top:12px;padding:16px;font-size:18px}#send:disabled{opacity:.6}" +
+        "#status{white-space:pre-wrap;min-height:1.5em;font-weight:600}#status.ok{color:#99dfdc}#status.err{color:#ffb4a8}" +
+        ".small{font-size:14px}.copy{background:#1d3049;color:#e8f0fb;border:1px solid #7facc0;padding:8px 12px;font-size:14px;margin:4px 0}code{overflow-wrap:anywhere}summary{cursor:pointer;color:#e8f0fb}</style>\n" +
+        "<header><h1 data-text=\"title\">[[title]]</h1><select id=\"language\" aria-label=\"Language / Dil\"><option value=\"en\">English</option><option value=\"tr\">Türkçe</option></select></header>\n" +
+        "<p data-text=\"intro\">[[intro]]</p>\n" +
+        "<textarea id=\"input\" aria-label=\"[[input]]\" placeholder=\"[[example]]\" maxlength=\"2000000\" autofocus></textarea><button id=\"send\" data-text=\"send\">[[send]]</button><p id=\"status\" role=\"status\"></p>\n" +
+        "<p class=\"small\" data-text=\"local\">[[local]]</p><details><summary data-text=\"shortcut\">[[shortcut]]</summary><p data-text=\"shortcut_intro\">[[shortcut_intro]]</p><p data-text=\"shortcut_request\">[[shortcut_request]]</p>\n" +
+        "<p><span data-text=\"address\">[[address]]</span>: <code id=\"address\"></code><br><button class=\"copy\" id=\"copy-address\" data-text=\"copy_address\">[[copy_address]]</button></p>\n" +
+        "<p>X-HizliTV-Token: <code>[[TOKEN]]</code><br><button class=\"copy\" id=\"copy-token\" data-text=\"copy_token\">[[copy_token]]</button></p>\n" +
+        "<p data-text=\"shortcut_use\">[[shortcut_use]]</p><p data-text=\"clipboard\">[[clipboard]]</p></details>\n" +
+        "<script>const dictionaries=[[DICTIONARIES]],token='[[TOKEN]]',b=document.getElementById('send'),i=document.getElementById('input'),s=document.getElementById('status'),picker=document.getElementById('language'),address=location.origin+location.pathname;let language=document.documentElement.lang;\n" +
+        "document.getElementById('address').textContent=address;\n" +
         "function applyLanguage(value){language=value==='tr'?'tr':'en';const t=dictionaries[language];document.documentElement.lang=language;document.title=t.title;picker.value=language;document.querySelectorAll('[data-text]').forEach(e=>e.textContent=t[e.dataset.text]);i.placeholder=t.example;i.setAttribute('aria-label',t.input)}\n" +
         "applyLanguage(language);picker.onchange=()=>applyLanguage(picker.value);\n" +
-        "b.onclick=async()=>{const t=dictionaries[language];if(!i.value.trim()){s.textContent=t.empty;return}b.disabled=true;s.textContent=t.sending;try{const r=await fetch(location.pathname,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8','Accept-Language':language,'X-HizliTV-Token':'[[TOKEN]]'},body:i.value.trim()});s.textContent=await r.text();if(r.ok)i.value=''}catch(e){s.textContent=t.offline}finally{b.disabled=false}};</script></html>\n";
+        "function show(text,ok){s.textContent=text;s.className=ok?'ok':'err'}\n" +
+        "function copy(text,button){const t=dictionaries[language],done=ok=>{button.textContent=ok?t.copied:t.copy_failed;setTimeout(()=>button.textContent=dictionaries[language][button.dataset.text],1800)};" +
+        "const a=document.createElement('textarea');a.value=text;a.setAttribute('readonly','');a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();a.setSelectionRange(0,text.length);let ok=false;try{ok=document.execCommand('copy')}catch(e){}a.remove();done(ok)}\n" +
+        "document.getElementById('copy-address').onclick=e=>copy(address,e.target);document.getElementById('copy-token').onclick=e=>copy(token,e.target);\n" +
+        "b.onclick=async()=>{const t=dictionaries[language];if(!i.value.trim()){show(t.empty,false);return}b.disabled=true;show(t.sending,true);try{const r=await fetch(location.pathname,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8','Accept-Language':language,'X-HizliTV-Token':token},body:i.value.trim()});show(await r.text(),r.ok);if(r.ok)i.value=''}catch(e){show(t.offline,false)}finally{b.disabled=false}};</script></html>\n";
 }

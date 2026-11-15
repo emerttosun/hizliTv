@@ -18,4 +18,13 @@ public class PhonePageTest {
         assertTrue(en.contains("X-HizliTV-Token")); assertTrue(en.contains(token));
         assertTrue(tr.contains("location.pathname")); assertTrue(tr.contains("value=\"en\""));
     }
+    @Test public void shortcutSetupOffersCopyButtonsInBothLanguages() throws Exception {
+        String token=PhonePortal.newToken();
+        String en=PhonePage.render(token,false),tr=PhonePage.render(token,true);
+        assertTrue(en.contains("Copy address")); assertTrue(en.contains("Copy token"));
+        assertTrue(tr.contains("Adresi kopyala")); assertTrue(tr.contains("Anahtarı kopyala"));
+        assertTrue(en.contains("id=\"address\"")); assertTrue(en.contains("token='"+token+"'"));
+        // The send request still carries the header that existing shortcuts and the server expect.
+        assertTrue(en.contains("'X-HizliTV-Token':token"));
+    }
 }
