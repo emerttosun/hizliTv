@@ -7,24 +7,24 @@ This sends a URL/list to the TV's player. It does not mirror the phone screen an
 ## Start with the QR page
 
 1. Connect phone and TV to the same trusted local network.
-2. Open Player → Add from phone on the TV.
+2. Open Player on the TV. The QR code is shown beside the library; press OK on it for a larger view.
 3. Scan the QR using the iPhone camera. Safari opens a local HTTP page.
 4. Paste a supported page, direct video link, M3U text or playlist URL. Press Send to TV.
 5. Confirm Play or Add playlist on the TV.
 
 Keep the library screen visible. The listener stops when leaving it or starting playback. The page supports English/Turkish and offers a language selector; its language can differ from the TV UI language.
 
-The full address includes a private pairing token. Keep it private. Matching-signed app updates preserve it. Forget pairing invalidates the existing URL/shortcut. DHCP address changes can require updating the address even when the token remains the same.
+The full address includes a private pairing token. Keep it private. Matching-signed app updates preserve it. **New QR code** (press OK on the QR panel) invalidates the existing URL/shortcut and shows a new one. DHCP address changes can require updating the address even when the token remains the same.
 
 ## Safari Share Sheet shortcut
 
 Create a shortcut in Apple's Shortcuts app:
 
 1. Name it **Send to HızlıTV** and enable **Show in Share Sheet**. Accept **URLs** as input, not Apps.
-2. Add **Get Contents of URL**. Replace its URL value with the **complete HTTP address from the QR page**, including the port and token path. Do not use the film page's URL here.
+2. Add **Get Contents of URL**. Replace its URL value with the **complete HTTP address from the QR page**, including the port and token path; **Copy address** on that page copies it. Do not use the film page's URL here.
 3. Set method **POST**, request body **JSON**.
 4. Add a **Text** field named **`url`**. Its value must be the **Shortcut Input variable**, not the literal text “Shortcut Input”.
-5. Add one header: **`X-HizliTV-Token`**, with the token shown on the QR page. Remove any extra blank header rows.
+5. Add one header: **`X-HizliTV-Token`**, with the token shown on the QR page (**Copy token** copies it). Remove any extra blank header rows.
 6. Optionally append Quick Look to inspect the server response while troubleshooting.
 
 In Safari, open a video page and choose Share → Send to HızlıTV. The shortcut receives that page's URL, posts it to the TV receiver, and the TV asks what to do. HTTP202 means accepted; source resolution/playback confirmation happen afterward.

@@ -8,10 +8,10 @@ The seven visible shortcuts open Player, All apps, an installed AirPlay receiver
 
 ## Library
 
-- **Add from phone:** show QR instructions. Existing shortcuts do not need a new QR code unless addressing/pairing changed.
+- **Send from phone panel:** the QR code stays visible beside the library; pairing is created automatically on first use. OK on the panel enlarges it and offers **New QR code**. Existing shortcuts do not need a new QR code unless addressing/pairing changed.
 - **Link / playlist:** enter a direct link, supported web page, M3U URL or M3U text.
-- **Undo:** revert the most recent library edit; there is only one undo level.
-- **All / Favorites / Groups / Search:** filter the library, including English/Turkish text.
+- **Undo:** shown only while an undo backup exists; reverts the most recent library edit (one level).
+- **Show / Search:** Show picks All, Favorites or one group; search matches English/Turkish text.
 - **OK on an entry:** open the source/playback confirmation. Saved web-page entries are resolved again when needed.
 - **Hold OK:** favorite or remove the entry.
 - **HızlıTV:** return to the dashboard inside the same app.

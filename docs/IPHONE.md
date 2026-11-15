@@ -2,7 +2,7 @@
 
 [English](en/IPHONE.md) · **Türkçe**
 
-En kolay ilk deneme: TV'de **Player → Telefondan ekle**, iPhone kamerasıyla QR'ı okut, açılan sayfaya bağlantını yapıştır ve **TV'ye gönder** düğmesine bas. İki cihaz aynı yerel ağda olsun. TV'de bulunan kaynağı **Oynat** ile onayla. M3U gönderdiysen **Listeyi ekle** seç.
+En kolay ilk deneme: TV'de **Player**'ı aç, kütüphanenin yanındaki QR'ı iPhone kamerasıyla okut, açılan sayfaya bağlantını yapıştır ve **TV'ye gönder** düğmesine bas. İki cihaz aynı yerel ağda olsun. TV'de bulunan kaynağı **Oynat** ile onayla. M3U gönderdiysen **Listeyi ekle** seç.
 
 QR sayfası internetteki bir site değil, TV'de çalışan küçük bir HTTP alıcısıdır. URL'nin sonundaki rastgele kod, o kuruluma ait eşleştirme kimliğidir. Güncellemede korunur. TV'nin IP adresi değişirse adresin başlangıcı değişebilir; modemden DHCP rezervasyonu yaparak TV'ye aynı yerel adresin verilmesini sağlayabilirsin. Menü adı modem modeline göre değişir.
 
@@ -11,8 +11,8 @@ QR sayfası internetteki bir site değil, TV'de çalışan küçük bir HTTP al�
 1. iPhone **Kestirmeler** uygulamasında yeni kestirme oluştur. Adını **TV'de izle** yap.
 2. Kestirmenin ayrıntılarında **Paylaşım Sayfasında Göster** seçeneğini aç. Girdi türlerinde yalnızca **URL'ler** seç. Kullanmayacağın Uygulamalar gibi türleri kapat.
 3. **URL İçeriğini Al** işlemini ekle. İşlem adı iOS sürümünde küçük farklılık gösterebilir.
-4. URL alanına QR ile Safari'de açılan sayfanın **tam adresini** koy. `http://` öneki, port ve `/` sonrasındaki uzun kod dâhil olmalı. Yalnızca IP/port yazma. Alıcı HTTPS sunmadığı için bu adrese `https://` yazma.
-5. Yöntem **POST** olsun. **Başlıklar** bölümünde tek bir satır ekle: anahtar `X-HizliTV-Token`, değer QR sayfasındaki uzun eşleştirme kodu. Anahtar adına `:` yazma. Başta/sonda boşluk, satır sonu veya boş bir ikinci başlık satırı bırakma.
+4. URL alanına QR ile Safari'de açılan sayfanın **tam adresini** koy. Sayfadaki **Adresi kopyala** düğmesi bu adresi panoya alır. `http://` öneki, port ve `/` sonrasındaki uzun kod dâhil olmalı. Yalnızca IP/port yazma. Alıcı HTTPS sunmadığı için bu adrese `https://` yazma.
+5. Yöntem **POST** olsun. **Başlıklar** bölümünde tek bir satır ekle: anahtar `X-HizliTV-Token`, değer QR sayfasındaki uzun eşleştirme kodu (**Anahtarı kopyala** ile kopyalanabilir). Anahtar adına `:` yazma. Başta/sonda boşluk, satır sonu veya boş bir ikinci başlık satırı bırakma.
 6. **İstek Gövdesi → JSON** seç. **Metin** türünde alan ekle: anahtar `url`, değer **Kestirme Girişi** değişkeni. Değişkeni elle yazılmış sabit metin olarak ekleme.
 7. Safari'de göndermek istediğin film/yayın/liste sayfasını aç. **Paylaş → TV'de izle** seç. iPhone yerel ağa erişim sorarsa bu kurduğun akış için izin ver.
 

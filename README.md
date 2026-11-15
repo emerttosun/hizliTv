@@ -69,7 +69,7 @@ Replace `TV_IP` and `TV_SERIAL` with your own device. Wireless debugging varies 
 ## First use
 
 1. Open HızlıTV from the TV’s normal app list. Use directional keys and OK; hold OK to pin/unpin an app.
-2. Choose **Player → Add from phone**, scan the QR code, and keep both devices on the same local network.
+2. Open **Player** and scan the QR code shown beside the library. Keep both devices on the same local network.
 3. Paste a supported video page, direct stream or M3U text/URL. Choose **Play**, **Add to library**, or **Add playlist** on the TV.
 4. For repeat iPhone sharing, create the documented [Share Sheet shortcut](docs/en/IPHONE.md). Automatic background clipboard synchronization is not implemented.
 

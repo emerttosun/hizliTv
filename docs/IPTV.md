@@ -28,13 +28,13 @@ Metni UTF-8 olarak `kanallar.m3u` adıyla saklayabilir veya dosya oluşturmadan 
 
 ## Listeyi TV'ye verme
 
-1. TV'de **Player → Telefondan ekle** aç.
+1. TV'de **Player**'ı aç; QR kod kütüphanenin yanında görünür.
 2. Aynı yerel ağdaki telefondan QR'ı okut.
 3. Kutucuğa M3U metnini veya liste URL'sini yapıştır; **TV'ye gönder** de.
 4. TV'de bulunan kanal sayısını kontrol et, **Listeyi ekle** seç.
 5. Kütüphanede kanal adını seçip **Oynat** de. Grup filtresiyle kanalları ayırabilirsin.
 
-Kanal URL'si aynıysa yeniden içe aktarma kaydı günceller ve favori bilgisini korur. URL değişmişse yeni kayıt oluşabilir; eski kaydı uzun OK ile kaldırabilirsin. Kütüphanedeki **Geri al**, son içe aktarmayı geri döndürür.
+Kanal URL'si aynıysa yeniden içe aktarma kaydı günceller ve favori bilgisini korur. URL değişmişse yeni kayıt oluşabilir; eski kaydı uzun OK ile kaldırabilirsin. Bir değişiklikten sonra kütüphanede görünen **Geri al**, son içe aktarmayı geri döndürür.
 
 ## Desteklenen ek bilgiler
 

@@ -8,7 +8,7 @@ Tek APK’nın manifesti, Player’ın `INTERNET` ve `ACCESS_NETWORK_STATE` norm
 
 Kütüphane, oynatma konumu, telefon eşleştirmesi ve Player işlem günlüğü Android uygulama alanında saklanır. URL'ler sağlayıcı bilgileri içerebilir; genel Logcat kayıtlarına tam URL, gövde veya eşleştirme anahtarı yazılmaz. Uygulamayı kaldırmak ya da verilerini temizlemek bu kayıtları siler. Kaynak deposunda gerçek kanal listesi, hesap, cihaz yedeği veya özel anahtar bulunmaz.
 
-Telefon alıcısı aynı yerel ağ için tasarlanmıştır. Eşleştirme URL'si gizli bir yetkilendirme bilgisi taşır; POST isteğinde `X-HizliTV-Token` da gerekir. Sunucu yol, belirteç, köken, veri türü ve boyutu kontrol eder. CORS, komut çalıştırma, dosya servisi veya açık proxy sunmaz. Alıcı HTTP kullanır; yerel ağ trafiğini şifrelemez. Modemden bu porta internet erişimi açma. **Eşleştirmeyi unut** mevcut URL'yi geçersiz kılar.
+Telefon alıcısı aynı yerel ağ için tasarlanmıştır. Eşleştirme URL'si gizli bir yetkilendirme bilgisi taşır; POST isteğinde `X-HizliTV-Token` da gerekir. Sunucu yol, belirteç, köken, veri türü ve boyutu kontrol eder. CORS, komut çalıştırma, dosya servisi veya açık proxy sunmaz. Alıcı HTTP kullanır; yerel ağ trafiğini şifrelemez. Modemden bu porta internet erişimi açma. **Yeni QR kod** mevcut URL'yi geçersiz kılar ve yeni eşleştirme oluşturur.
 
 Güvenlik kontrolleri kaynak çözümleme başarısı garantisi değildir. DRM, oturum açma veya CAPTCHA aşma özelliği yoktur. Site bağdaştırıcıları yalnız tanımlı açık veri biçimlerini okur; JavaScript çalıştırmaz.
 

@@ -20,9 +20,9 @@ Supported optional headers include `#EXTVLCOPT:http-referrer=` and `#EXTVLCOPT:h
 
 ## Import
 
-Use Player → Add from phone and paste M3U text or a playlist URL. Alternatively use Link/playlist on the TV. Review the channel count and choose Add playlist. Filter by group, search, favorite entries, and press OK to confirm playback.
+Open Player, scan the QR code beside the library and paste M3U text or a playlist URL. Alternatively use Link/playlist on the TV. Review the channel count and choose Add playlist. Filter by group with the Show button, search, favorite entries, and press OK to confirm playback.
 
-Reimporting the same URL updates that entry and preserves its favorite status. A different URL can create a new entry; remove old ones with hold OK. Undo reverts only the most recent library change. There is no scheduled provider refresh or EPG feature.
+Reimporting the same URL updates that entry and preserves its favorite status. A different URL can create a new entry; remove old ones with hold OK. Undo appears after a change and reverts only the most recent library change. There is no scheduled provider refresh or EPG feature.
 
 The input/page limit is 2 MB, and the private library is capped at 5000 entries / 8 MB. HLS media manifests and channel playlists can both use `.m3u8`; the resolver examines content to distinguish them. An HLS manifest is played as video, not imported as a channel list.
 

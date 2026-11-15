@@ -36,7 +36,7 @@ adb -s TV_SERIAL shell am start -n tr.hizlitv.home/.MainActivity
 
 Select EN/TR on the dashboard to choose System language, English or Türkçe. The preference applies to HızlıTV only. Unsupported system languages use English. A fresh installation follows the supported device language automatically.
 
-Open Player, choose Add from phone, scan the QR code, and keep the library visible while sending. Confirm playback or playlist import on the TV. [iPhone sharing](IPHONE.md) and [IPTV](IPTV.md) cover the rest.
+Open Player, scan the QR code shown beside the library, and keep the library visible while sending. Confirm playback or playlist import on the TV. [iPhone sharing](IPHONE.md) and [IPTV](IPTV.md) cover the rest.
 
 Core use requires no root, DUMP or local-ADB pairing. Detailed diagnostics and direct app closure require the separate optional authorizations described in [security](../../SECURITY.md). Do not grant advanced permissions just to play a video.
 

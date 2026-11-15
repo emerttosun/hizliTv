@@ -14,7 +14,7 @@ Android 6 / API 23 ve üzeri TV cihazları hedeflenir. Gerçek cihaz doğrulamas
 
 1. Derlenen tek APK'yı kendi TV'ne kur. [Adım adım başlangıç](docs/BASLANGIC.md).
 2. HızlıTV'yi uygulama listesinden aç. Sağ/sol/yukarı/aşağı ile gezin, OK ile seç. Uzun OK, favoriyi değiştirir.
-3. **Player → Telefondan ekle** bölümünden QR'ı okut. Aynı yerel ağdaki telefonundan video bağlantısı veya M3U metni gönder.
+3. **Player**'ı aç ve kütüphanenin yanında duran QR'ı okut. Aynı yerel ağdaki telefonundan video bağlantısı veya M3U metni gönder.
 4. Ana ekrandaki **EN/TR** düğmesinden Sistem dili, English veya Türkçe seçebilirsin; Android sistem dili değişmez.
 5. TV'de **Oynat** veya **Listeyi ekle** seç. Gönderilen bağlantı kendiliğinden oynatılmaz.
 

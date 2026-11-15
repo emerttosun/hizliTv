@@ -14,12 +14,12 @@ HızlıTV'yi TV'nin uygulama listesinden aç. Ana ekran yalnızca favorileri gö
 
 ![Player kütüphanesi](images/library.png)
 
-- **Telefondan ekle:** QR sayfasını açar. Daha önce kurulmuş Kestirme için tekrar QR okutmak gerekmez; kütüphane görünür olsun.
-- **Tümü / Favoriler:** kayıtları filtreler. **Gruplar** M3U grubunu seçer.
+- **Telefondan gönder paneli:** QR kod kütüphanenin sağında hep görünür; ilk açılışta eşleştirme kendiliğinden oluşur. Panelde OK büyük QR'ı ve **Yeni QR kod** seçeneğini açar. Daha önce kurulmuş Kestirme için tekrar QR okutmak gerekmez; kütüphane görünür olsun.
+- **Göster düğmesi:** Tümü, Favoriler veya bir M3U grubu arasında seçim yapar.
 - **Arama:** kanal veya film adını arar. Türkçe harflerle arama desteklenir.
 - Kayıtta **OK:** oynatma onayını açar. Sayfadan eklenen kayıtların geçici video bağlantısı yeniden bulunur.
 - Kayıtta **uzun OK:** favori veya kayıt kaldırma seçeneklerini açar.
-- **Bağlantı / liste:** elle bağlantı veya M3U girme. **Geri al:** son kütüphane değişikliğini geri alma.
+- **Bağlantı / liste:** elle bağlantı veya M3U girme. **Geri al:** yalnızca geri alınabilecek bir değişiklik varken görünür; son kütüphane değişikliğini geri alır.
 - **← HızlıTV:** aynı uygulamanın ana ekranına dönme. Player için ikinci APK gerekmez.
 
 Kanalları bir kez içe aktarınca listede adlarıyla seçebilirsin. Bir yayın adresi değişirse güncel listeyi yeniden gönder. Şu anda zamanlanmış otomatik liste yenileme veya EPG rehberi yoktur.

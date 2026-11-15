@@ -30,7 +30,7 @@ Renk ve ortak bileşenler `tv-ui`, ana ekranın ölçüleri `HomeScreen`, işlem
 
 ## Gömülü Player
 
-Player aynı statik arka planı, yazı ölçülerini ve beyaz odak çerçevesini kullanır. Telefondan ekle, bağlantı/liste ve geri alma görünür kalır. Boş kütüphanede iki büyük kart, QR ile gönderme ve kanal listesi ekleme işlerini anlatır. Başlıktaki HızlıTV düğmesi aynı APK içindeki ana ekrana döner. Video gösterilmedikçe decoder/tampon oluşturulmaz.
+Player aynı statik arka planı, yazı ölçülerini ve beyaz odak çerçevesini kullanır. Listenin yanındaki sabit panel eşleştirme QR kodunu gösterir; telefondan göndermek için ek diyalog gerekmez. Bağlantı/liste görünür kalır; Geri al yalnızca yedek varken görünür. Ayrı Tümü/Favoriler/Gruplar düğmelerinin yerini tek bir Göster düğmesi alır. Boş kütüphane QR paneline yönlendirir ve tek bir kanal listesi kartı sunar. Başlıktaki HızlıTV düğmesi aynı APK içindeki ana ekrana döner. Video gösterilmedikçe decoder/tampon oluşturulmaz.
 
 Odak çerçeveleri bir kez oluşturulup `StateListDrawable` ile seçilir; her tuşta yeni şekil üretilmez. Ağır dinamik gölge kullanılmaz. Kare ölçümleri cihazda yapılır; 60 fps her cihazda garanti edilmez.
 

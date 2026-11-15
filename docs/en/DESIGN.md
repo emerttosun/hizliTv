@@ -12,7 +12,7 @@ The top row contains the brand, app-language choice, date and clock. A compact g
 
 ## Embedded Player
 
-The library shares the dashboard's visual language. Add from phone, Link/playlist and Undo stay visible. Two large empty-state cards explain phone sharing and channel import. The HızlıTV button returns within the same APK. Search/filtering does not allocate a View per library entry.
+The library shares the dashboard's visual language. A fixed panel beside the list shows the pairing QR code, so sending from a phone needs no extra dialog. Link/playlist stays visible; Undo appears only while a backup exists. One Show button replaces separate All/Favorites/Groups buttons. The empty state points to the QR panel and offers one channel-import card. The HızlıTV button returns within the same APK. Search/filtering does not allocate a View per library entry.
 
 `TvDialog` gives incoming source, playlist, source-choice and error prompts the same panel/buttons/focus style. First action/row focus is explicit, and TV confirm keys select a source with one OK even on devices that otherwise only restore list selection. The Activity dismisses its prompt when leaving the screen.
 

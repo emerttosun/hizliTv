@@ -8,7 +8,7 @@ The single APK declares normal network permissions and optional device-tool perm
 
 The library, playback positions, pairing identity and operation journal remain in Android's private application storage. URLs can contain provider credentials. Full URLs, request bodies and pairing tokens are not written to general Logcat. Uninstalling or clearing application data removes these records. Real playlists, accounts, device backups and signing keys are excluded from the source repository.
 
-The phone receiver is intended for a trusted local network. Its pairing URL contains a secret; POST also requires `X-HizliTV-Token`. The server checks the path, token, origin, content type and size. It provides no permissive CORS, shell execution, file server or open proxy. It uses **HTTP**, so LAN traffic is not encrypted. Do not forward its port to the internet. **Forget pairing** invalidates the current URL. The receiver stops when the library screen is not visible.
+The phone receiver is intended for a trusted local network. Its pairing URL contains a secret; POST also requires `X-HizliTV-Token`. The server checks the path, token, origin, content type and size. It provides no permissive CORS, shell execution, file server or open proxy. It uses **HTTP**, so LAN traffic is not encrypted. Do not forward its port to the internet. **New QR code** invalidates the current URL and creates a new pairing. The receiver stops when the library screen is not visible.
 
 Source resolution does not bypass login, DRM or CAPTCHA and does not execute arbitrary website JavaScript. User confirmation is required before playback or playlist import.
 
