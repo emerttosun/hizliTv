@@ -21,7 +21,7 @@ public final class LocalAdb {
     private final AdbBase64 base64;
     private final int port;
     private static final Set<String> PROTECTED = new HashSet<>(Arrays.asList(
-        "android", "tr.hizlitv.home", "com.google.android.tvlauncher", "com.android.systemui",
+        "android", "tr.hizlitv.home", "com.google.android.tvlauncher", "com.google.android.apps.tv.launcherx", "com.android.systemui",
         "com.android.tv.settings", "io.github.jqssun.airplay", "com.boost.airplay.receiver"));
 
     public LocalAdb(File directory, AdbBase64 base64) { this(directory, base64, 5555); }

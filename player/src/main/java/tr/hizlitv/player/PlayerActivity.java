@@ -56,12 +56,14 @@ public final class PlayerActivity extends tr.hizlitv.ui.LocalizedActivity {
     private long position;
     private boolean resume = true, alive, restored, everReady, askingResume;
     private float speed = 1f;
+    private boolean okDown, okLong;
+    private tr.hizlitv.ui.DeviceProfile device;
     private String positionKey;
     private final Runnable zap = this::applyZap;
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state); alive = true;
-        TvUi.prepare(this);
+        TvUi.prepare(this); device = tr.hizlitv.ui.DeviceProfile.of(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         try {
             media = Store.entry(new JSONObject(getIntent().getStringExtra("media")));
@@ -104,11 +106,11 @@ public final class PlayerActivity extends tr.hizlitv.ui.LocalizedActivity {
                 .setConnectTimeoutMs(10000).setReadTimeoutMs(15000).setDefaultRequestProperties(headers);
             DefaultDataSource.Factory data = new DefaultDataSource.Factory(this, http);
             DefaultLoadControl buffer = new DefaultLoadControl.Builder()
-                .setBufferDurationsMs(10000, 30000, 1500, 3000).setTargetBufferBytes(24 * 1024 * 1024)
+                .setBufferDurationsMs(10000, 30000, 1500, 3000).setTargetBufferBytes(device.bufferBytes())
                 .setPrioritizeTimeOverSizeThresholds(false).build();
             player = new ExoPlayer.Builder(this).setMediaSourceFactory(new DefaultMediaSourceFactory(data)).setLoadControl(buffer).build();
             player.setTrackSelectionParameters(player.getTrackSelectionParameters().buildUpon()
-                .setMaxVideoSize(1920, 1080).setPreferredAudioLanguage(tr.hizlitv.ui.Language.code(this)).setPreferredTextLanguage(tr.hizlitv.ui.Language.code(this)).build());
+                .setMaxVideoSize(device.maxVideoSize()[0], device.maxVideoSize()[1]).setPreferredAudioLanguage(tr.hizlitv.ui.Language.code(this)).setPreferredTextLanguage(tr.hizlitv.ui.Language.code(this)).build());
             player.addListener(new Player.Listener() {
                 @Override public void onPlayerError(PlaybackException error) { failed(error); }
                 @Override public void onRenderedFirstFrame() {
@@ -201,12 +203,24 @@ public final class PlayerActivity extends tr.hizlitv.ui.LocalizedActivity {
     }
 
     // ---- Keys ------------------------------------------------------------------------------
+    private static boolean ok(int key) { return key == KeyEvent.KEYCODE_DPAD_CENTER || key == KeyEvent.KEYCODE_ENTER || key == KeyEvent.KEYCODE_NUMPAD_ENTER; }
     @Override public boolean dispatchKeyEvent(KeyEvent event) {
-        if (player == null || event.getAction() != KeyEvent.ACTION_DOWN) return super.dispatchKeyEvent(event);
+        if (player == null) return super.dispatchKeyEvent(event);
+        // Many Google TV remotes (TCL/iFFALCON and others) have no Menu key: holding OK opens the options too.
+        // OK acts on release, and options open only after release so the panel never receives that release.
+        if (ok(event.getKeyCode())) {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                if (event.getRepeatCount() == 0) { okDown = true; okLong = false; }
+                else if (okDown && !okLong) { okLong = true; overlay.show(); }
+            } else if (event.getAction() == KeyEvent.ACTION_UP && okDown) {
+                okDown = false; if (okLong) settings(); else toggle();
+            }
+            return true;
+        }
+        if (event.getAction() != KeyEvent.ACTION_DOWN) return super.dispatchKeyEvent(event);
         int repeat = event.getRepeatCount();
         switch (event.getKeyCode()) {
-            case KeyEvent.KEYCODE_MENU: if (repeat == 0) settings(); return true;
-            case KeyEvent.KEYCODE_DPAD_CENTER: case KeyEvent.KEYCODE_ENTER: case KeyEvent.KEYCODE_NUMPAD_ENTER:
+            case KeyEvent.KEYCODE_MENU: case KeyEvent.KEYCODE_INFO: if (repeat == 0) settings(); return true;
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE: case KeyEvent.KEYCODE_SPACE:
                 if (repeat == 0) toggle(); return true;
             case KeyEvent.KEYCODE_MEDIA_PLAY: player.play(); overlay.show(); return true;
@@ -332,7 +346,7 @@ public final class PlayerActivity extends tr.hizlitv.ui.LocalizedActivity {
         }
     }
     @Override protected void onStop() {
-        if (prompt != null) prompt.dismiss(); pendingIndex = -1; stopPlayer(); overlay.hideNow();
+        if (prompt != null) prompt.dismiss(); pendingIndex = -1; okDown = false; stopPlayer(); overlay.hideNow();
         super.onStop();
     }
     @Override protected void onDestroy() { alive = false; if (overlay != null) overlay.release(); audit.shutdown(); super.onDestroy(); }

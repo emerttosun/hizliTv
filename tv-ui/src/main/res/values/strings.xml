@@ -123,7 +123,7 @@
     <string name="text_send_from_phone">"Send from phone"</string>
     <string name="text_open_qr_code_share_from_iphone">"Open QR code · Share from iPhone"</string>
     <string name="text_m3u_or_stream_link">"M3U or stream link"</string>
-    <string name="text_ok_play_hold_ok_favorite_remove_player_menu_audio_subtitle">"OK  Play     ·     Hold OK  Favorite / remove     ·     Player Menu  Audio, subtitles and quality"</string>
+    <string name="text_ok_play_hold_ok_favorite_remove_player_menu_audio_subtitle">"OK  Play     ·     Hold OK  Favorite / remove     ·     In the player, hold OK  Audio, subtitles and quality"</string>
     <string name="text_preparing_library">"Preparing library…"</string>
     <string name="text_entries">" entries"</string>
     <string name="text_all_324c00">"✓ All"</string>
@@ -446,10 +446,10 @@
     <string name="phone_panel_offline">"Connect the TV to Wi‑Fi to send from your phone."</string>
     <string name="library_filter">"Show"</string>
     <string name="home_memory">"Memory"</string>
-    <string name="home_hint">"OK open  ·  Hold OK pin/unpin  ·  Menu switch between favorites and all apps"</string>
+    <string name="home_hint">"OK open  ·  Hold OK pin/unpin  ·  Scroll down for all apps"</string>
     <string name="player_eyebrow">"HızlıTV Player"</string>
     <string name="player_live">"LIVE"</string>
-    <string name="player_hint">"OK play/pause  ·  ◀ ▶ seek  ·  Menu options  ·  Back exit"</string>
+    <string name="player_hint">"OK play/pause  ·  ◀ ▶ seek  ·  Hold OK options  ·  Back exit"</string>
     <string name="player_hint_channels">"▲ ▼ previous/next"</string>
     <string name="player_queue_position">"%1$d / %2$d"</string>
     <string name="player_seconds">"s"</string>

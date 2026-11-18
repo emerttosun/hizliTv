@@ -28,6 +28,14 @@ public class PhonePortalTest {
             assertFalse(logged.contains("{\"url\""));
         }
     }
+    @Test public void aTakenPortIsReportedSoTheTvCanPickAnotherOne() throws Exception {
+        String token = PhonePortal.newToken();
+        try (PhonePortal first = new PhonePortal(value -> true, token, 0)) {
+            try { new PhonePortal(value -> true, token, first.port()).close(); fail("port should be taken"); }
+            catch (java.net.BindException expected) { }
+            try (PhonePortal fallback = new PhonePortal(value -> true, token, 0)) { assertNotEquals(first.port(), fallback.port()); }
+        }
+    }
     @Test public void tokenAndOriginAreRequiredAndSubmittedTextIsNotExecuted() throws Exception {
         AtomicReference<String> text = new AtomicReference<>();
         try (PhonePortal portal = new PhonePortal(value -> { text.set(value); return true; })) {

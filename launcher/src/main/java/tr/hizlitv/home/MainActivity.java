@@ -23,6 +23,8 @@ public final class MainActivity extends tr.hizlitv.ui.LocalizedActivity implemen
     };
     @Override public void onCreate(Bundle state) {
         super.onCreate(state); TvUi.prepare(this); catalog = new AppCatalog(this);
+        // One line per start to compare TV models: `adb logcat -s HizliTV.Device`. No user data.
+        android.util.Log.i("HizliTV.Device", tr.hizlitv.ui.DeviceProfile.of(this).summary());
         IntentFilter changes = new IntentFilter();
         changes.addAction(Intent.ACTION_PACKAGE_ADDED); changes.addAction(Intent.ACTION_PACKAGE_REMOVED); changes.addAction(Intent.ACTION_PACKAGE_CHANGED); changes.addDataScheme("package");
         if (Build.VERSION.SDK_INT >= 33) registerReceiver(packages, changes, Context.RECEIVER_EXPORTED);

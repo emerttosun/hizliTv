@@ -2,7 +2,7 @@
 
 [English](en/GETTING_STARTED.md) · **Türkçe**
 
-Bu rehber TV uygulaması geliştirmemiş biri içindir. İlk hedef, kaynak koddan bir APK üretip kendi TV'nde açmaktır. Root veya TV yazılımını değiştirme işlemi gerekmez.
+Bu rehber TV uygulaması geliştirmemiş biri içindir. İlk hedef, kaynak koddan bir APK üretip kendi TV'nde açmaktır. Root veya TV yazılımını değiştirme işlemi gerekmez. Mi TV Stick dışında bir TV'ye (ör. Google TV'li bir 4K TV) kuruyorsan [başka bir Android TV'de çalıştırma](YENI_TV.md) sayfasına da bak.
 
 ## 1. Kelimeler ne demek?
 

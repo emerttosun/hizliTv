@@ -53,7 +53,11 @@ final class PhoneCompanion {
         if (portal != null) return;
         SharedPreferences prefs = preferences(); String token = prefs.getString("token", "");
         if (token.isEmpty()) { token = PhonePortal.newToken(); if (!prefs.edit().putString("token", token).commit()) throw new java.io.IOException("Identity not saved"); }
-        portal = new PhonePortal(receiver, token, prefs.getInt("port", 8198), event -> android.util.Log.i("HizliTV.Phone", event));
+        PhonePortal.Diagnostic log = event -> android.util.Log.i("HizliTV.Phone", event);
+        // Keep the saved port so QR codes and shortcuts stay valid; if another app on this TV
+        // already uses it, take any free port instead of failing (the QR code then shows the new one).
+        try { portal = new PhonePortal(receiver, token, prefs.getInt("port", 8198), log); }
+        catch (java.net.BindException taken) { portal = new PhonePortal(receiver, token, 0, log); events.audit("phone_port_changed"); }
         prefs.edit().putInt("port", portal.port()).apply();
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }

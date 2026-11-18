@@ -15,7 +15,7 @@ Keep HızlıTV small, understandable and comfortable with a remote on modest And
 python3 scripts/check_public.py
 python3 scripts/check_translations.py
 python3 -m unittest discover -s airplay/tests
-./gradlew :media-core:test :player:testDebugUnitTest
+./gradlew :media-core:test :player:testDebugUnitTest :tv-ui:testDebugUnitTest
 ./gradlew :launcher:lintDebug :player:lintDebug :tv-ui:lintDebug
 ./gradlew :launcher:assembleDebug
 ```

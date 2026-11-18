@@ -35,7 +35,7 @@ There are no accounts, cloud uploads, advertising SDKs or usage analytics. Your 
 
 If signed public releases are published, they will appear on [Releases](https://github.com/emerttosun/hizliTv/releases). Do not assume a release APK exists just because source code is available. Debug signatures can differ across machines or CI runs; see [updates and signing](docs/en/RELEASING.md) before replacing an existing installation.
 
-[Installation guide](docs/en/INSTALLATION.md) · [Turkish setup](docs/BASLANGIC.md)
+[Installation guide](docs/en/INSTALLATION.md) · [Other Android TVs](docs/en/PORTING.md) · [Turkish setup](docs/BASLANGIC.md)
 
 ## Build from source
 
@@ -122,6 +122,7 @@ Views use native Android components, static gradients and reusable list rows. Fi
 | English | Türkçe |
 | --- | --- |
 | [Beginner concepts and first build](docs/en/GETTING_STARTED.md) | [Temel kavramlar ve ilk derleme](docs/BASLANGIC.md) |
+| [Other Android TVs and porting checklist](docs/en/PORTING.md) | [Başka Android TV’ler ve kontrol listesi](docs/YENI_TV.md) |
 | [Installation](docs/en/INSTALLATION.md) | [Kurulum](docs/BASLANGIC.md) |
 | [Architecture](docs/en/ARCHITECTURE.md) | [Mimari](docs/MIMARI.md) |
 | [Design](docs/en/DESIGN.md) | [Tasarım](docs/TASARIM.md) |

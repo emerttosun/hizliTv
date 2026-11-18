@@ -2,7 +2,7 @@
 
 [English](USAGE.md) · [Türkçe](../KULLANIM.md)
 
-Open HızlıTV in the stock TV app list. Directions move focus, OK opens a card, and holding OK pins/unpins an app. HOME stays assigned to the original launcher. Favorites sit on top and all installed apps follow below on the same screen. Menu jumps between the two; Back from all apps returns to Favorites, then leaves the app.
+Open HızlıTV in the stock TV app list. Directions move focus, OK opens a card, and holding OK pins/unpins an app. HOME stays assigned to the original launcher. Favorites sit on top and all installed apps follow below on the same screen. On remotes with a Menu key it jumps between the two; Back from all apps returns to Favorites, then leaves the app.
 
 Four round icons beside the clock open an installed AirPlay receiver (hidden when none is installed), Memory, Android Settings and the stock home screen; the focused icon's name appears in the greeting panel. Player is the first favorite card. Memory opens app-memory diagnostics, where Free memory also lives; the RAM summary is shown in the greeting panel. The EN/TR button chooses the app language without changing the system language.
 
@@ -24,10 +24,10 @@ The playback overlay shows the title, group/source, list position, a LIVE badge 
 
 | Key | Action |
 | --- | --- |
-| OK / Play-Pause | Play or pause |
+| OK / Play-Pause | Play or pause (OK acts when released) |
 | ◀ ▶ / Rewind, Fast-forward | Seek 10 s; holding speeds up to 30 s and 60 s steps (films only) |
 | ▲ ▼ / CH−, CH+ | Previous/next entry of the list it was opened from (the current filter or search); repeated presses pick the target, playback switches when you stop |
-| Menu | Options: quality, audio, subtitles, picture (fit, zoom, stretch) and speed (films only) |
+| Hold OK / Menu / Info | Options: quality, audio, subtitles, picture (fit, zoom, stretch) and speed (films only). Holding OK works on remotes without a Menu key |
 | Back | Hide the overlay, then leave playback |
 
 A film with a saved position of at least one minute asks **Resume** or **Start over**; Back on that question resumes. If a stream that was already playing loses its connection, the player retries quietly up to three times before showing an error. Errors explain the likely cause (refused/expired link, no connection, unsupported format, copy protection) with Retry, Next (inside a list) and Back. Unsupported or missing tracks are not invented. Video surroundings are black; Fit keeps the aspect ratio and is the default, and the picture choice is remembered.

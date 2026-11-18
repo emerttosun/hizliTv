@@ -45,6 +45,7 @@ Player'ın standart HTML çözümleyicisi, siteye özel biçim bağdaştırıcı
 ## Öğrenme rehberi
 
 - [Sıfırdan kurulum, temel kavramlar ve ilk APK](docs/BASLANGIC.md)
+- [Başka bir Android TV’de çalıştırma (Google TV, 4K TV’ler) ve kontrol listesi](docs/YENI_TV.md)
 - [Mimari: hangi parça neden var, veri nasıl ilerliyor?](docs/MIMARI.md)
 - [Görsel tasarım, ölçüler, simgeler ve araştırma referansları](docs/TASARIM.md)
 - [Kumandayla günlük kullanım](docs/KULLANIM.md)

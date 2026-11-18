@@ -12,6 +12,7 @@
     <package android:name="com.boost.airplay.receiver"/>
     <package android:name="io.github.jqssun.airplay"/>
     <package android:name="com.google.android.tvlauncher"/>
+    <package android:name="com.google.android.apps.tv.launcherx"/>
     <intent><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LEANBACK_LAUNCHER"/></intent>
     <intent><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.HOME"/></intent>
   </queries>

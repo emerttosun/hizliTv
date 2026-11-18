@@ -6,7 +6,7 @@
 
 HızlıTV'yi TV'nin uygulama listesinden aç. Favoriler üstte, kurulu tüm uygulamalar hemen altında aynı ekranda durur. Sağ/sol/yukarı/aşağı ile kart seç; beyaz çerçeve hangi kartın seçili olduğunu gösterir. **OK** uygulamayı açar. **Uzun OK** seçili uygulamayı favoriye ekler veya favoriden çıkarır.
 
-Saatin yanındaki dört yuvarlak simge **AirPlay** (alıcı kurulu değilse gizlenir), **Bellek**, **Ayarlar** ve **Eski ana ekran**ı açar; odaklanılan simgenin adı selamlama panelinde görünür. **Player** ilk favori karttır. **Menü** tuşu favoriler ile tüm uygulamalar arasında geçer. **Geri**, tüm uygulamalardan favorilere, favorilerden önceki ekrana döner. **HOME** sistemin orijinal başlatıcısını açar.
+Saatin yanındaki dört yuvarlak simge **AirPlay** (alıcı kurulu değilse gizlenir), **Bellek**, **Ayarlar** ve **Eski ana ekran**ı açar; odaklanılan simgenin adı selamlama panelinde görünür. **Player** ilk favori karttır. Kumandada **Menü** tuşu varsa favoriler ile tüm uygulamalar arasında geçer. **Geri**, tüm uygulamalardan favorilere, favorilerden önceki ekrana döner. **HOME** sistemin orijinal başlatıcısını açar.
 
 **Player** kartı kişisel kütüphaneyi açar. Diğer kartlar cihazda zaten kurulu uygulamalardır; HızlıTV onların aboneliklerini veya içeriklerini sağlamaz.
 
@@ -32,10 +32,10 @@ Oynatma ekranının üstünde başlık, grup/kaynak, listedeki sıra, canlı yay
 
 | Tuş | İşlem |
 | --- | --- |
-| OK / Oynat-Duraklat | Oynat veya duraklat |
+| OK / Oynat-Duraklat | Oynat veya duraklat (OK bırakılınca çalışır) |
 | ◀ ▶ / Geri sar, İleri sar | 10 sn sar; basılı tutunca 30 ve 60 sn adımlara hızlanır (yalnız filmler) |
 | ▲ ▼ / CH−, CH+ | Açıldığı listedeki (geçerli filtre veya arama) önceki/sonraki kayıt; art arda basınca hedef değişir, bırakınca geçer |
-| Menü | Seçenekler: kalite, ses, altyazı, görüntü (sığdır, yakınlaştır, uzat) ve hız (yalnız filmler) |
+| Uzun OK / Menü / Info | Seçenekler: kalite, ses, altyazı, görüntü (sığdır, yakınlaştır, uzat) ve hız (yalnız filmler). Uzun OK, Menü tuşu olmayan kumandalarda da çalışır |
 | Geri | Önce bilgi şeridini gizler, sonra oynatmadan çıkar |
 
 Kayıtlı konumu en az bir dakika olan film **Kaldığın yerden** / **Baştan başla** sorar; bu soruda Geri kaldığı yerden devam eder. Oynamaya başlamış bir yayının bağlantısı koparsa oynatıcı hata göstermeden önce üç kez sessizce yeniden bağlanmayı dener. Hata penceresi olası nedeni (reddedilen/süresi dolmuş bağlantı, bağlantı yok, desteklenmeyen biçim, kopya koruması) söyler; Yeniden dene, listede Sonraki ve Geri seçenekleri sunar. Kaynağın sunmadığı seçenek üretilmez. Video çevresindeki boşluklar siyahtır; Sığdır en-boy oranını korur ve varsayılandır, görüntü seçimi hatırlanır.

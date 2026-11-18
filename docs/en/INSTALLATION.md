@@ -2,7 +2,7 @@
 
 [English](INSTALLATION.md) · [Türkçe](../BASLANGIC.md)
 
-The dashboard and Player install together as **one APK**. The optional AirPlay receiver is a separate app. Android TV 6/API 23 and later are targeted; the tested physical device runs Android 11. Other vendors/codecs require their own checks.
+The dashboard and Player install together as **one APK**. The optional AirPlay receiver is a separate app. Android TV 6/API 23 and later are targeted; the tested physical device runs Android 11. Other vendors/codecs require their own checks; see [other Android TVs](PORTING.md) for what adapts automatically and a checklist for a new model.
 
 ## Obtain an APK
 

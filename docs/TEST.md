@@ -7,7 +7,7 @@ Sürüm: **HızlıTV 0.9.0**, gömülü Player, tek APK. Tarih: 29 Ekim 2026.
 ## Otomatik kontroller
 
 ```sh
-./gradlew :media-core:test :player:testDebugUnitTest
+./gradlew :media-core:test :player:testDebugUnitTest :tv-ui:testDebugUnitTest
 ./gradlew :launcher:lintDebug :player:lintDebug
 ./gradlew :launcher:assembleDebug
 ./gradlew :launcher:assembleRelease

@@ -12,7 +12,7 @@ Amaç, düşük güçlü Android TV cihazlarında kumandayla rahat kullanılabil
 4. İlgili testleri, ardından CI komutlarını çalıştır. Gerçek TV kontrolünü birim testinden ayrı belirt.
 
 ```sh
-./gradlew :media-core:test :player:testDebugUnitTest
+./gradlew :media-core:test :player:testDebugUnitTest :tv-ui:testDebugUnitTest
 ./gradlew :launcher:lintDebug :player:lintDebug
 ./gradlew :launcher:assembleDebug
 python3 scripts/check_public.py

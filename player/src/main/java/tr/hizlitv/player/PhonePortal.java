@@ -45,7 +45,9 @@ final class PhonePortal implements AutoCloseable {
         this.receiver = receiver; this.token = token; this.diagnostic = diagnostic;
         expires = temporary ? System.nanoTime() + TimeUnit.MINUTES.toNanos(10) : Long.MAX_VALUE;
         listener = new ServerSocket(); listener.setReuseAddress(true);
-        listener.bind(new java.net.InetSocketAddress(port), 4); listener.setSoTimeout(1000);
+        // A taken port surfaces as BindException so the caller can fall back to a free one; never leak the socket.
+        try { listener.bind(new java.net.InetSocketAddress(port), 4); } catch (IOException taken) { listener.close(); throw taken; }
+        listener.setSoTimeout(1000);
         Thread thread = new Thread(this::accept, "PhonePortal"); thread.setDaemon(true); thread.start();
     }
     static String newToken() {

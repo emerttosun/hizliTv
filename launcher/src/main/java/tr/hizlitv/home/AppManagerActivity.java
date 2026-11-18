@@ -150,7 +150,7 @@ public final class AppManagerActivity extends tr.hizlitv.ui.LocalizedActivity {
     @Override public void onResume() { super.onResume(); load(null); }
     @Override public void onDestroy() { alive = false; memory.close(); ui.removeCallbacksAndMessages(null); super.onDestroy(); }
     private boolean protectedPackage(String pkg) {
-        return pkg.equals(getPackageName()) || pkg.equals(stockHome) || pkg.equals("com.android.tv.settings") ||
+        return pkg.equals(getPackageName()) || pkg.equals(stockHome) || pkg.equals("com.android.tv.settings") || pkg.equals("com.google.android.apps.tv.launcherx") ||
             pkg.equals("io.github.jqssun.airplay") || pkg.equals("com.boost.airplay.receiver");
     }
     private void setBusy(boolean state) {

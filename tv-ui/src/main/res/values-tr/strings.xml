@@ -123,7 +123,7 @@
     <string name="text_send_from_phone">"Telefondan gönder"</string>
     <string name="text_open_qr_code_share_from_iphone">"QR kodunu aç · iPhone ile paylaş"</string>
     <string name="text_m3u_or_stream_link">"M3U veya yayın bağlantısı"</string>
-    <string name="text_ok_play_hold_ok_favorite_remove_player_menu_audio_subtitle">"OK  Oynat     ·     Uzun OK  Favori / kaldır     ·     Oynatıcıda Menü  Ses, altyazı ve kalite"</string>
+    <string name="text_ok_play_hold_ok_favorite_remove_player_menu_audio_subtitle">"OK  Oynat     ·     Uzun OK  Favori / kaldır     ·     Oynatıcıda uzun OK  Ses, altyazı ve kalite"</string>
     <string name="text_preparing_library">"Kütüphane hazırlanıyor…"</string>
     <string name="text_entries">" kayıt"</string>
     <string name="text_all_324c00">"✓ Tümü"</string>
@@ -237,10 +237,10 @@
     <string name="phone_panel_offline">"Telefondan göndermek için TV’yi Wi‑Fi’a bağla."</string>
     <string name="library_filter">"Göster"</string>
     <string name="home_memory">"Bellek"</string>
-    <string name="home_hint">"OK aç  ·  Uzun OK sabitle/kaldır  ·  Menü favoriler ile tüm uygulamalar arasında geçer"</string>
+    <string name="home_hint">"OK aç  ·  Uzun OK sabitle/kaldır  ·  Tüm uygulamalar için aşağı in"</string>
     <string name="player_eyebrow">"HızlıTV Player"</string>
     <string name="player_live">"CANLI"</string>
-    <string name="player_hint">"OK oynat/duraklat  ·  ◀ ▶ sar  ·  Menü seçenekler  ·  Geri çık"</string>
+    <string name="player_hint">"OK oynat/duraklat  ·  ◀ ▶ sar  ·  Uzun OK seçenekler  ·  Geri çık"</string>
     <string name="player_hint_channels">"▲ ▼ önceki/sonraki"</string>
     <string name="player_queue_position">"%1$d / %2$d"</string>
     <string name="player_seconds">"sn"</string>
