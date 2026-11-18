@@ -35,7 +35,8 @@ final class LibraryScreen extends LinearLayout {
     private final LinearLayout empty;
     private final ListView list;
     private final BaseAdapter adapter;
-    private final Button filter;
+    private final Button filter, homeButton;
+    private View restoreFocus;
     private boolean favorites;
     private String group = "";
     LibraryScreen(Context c, Actions actions) {
@@ -46,7 +47,7 @@ final class LibraryScreen extends LinearLayout {
         brand.addView(TvUi.text(c, "HızlıTV", 23, TvUi.TEXT, true));
         TextView player = TvUi.text(c, "  /  Player", 16, 0xffa6bed6, false); brand.addView(player);
         header.addView(brand, new LayoutParams(0, -2, 1));
-        TvUi.addButton(header, TvUi.button(c, "← HızlıTV", actions::home)); addView(header, new LayoutParams(-1, d(46)));
+        homeButton = TvUi.button(c, "← HızlıTV", actions::home); TvUi.addButton(header, homeButton); addView(header, new LayoutParams(-1, d(46)));
         LinearLayout intro = TvUi.row(c); intro.setPadding(0, d(13), 0, d(10));
         LinearLayout titles = new LinearLayout(c); titles.setOrientation(VERTICAL);
         titles.addView(TvUi.text(c, getContext().getString(R.string.text_your_library), 30, TvUi.TEXT, true));
@@ -149,7 +150,18 @@ final class LibraryScreen extends LinearLayout {
     private String filterLabel() {
         return (favorites ? "★ " + getContext().getString(R.string.text_favorites) : group.isEmpty() ? getContext().getString(R.string.text_all) : group) + "  ▾";
     }
-    void working(boolean busy) { for (View control : edits) { control.setEnabled(!busy); control.setAlpha(busy ? .45f : 1f); } if (busy) status(getContext().getString(R.string.text_preparing_library)); }
+    void working(boolean busy) {
+        // Disabling the focused control would push focus to "← HızlıTV"; remember it and restore afterwards.
+        if (busy) { View focused = findFocus(); if (focused != null && edits.contains(focused)) restoreFocus = focused; }
+        for (View control : edits) { control.setEnabled(!busy); control.setAlpha(busy ? .45f : 1f); }
+        if (busy) { status(getContext().getString(R.string.text_preparing_library)); return; }
+        View focused = findFocus();
+        if (focused == null || focused == homeButton) {
+            View target = restoreFocus != null && restoreFocus.isShown() ? restoreFocus : list.getVisibility() == VISIBLE ? list : edits.get(0);
+            target.requestFocus();
+        }
+        restoreFocus = null;
+    }
     @Override protected void onDetachedFromWindow() { ui.removeCallbacksAndMessages(null); super.onDetachedFromWindow(); }
     void status(String text) { status.setText(text); }
     /** One filter choice: everything, favorites only, or a single group. */

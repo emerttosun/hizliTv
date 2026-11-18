@@ -36,7 +36,7 @@ final class HomeScreen extends LinearLayout {
     HomeScreen(Context c, Actions actions) {
         super(c); this.actions = actions;
         time = new SimpleDateFormat("HH:mm", tr.hizlitv.ui.Language.locale(c));
-        date = new SimpleDateFormat("d MMMM EEEE", tr.hizlitv.ui.Language.locale(c)); setOrientation(VERTICAL); setClipChildren(false);
+        date = new SimpleDateFormat("d MMMM EEEE", tr.hizlitv.ui.Language.locale(c)); setOrientation(VERTICAL);
         setPadding(d(42), d(18), d(42), d(14)); setBackground(new AmbientBackground());
 
         LinearLayout header = TvUi.row(c);
@@ -70,7 +70,9 @@ final class HomeScreen extends LinearLayout {
         welcome.addView(memory, new LayoutParams(d(150), -2));
         LayoutParams wp = new LayoutParams(-1, d(84)); wp.topMargin = d(8); wp.bottomMargin = d(10); addView(welcome, wp);
 
-        scroll = new ScrollView(c); scroll.setClipToPadding(false); scroll.setClipChildren(false); scroll.setVerticalScrollBarEnabled(false); scroll.setPadding(d(3), d(3), d(3), 0);
+        // The root keeps the default child clipping so scrolled rows never draw over the greeting panel or
+        // hint; the small scroll padding still leaves room for the focused card's 2.5% scale.
+        scroll = new ScrollView(c); scroll.setClipToPadding(false); scroll.setClipChildren(true); scroll.setVerticalScrollBarEnabled(false); scroll.setPadding(d(3), d(3), d(3), d(3));
         rows = new LinearLayout(c); rows.setOrientation(VERTICAL); rows.setClipChildren(false); scroll.addView(rows); addView(scroll, new LayoutParams(-1, 0, 1));
         feedback = TvUi.text(c, "", 11, TvUi.ACCENT, false); feedback.setSingleLine(); feedback.setEllipsize(TextUtils.TruncateAt.END); feedback.setVisibility(GONE); addView(feedback);
         TextView hint = TvUi.text(c, getContext().getString(R.string.home_hint), 10, 0xff91a6bc, false); hint.setPadding(0, d(5), 0, 0); addView(hint);
