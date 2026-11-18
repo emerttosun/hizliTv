@@ -65,7 +65,21 @@ public final class MainActivity extends tr.hizlitv.ui.LocalizedActivity implemen
         new AlertDialog.Builder(this).setTitle(getString(R.string.text_link_or_channel_list)).setView(field)
             .setPositiveButton(getString(R.string.text_find_sources), (d, w) -> submit(field.getText().toString())).setNegativeButton(getString(R.string.text_cancel), null).show();
     }
-    @Override public void open(MediaEntry entry) { if (entry.sourcePage.isEmpty()) confirm(entry); else submit(entry.sourcePage); }
+    /** Library entries are the user's own choice on the TV, so direct streams play without a prompt. */
+    @Override public void open(List<MediaEntry> visible, int index) {
+        MediaEntry entry = visible.get(index);
+        if (!entry.sourcePage.isEmpty()) { submit(entry.sourcePage); return; }
+        // Channel keys step through the visible direct entries; saved web pages need resolving and are skipped.
+        ArrayList<MediaEntry> queue = new ArrayList<>(); int at = 0;
+        for (MediaEntry candidate : visible) if (candidate.sourcePage.isEmpty()) { if (candidate == entry) at = queue.size(); queue.add(candidate); }
+        play(entry, queue, at);
+    }
+    private void play(MediaEntry entry, List<MediaEntry> queue, int at) {
+        try {
+            repository.audit("play_request", 1); PlaybackQueue.set(queue, at);
+            startActivity(new Intent(this, PlayerActivity.class).putExtra("media", Store.json(entry).toString()).putExtra("queue", queue.size() > 1));
+        } catch (Exception failure) { screen.status(getString(R.string.text_the_player_could_not_be_opened)); }
+    }
     private boolean submit(String input) {
         if (!alive || !started || !libraryReady || libraryBusy || !busy.compareAndSet(false, true)) return false;
         ui.post(() -> { if (alive) screen.status(getString(R.string.text_finding_sources)); });
@@ -100,10 +114,7 @@ public final class MainActivity extends tr.hizlitv.ui.LocalizedActivity implemen
     private void confirm(MediaEntry entry) {
         showSource(new TvDialog(this, getString(R.string.text_h_zl_tv_player_source_found), entry.title,
             getString(R.string.text_source) + Urls.host(entry.url) + (entry.subtitles.isEmpty() ? "" : "\n" + entry.subtitles.size() + getString(R.string.text_subtitle_options)) + getString(R.string.text_ready_to_watch))
-            .action(getString(R.string.text_play), () -> {
-                try { repository.audit("play_request", 1); startActivity(new Intent(this, PlayerActivity.class).putExtra("media", Store.json(entry).toString())); }
-                catch (Exception failure) { screen.status(getString(R.string.text_the_player_could_not_be_opened)); }
-            })
+            .action(getString(R.string.text_play), () -> play(entry, Collections.emptyList(), 0))
             .action(getString(R.string.text_add_to_library), () -> merge(Collections.singletonList(entry)))
             .action(getString(R.string.text_cancel), null));
     }

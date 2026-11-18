@@ -28,4 +28,19 @@ public final class Urls {
         return "";
     }
     public static boolean media(String url) { return !mime(url).isEmpty(); }
+    private static final java.util.Set<String> GENERIC = new java.util.HashSet<>(java.util.Arrays.asList(
+        "index", "master", "playlist", "manifest", "video", "stream", "chunklist", "media", "live", "play", "output", "file", "download"));
+    /** Readable title from a link's file name ("Big_Buck-Bunny.mp4" → "Big Buck Bunny"), or "" when it is generic or opaque. */
+    public static String fileTitle(String url) {
+        try {
+            String path = URI.create(url).getRawPath(); if (path == null) return "";
+            String name = java.net.URLDecoder.decode(path.substring(path.lastIndexOf('/') + 1).replace("+", "%2B"), "UTF-8");
+            int dot = name.lastIndexOf('.'); if (dot > 0) name = name.substring(0, dot);
+            name = name.replaceAll("[_.\\-]+", " ").replaceAll("(?<=\\p{Ll})(?=\\p{Lu})", " ").replaceAll("\\s+", " ").trim();
+            if (name.length() < 3 || name.length() > 80 || GENERIC.contains(name.toLowerCase(Locale.ROOT))) return "";
+            // Hashes, IDs and segment numbers are not titles.
+            if (!name.matches(".*\\p{L}{3,}.*") || name.replace(" ", "").matches("(?i)[0-9a-f]{12,}")) return "";
+            return name;
+        } catch (Exception malformed) { return ""; }
+    }
 }

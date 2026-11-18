@@ -32,6 +32,8 @@ Renk ve ortak bileşenler `tv-ui`, ana ekranın ölçüleri `HomeScreen`, işlem
 
 Player aynı statik arka planı, yazı ölçülerini ve beyaz odak çerçevesini kullanır. Listenin yanındaki sabit panel eşleştirme QR kodunu gösterir; telefondan göndermek için ek diyalog gerekmez. Bağlantı/liste görünür kalır; Geri al yalnızca yedek varken görünür. Ayrı Tümü/Favoriler/Gruplar düğmelerinin yerini tek bir Göster düğmesi alır. Boş kütüphane QR paneline yönlendirir ve tek bir kanal listesi kartı sunar. Başlıktaki HızlıTV düğmesi aynı APK içindeki ana ekrana döner. Video gösterilmedikçe decoder/tampon oluşturulmaz.
 
+Oynatmada Media3'ün dokunmatik odaklı kontrolleri yerine `PlayerOverlay` kullanılır: yumuşak siyah geçişler üzerinde üst şerit (başlık, kaynak, listedeki sıra, CANLI rozeti, saat) ve alt şerit (ilerleme, kalan süre, tuş ipucu). Yalnızca görünürken 500 ms aralıkla güncellenir. Seçenekler, kaldığın yerden devam ve hata pencereleri `TvDialog` kullanır. Video, altyazı ve yükleniyor göstergesini yine Media3 çizer. Video varsayılan olarak en-boy oranını korur; yakınlaştırma veya uzatma bilinçli ve hatırlanan bir Görüntü seçimidir.
+
 Odak çerçeveleri bir kez oluşturulup `StateListDrawable` ile seçilir; her tuşta yeni şekil üretilmez. Ağır dinamik gölge kullanılmaz. Kare ölçümleri cihazda yapılır; 60 fps her cihazda garanti edilmez.
 
 ## Bağlantı sonrası pencereler

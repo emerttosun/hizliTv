@@ -12,7 +12,7 @@ Four round icons beside the clock open an installed AirPlay receiver (hidden whe
 - **Link / playlist:** enter a direct link, supported web page, M3U URL or M3U text.
 - **Undo:** shown only while an undo backup exists; reverts the most recent library edit (one level).
 - **Show / Search:** Show picks All, Favorites or one group; search matches English/Turkish text.
-- **OK on an entry:** open the source/playback confirmation. Saved web-page entries are resolved again when needed.
+- **OK on an entry:** play it directly (the library is your own list, so there is no extra prompt). Saved web-page entries are resolved again first. Links sent from a phone still ask on the TV.
 - **Hold OK:** favorite or remove the entry.
 - **HızlıTV:** return to the dashboard inside the same app.
 
@@ -20,7 +20,17 @@ Incoming links use the themed source prompt. Play starts playback; Add to librar
 
 ## Video
 
-OK displays Media3 controls. Menu opens source-provided quality, audio and subtitle options. Unsupported or missing tracks are not invented. Back hides a visible control panel first, then exits playback. Video surroundings are black and aspect ratio is retained.
+The playback overlay shows the title, group/source, list position, a LIVE badge for live streams and the clock on top; a progress bar with remaining time and a key hint below. It hides after five seconds while playing and stays while paused.
+
+| Key | Action |
+| --- | --- |
+| OK / Play-Pause | Play or pause |
+| ◀ ▶ / Rewind, Fast-forward | Seek 10 s; holding speeds up to 30 s and 60 s steps (films only) |
+| ▲ ▼ / CH−, CH+ | Previous/next entry of the list it was opened from (the current filter or search); repeated presses pick the target, playback switches when you stop |
+| Menu | Options: quality, audio, subtitles, picture (fit, zoom, stretch) and speed (films only) |
+| Back | Hide the overlay, then leave playback |
+
+A film with a saved position of at least one minute asks **Resume** or **Start over**; Back on that question resumes. If a stream that was already playing loses its connection, the player retries quietly up to three times before showing an error. Errors explain the likely cause (refused/expired link, no connection, unsupported format, copy protection) with Retry, Next (inside a list) and Back. Unsupported or missing tracks are not invented. Video surroundings are black; Fit keeps the aspect ratio and is the default, and the picture choice is remembered.
 
 Volume keys control the device's media stream. The HDMI TV's volume can be a second, independent level. The app does not force volume on every start. A separate AirPlay receiver can affect system volume depending on its configuration; the supplied optional profiles disable sender-driven synchronization.
 

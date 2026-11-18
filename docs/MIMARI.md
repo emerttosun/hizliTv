@@ -97,7 +97,7 @@ Bu örnek ağ isteği yapmaz. Bağdaştırıcıyı registry'ye ekle ve kendi ür
 
 `Store`, uygulamanın özel alanına `AtomicFile` ile yazar. Atomik yazma, yarım kalmış bir kayıt yüzünden mevcut kütüphanenin kaybolmasını önlemeye yardımcı olur. Her değişiklikten önce bir önceki sürüm tutulur; geri alma tek seviyelidir. En fazla 5000 kayıt ve 8 MB kütüphane sınırı vardır. Yayın URL'si hesap bilgisi içerebileceği için kütüphane herkese açık loga aktarılmaz.
 
-`PlayerActivity`, Media3 ExoPlayer'a `MediaItem` verir. Media3 akışı indirir, tamponlar ve Android'in codec/donanım yolunu kullanır. Ayrı bir video dönüştürme sunucusu yoktur. Varsayılan video üst sınırı 1920×1080; ses ve altyazıda seçilen uygulama dili tercih edilir. Kaynağın gerçekten sunduğu desteklenen seçenekler Menü'den seçilebilir.
+`PlayerActivity`, Media3 ExoPlayer'a `MediaItem` verir. Media3 akışı indirir, tamponlar ve Android'in codec/donanım yolunu kullanır. Ayrı bir video dönüştürme sunucusu yoktur. Varsayılan video üst sınırı 1920×1080; ses ve altyazıda seçilen uygulama dili tercih edilir. Kaynağın gerçekten sunduğu desteklenen seçenekler Menü'den seçilebilir. `PlayerOverlay` kumanda odaklı bilgi şeritlerini çizer, tuşları Activity yönetir. `PlaybackQueue` açılan listeyi süreç belleğinde tutar (5000 kayıtlık liste Intent sınırını aşacağı için Intent'e konmaz); kanal tuşları bu listede gezer. `PlaybackErrors`, Media3 hata kodlarını kullanıcıya anlatılan nedenlere çevirir ve unit testlidir.
 
 Oynatma ekranı kapanınca motor serbest bırakılır, VOD konumu saklanır. Canlı yayın konumu saklanmaz. Sistem medya sesi uygulama açılırken zorla değiştirilmez. Kaynakların ses yüksekliği değişebilir; telefonla eşitleme yapan ayrı AirPlay alıcısı sistem sesini etkileyebilir.
 

@@ -17,7 +17,7 @@ Saatin yanındaki dört yuvarlak simge **AirPlay** (alıcı kurulu değilse gizl
 - **Telefondan gönder paneli:** QR kod kütüphanenin sağında hep görünür; ilk açılışta eşleştirme kendiliğinden oluşur. Panelde OK büyük QR'ı ve **Yeni QR kod** seçeneğini açar. Daha önce kurulmuş Kestirme için tekrar QR okutmak gerekmez; kütüphane görünür olsun.
 - **Göster düğmesi:** Tümü, Favoriler veya bir M3U grubu arasında seçim yapar.
 - **Arama:** kanal veya film adını arar. Türkçe harflerle arama desteklenir.
-- Kayıtta **OK:** oynatma onayını açar. Sayfadan eklenen kayıtların geçici video bağlantısı yeniden bulunur.
+- Kayıtta **OK:** doğrudan oynatır; kütüphane senin listen olduğu için ek onay sorulmaz. Sayfadan eklenen kayıtların geçici video bağlantısı önce yeniden bulunur. Telefondan gelen bağlantılar yine TV’de onay ister.
 - Kayıtta **uzun OK:** favori veya kayıt kaldırma seçeneklerini açar.
 - **Bağlantı / liste:** elle bağlantı veya M3U girme. **Geri al:** yalnızca geri alınabilecek bir değişiklik varken görünür; son kütüphane değişikliğini geri alır.
 - **← HızlıTV:** aynı uygulamanın ana ekranına dönme. Player için ikinci APK gerekmez.
@@ -28,7 +28,17 @@ Bağlantı gönderince HızlıTV tasarımlı onay penceresi açılır. **Oynat**
 
 ## Film oynarken
 
-Video çevresindeki boşluklar siyah gösterilir. OK ile Media3 kontrollerini göster. Kumandanın Menü tuşu kalite, ses dili ve altyazı seçeneklerini açar. Kaynağın sunmadığı seçenek üretilmez. Aynı yayın içindeki desteklenen seçenekler gösterilir. Geri, önce görünen kontrol çubuğunu gizler; sonraki Geri oynatmadan çıkar.
+Oynatma ekranının üstünde başlık, grup/kaynak, listedeki sıra, canlı yayınlarda **CANLI** rozeti ve saat; altında kalan süreli ilerleme çubuğu ve tuş ipucu görünür. Oynarken beş saniye sonra gizlenir, duraklatınca açık kalır.
+
+| Tuş | İşlem |
+| --- | --- |
+| OK / Oynat-Duraklat | Oynat veya duraklat |
+| ◀ ▶ / Geri sar, İleri sar | 10 sn sar; basılı tutunca 30 ve 60 sn adımlara hızlanır (yalnız filmler) |
+| ▲ ▼ / CH−, CH+ | Açıldığı listedeki (geçerli filtre veya arama) önceki/sonraki kayıt; art arda basınca hedef değişir, bırakınca geçer |
+| Menü | Seçenekler: kalite, ses, altyazı, görüntü (sığdır, yakınlaştır, uzat) ve hız (yalnız filmler) |
+| Geri | Önce bilgi şeridini gizler, sonra oynatmadan çıkar |
+
+Kayıtlı konumu en az bir dakika olan film **Kaldığın yerden** / **Baştan başla** sorar; bu soruda Geri kaldığı yerden devam eder. Oynamaya başlamış bir yayının bağlantısı koparsa oynatıcı hata göstermeden önce üç kez sessizce yeniden bağlanmayı dener. Hata penceresi olası nedeni (reddedilen/süresi dolmuş bağlantı, bağlantı yok, desteklenmeyen biçim, kopya koruması) söyler; Yeniden dene, listede Sonraki ve Geri seçenekleri sunar. Kaynağın sunmadığı seçenek üretilmez. Video çevresindeki boşluklar siyahtır; Sığdır en-boy oranını korur ve varsayılandır, görüntü seçimi hatırlanır.
 
 Ses tuşları sistemin medya akışını kontrol eder. TV'nin kendi ses ayarı ile Android TV cihazının medya sesi iki ayrı seviye olabilir. Ses düşükse önce cihazın medya sesini kontrol et. Bu uygulama her açılışta sesi yükseltmez.
 

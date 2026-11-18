@@ -82,7 +82,7 @@ public final class TvDialog extends Dialog {
             }
             return true;
         });
-        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(-1, d(53) * Math.min(3, labels.length));
+        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(-1, d(53) * Math.min(5, labels.length));
         p.topMargin = d(17); panel.addView(list, panel.indexOfChild(buttons), p);
         firstFocus = list; return this;
     }

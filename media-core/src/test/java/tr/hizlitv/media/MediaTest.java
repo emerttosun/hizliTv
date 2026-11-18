@@ -19,6 +19,15 @@ public class MediaTest {
         assertEquals("Custom/1", items.get(0).userAgent); assertEquals("Spor", items.get(1).group);
         assertEquals("https://example.org/lists/relative.m3u8", items.get(1).url);
     }
+    @Test public void fileNamesBecomeReadableTitlesOnlyWhenMeaningful() {
+        assertEquals("Big Buck Bunny", Urls.fileTitle("https://example.org/sample/BigBuckBunny.mp4"));
+        assertEquals("Film Adı 2024", Urls.fileTitle("https://example.org/v/Film_Ad%C4%B1-2024.mp4?token=x"));
+        assertEquals("", Urls.fileTitle("https://example.org/hls/master.m3u8"));
+        assertEquals("", Urls.fileTitle("https://example.org/v/3f9a1c0b7d2e4f6a8b9c.mp4"));
+        assertEquals("", Urls.fileTitle("https://example.org/seg/000123.ts"));
+        assertEquals("", Urls.fileTitle("https://example.org/"));
+        assertEquals("", Urls.fileTitle("https://example.org/bad%ZZname.mp4"));
+    }
     @Test public void hlsCannotBeMistakenForChannelList() {
         assertTrue(M3u.hls("#EXTM3U\n#EXT-X-STREAM-INF:BANDWIDTH=1\nv.m3u8"));
         try { M3u.parse("#EXTM3U\n#EXT-X-TARGETDURATION:6\n#EXTINF:6,\nseg.ts", "https://example.org/"); fail(); }

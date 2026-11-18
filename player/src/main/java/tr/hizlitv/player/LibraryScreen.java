@@ -22,7 +22,7 @@ import tr.hizlitv.ui.TvUi;
 
 /** The library presentation owns focus and filtering; it does not fetch or store media. */
 final class LibraryScreen extends LinearLayout {
-    interface Actions { void phone(); void input(); void undo(); void home(); void filter(); void open(MediaEntry entry); void edit(MediaEntry entry); }
+    interface Actions { void phone(); void input(); void undo(); void home(); void filter(); void open(List<MediaEntry> visible, int index); void edit(MediaEntry entry); }
     private LibraryIndex index = new LibraryIndex(java.util.Collections.emptyList());
     private final List<View> edits = new ArrayList<>();
     private final Handler ui = new Handler(Looper.getMainLooper());
@@ -37,6 +37,7 @@ final class LibraryScreen extends LinearLayout {
     private final BaseAdapter adapter;
     private final Button filter, homeButton;
     private View restoreFocus;
+    private boolean placedInitialFocus;
     private boolean favorites;
     private String group = "";
     LibraryScreen(Context c, Actions actions) {
@@ -105,7 +106,7 @@ final class LibraryScreen extends LinearLayout {
                 row.setContentDescription(entry.title + (entry.favorite ? getContext().getString(R.string.text_favorite) : "") + ", " + info.getText()); return row;
             }
         };
-        list.setAdapter(adapter); list.setOnItemClickListener((p, v, n, id) -> actions.open(visible.get(n)));
+        list.setAdapter(adapter); list.setOnItemClickListener((p, v, n, id) -> actions.open(visible, n));
         list.setOnItemLongClickListener((p, v, n, id) -> { actions.edit(visible.get(n)); return true; }); content.addView(list, new FrameLayout.LayoutParams(-1, -1));
         empty = new LinearLayout(c); empty.setOrientation(VERTICAL); empty.setGravity(Gravity.CENTER);
         emptyTitle = TvUi.text(c, getContext().getString(R.string.text_what_shall_we_watch_tonight), 25, TvUi.TEXT, true); emptyTitle.setGravity(Gravity.CENTER); empty.addView(emptyTitle);
@@ -156,6 +157,8 @@ final class LibraryScreen extends LinearLayout {
         for (View control : edits) { control.setEnabled(!busy); control.setAlpha(busy ? .45f : 1f); }
         if (busy) { status(getContext().getString(R.string.text_preparing_library)); return; }
         View focused = findFocus();
+        // First load: a library with entries starts on its list, an empty one on Link / playlist.
+        if (!placedInitialFocus) { placedInitialFocus = true; (list.getVisibility() == VISIBLE ? list : edits.get(0)).requestFocus(); restoreFocus = null; return; }
         if (focused == null || focused == homeButton) {
             View target = restoreFocus != null && restoreFocus.isShown() ? restoreFocus : list.getVisibility() == VISIBLE ? list : edits.get(0);
             target.requestFocus();

@@ -20,7 +20,7 @@ Supported optional headers include `#EXTVLCOPT:http-referrer=` and `#EXTVLCOPT:h
 
 ## Import
 
-Open Player, scan the QR code beside the library and paste M3U text or a playlist URL. Alternatively use Link/playlist on the TV. Review the channel count and choose Add playlist. Filter by group with the Show button, search, favorite entries, and press OK to confirm playback.
+Open Player, scan the QR code beside the library and paste M3U text or a playlist URL. Alternatively use Link/playlist on the TV. Review the channel count and choose Add playlist. Filter by group with the Show button, search, favorite entries, and press OK to play. While watching, ▲ ▼ (or CH±) switch to the previous/next channel of that filtered list.
 
 Reimporting the same URL updates that entry and preserves its favorite status. A different URL can create a new entry; remove old ones with hold OK. Undo appears after a change and reverts only the most recent library change. There is no scheduled provider refresh or EPG feature.
 

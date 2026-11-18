@@ -18,7 +18,7 @@ The library shares the dashboard's visual language. A fixed panel beside the lis
 
 ![Source prompt using a synthetic test URL](../images/source-confirm-en.png)
 
-The playback window, uncovered video area and loading shutter are black. Video retains its aspect ratio rather than being stretched/cropped to hide bars.
+The playback window, uncovered video area and loading shutter are black. Video retains its aspect ratio by default; zoom or stretch is an explicit, remembered Picture choice. Media3's touch-oriented controller is replaced by `PlayerOverlay`: a top strip (title, source, list position, LIVE badge, clock) and a bottom strip (progress, remaining time, key hint) on soft black gradients, drawn only while visible with a 500 ms refresh. Options, resume and error prompts reuse `TvDialog`. Media3 still renders video, subtitles and the buffering indicator.
 
 ## Localization and performance
 

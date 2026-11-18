@@ -41,6 +41,7 @@ final class Resolver {
     Resolver() { this(SourceAdapters.defaults()); }
     Resolver(List<SourceAdapter> adapters) { this(adapters, "Live stream / video", "Subtitles"); }
     Resolver(List<SourceAdapter> adapters, String liveLabel, String subtitleLabel) { this.adapters = new ArrayList<>(adapters); this.liveLabel = liveLabel; this.subtitleLabel = subtitleLabel; }
+    private static String title(String url) { String name = Urls.fileTitle(url); return name.isEmpty() ? "Video · " + Urls.host(url) : name; }
     private void note(String message) { android.util.Log.i("HizliTV.Resolve", message); }
     private void checkTime() throws Exception {
         if (Thread.currentThread().isInterrupted() || System.nanoTime() > deadline) throw new java.io.IOException("Source discovery timed out.");
@@ -52,10 +53,10 @@ final class Resolver {
             result.items.addAll(M3u.parse(text, "")); result.playlist = true; return result;
         }
         String url = Urls.http(text);
-        if (Urls.media(url) && !Urls.mime(url).equals("application/x-mpegURL")) { add(url, "Video · " + Urls.host(url), "", ""); }
+        if (Urls.media(url) && !Urls.mime(url).equals("application/x-mpegURL")) { add(url, title(url), "", ""); }
         else {
             Response response = fetch(url, "");
-            if (response.media) add(response.url, "Video · " + Urls.host(response.url), "", response.type);
+            if (response.media) add(response.url, title(response.url), "", response.type);
             else if (response.body.trim().startsWith("#EXTM3U")) {
                 if (M3u.hls(response.body)) add(response.url, liveLabel, "", "application/x-mpegURL");
                 else { result.items.addAll(M3u.parse(response.body, response.url)); result.playlist = true; return result; }

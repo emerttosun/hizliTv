@@ -34,7 +34,7 @@ Metni UTF-8 olarak `kanallar.m3u` adıyla saklayabilir veya dosya oluşturmadan 
 4. TV'de bulunan kanal sayısını kontrol et, **Listeyi ekle** seç.
 5. Kütüphanede kanal adını seçip **Oynat** de. Grup filtresiyle kanalları ayırabilirsin.
 
-Kanal URL'si aynıysa yeniden içe aktarma kaydı günceller ve favori bilgisini korur. URL değişmişse yeni kayıt oluşabilir; eski kaydı uzun OK ile kaldırabilirsin. Bir değişiklikten sonra kütüphanede görünen **Geri al**, son içe aktarmayı geri döndürür.
+Kanal URL'si aynıysa yeniden içe aktarma kaydı günceller ve favori bilgisini korur. URL değişmişse yeni kayıt oluşabilir; eski kaydı uzun OK ile kaldırabilirsin. Bir değişiklikten sonra kütüphanede görünen **Geri al**, son içe aktarmayı geri döndürür. Kanal izlerken ▲ ▼ (veya CH±) aynı filtrelenmiş listedeki önceki/sonraki kanala geçer.
 
 ## Desteklenen ek bilgiler
 
