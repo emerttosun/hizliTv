@@ -66,6 +66,7 @@ A new TV has no earlier HızlıTV, so any signature installs. To update later wi
 Most models need no code change. When one does, the changes stay in a few places:
 
 - **Video cap and buffer:** `tv-ui/src/main/java/tr/hizlitv/ui/DeviceProfile.java`, with unit tests in `tv-ui/src/test`.
+- **Player options** (add a model-specific option such as a frame-rate or audio setting): a new `PlayerOption` in `player/src/main/java/tr/hizlitv/player/options`, registered in `PlayerOptions.defaults()`.
 - **Remote key mappings:** `player/src/main/java/tr/hizlitv/player/PlayerActivity.java` (`dispatchKeyEvent`).
 - **Preinstalled favorites, AirPlay packages, stock launcher:** `launcher/src/main/java/tr/hizlitv/home/AppTargets.java`.
 - **Apps the Memory screen must never close** (launchers, settings): `LocalAdb.PROTECTED` and `AppManagerActivity.protectedPackage`. Add the TV maker's launcher or system apps there.

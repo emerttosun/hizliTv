@@ -18,15 +18,11 @@ import androidx.media3.common.MediaItem;
 import androidx.media3.common.PlaybackException;
 import androidx.media3.common.PlaybackParameters;
 import androidx.media3.common.Player;
-import androidx.media3.common.TrackSelectionOverride;
-import androidx.media3.common.TrackSelectionParameters;
-import androidx.media3.common.Tracks;
 import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.datasource.DefaultHttpDataSource;
 import androidx.media3.exoplayer.DefaultLoadControl;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
-import androidx.media3.ui.AspectRatioFrameLayout;
 import androidx.media3.ui.PlayerView;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,10 +36,8 @@ import org.json.JSONObject;
  * entry of the list it was opened from, Menu options, Back hides the chrome then leaves.
  */
 @androidx.annotation.OptIn(markerClass = androidx.media3.common.util.UnstableApi.class)
-public final class PlayerActivity extends tr.hizlitv.ui.LocalizedActivity {
+public final class PlayerActivity extends tr.hizlitv.ui.LocalizedActivity implements tr.hizlitv.player.options.PlayerOption.Host {
     private static final long RESUME_THRESHOLD_MS = 60_000, ZAP_DELAY_MS = 700;
-    private static final int[] RESIZE_MODES = {AspectRatioFrameLayout.RESIZE_MODE_FIT, AspectRatioFrameLayout.RESIZE_MODE_ZOOM, AspectRatioFrameLayout.RESIZE_MODE_FILL};
-    private static final float[] SPEEDS = {0.75f, 1f, 1.25f, 1.5f, 2f};
     private final java.util.concurrent.ExecutorService audit = java.util.concurrent.Executors.newSingleThreadExecutor();
     private final Handler ui = new Handler(Looper.getMainLooper());
     private ExoPlayer player;
@@ -80,7 +74,7 @@ public final class PlayerActivity extends tr.hizlitv.ui.LocalizedActivity {
             // The video keeps its aspect ratio by default; uncovered space and loading frames stay black.
             view.setBackgroundColor(android.graphics.Color.BLACK); view.setShutterBackgroundColor(android.graphics.Color.BLACK);
             view.setUseController(false); view.setShowBuffering(PlayerView.SHOW_BUFFERING_WHEN_PLAYING);
-            view.setResizeMode(RESIZE_MODES[Math.max(0, Math.min(RESIZE_MODES.length - 1, getSharedPreferences("player", 0).getInt("resize", 0)))]);
+            tr.hizlitv.player.options.PlayerOptions.restorePicture(view, preferences());
             overlay = new PlayerOverlay(this);
             FrameLayout root = new FrameLayout(this); root.setBackgroundColor(android.graphics.Color.BLACK);
             root.addView(view, new FrameLayout.LayoutParams(-1, -1)); root.addView(overlay, new FrameLayout.LayoutParams(-1, -1));
@@ -240,7 +234,6 @@ public final class PlayerActivity extends tr.hizlitv.ui.LocalizedActivity {
         else if (player.getPlayWhenReady()) player.pause(); else player.play();
         overlay.show();
     }
-    private boolean seekable() { return !player.isCurrentMediaItemLive() && player.getDuration() != C.TIME_UNSET && player.isCurrentMediaItemSeekable(); }
     /** 10 s steps, 30 s after holding briefly, 60 s after holding longer. */
     private void seek(int direction, int repeat) {
         overlay.show(); if (!seekable()) return;
@@ -268,60 +261,20 @@ public final class PlayerActivity extends tr.hizlitv.ui.LocalizedActivity {
         start(true);
     }
 
-    // ---- Options panel ---------------------------------------------------------------------
+    // ---- Options -----------------------------------------------------------------------------
+    // The menu is built from tr.hizlitv.player.options; add or reorder entries in PlayerOptions.defaults().
     private void settings() {
         if (player == null) return;
-        ArrayList<String> labels = new ArrayList<>(); ArrayList<Runnable> actions = new ArrayList<>();
-        labels.add(getString(R.string.text_quality)); actions.add(() -> tracks(C.TRACK_TYPE_VIDEO));
-        labels.add(getString(R.string.text_audio_language)); actions.add(() -> tracks(C.TRACK_TYPE_AUDIO));
-        labels.add(getString(R.string.text_subtitles)); actions.add(() -> tracks(C.TRACK_TYPE_TEXT));
-        labels.add(getString(R.string.player_picture) + "  ·  " + getString(resizeLabel(resizeIndex()))); actions.add(this::picture);
-        if (seekable()) { labels.add(getString(R.string.player_speed) + "  ·  " + speedLabel(speed)); actions.add(this::speeds); }
         overlay.show();
-        show(new TvDialog(this, getString(R.string.player_eyebrow), getString(R.string.text_playback_options), "")
-            .choices(labels.toArray(new String[0]), n -> actions.get(n).run()).action(getString(R.string.text_back), null));
+        new tr.hizlitv.player.options.OptionsMenu(this, this, tr.hizlitv.player.options.PlayerOptions.defaults(), this::show).open();
     }
-    private int resizeIndex() { int mode = view.getResizeMode(); for (int i = 0; i < RESIZE_MODES.length; i++) if (RESIZE_MODES[i] == mode) return i; return 0; }
-    private static int resizeLabel(int i) { return i == 1 ? R.string.player_picture_zoom : i == 2 ? R.string.player_picture_stretch : R.string.player_picture_fit; }
-    private void picture() {
-        String[] labels = new String[RESIZE_MODES.length]; int current = resizeIndex();
-        for (int i = 0; i < labels.length; i++) labels[i] = (i == current ? "✓  " : "") + getString(resizeLabel(i));
-        show(new TvDialog(this, getString(R.string.text_playback_options), getString(R.string.player_picture), "")
-            .choices(labels, n -> { view.setResizeMode(RESIZE_MODES[n]); getSharedPreferences("player", 0).edit().putInt("resize", n).apply(); })
-            .action(getString(R.string.text_back), this::settings));
-    }
-    private String speedLabel(float value) { return value == 1f ? getString(R.string.player_speed_normal) : String.format(java.util.Locale.US, "%sx", value % 1 == 0 ? String.valueOf((int)value) : String.valueOf(value)); }
-    private void speeds() {
-        String[] labels = new String[SPEEDS.length];
-        for (int i = 0; i < SPEEDS.length; i++) labels[i] = (SPEEDS[i] == speed ? "✓  " : "") + speedLabel(SPEEDS[i]);
-        show(new TvDialog(this, getString(R.string.text_playback_options), getString(R.string.player_speed), "")
-            .choices(labels, n -> { speed = SPEEDS[n]; if (player != null) player.setPlaybackParameters(new PlaybackParameters(speed)); })
-            .action(getString(R.string.text_back), this::settings));
-    }
-    private void tracks(int type) {
-        if (player == null) return;
-        ArrayList<String> labels = new ArrayList<>(); ArrayList<TrackSelectionOverride> choices = new ArrayList<>();
-        labels.add(type == C.TRACK_TYPE_TEXT ? getString(R.string.text_subtitles_off) : getString(R.string.text_automatic)); choices.add(null);
-        if (type == C.TRACK_TYPE_TEXT) { labels.add(getString(R.string.text_automatic_preferred_language)); choices.add(null); }
-        for (Tracks.Group g : player.getCurrentTracks().getGroups()) if (g.getType() == type)
-            for (int i = 0; i < g.length; i++) {
-                if (!g.isTrackSupported(i)) continue;
-                androidx.media3.common.Format f = g.getTrackFormat(i);
-                String label = f.label != null ? f.label : f.language != null ? f.language : getString(R.string.text_option) + (choices.size());
-                if (type == C.TRACK_TYPE_VIDEO) label = f.height > 0 ? f.height + "p" : label;
-                if (type == C.TRACK_TYPE_VIDEO && f.bitrate > 0) label += String.format(java.util.Locale.US, " · %.1f Mbps", f.bitrate / 1_000_000d);
-                if (g.isTrackSelected(i) && (type != C.TRACK_TYPE_VIDEO || !player.getTrackSelectionParameters().overrides.isEmpty())) label = "✓  " + label;
-                labels.add(label); choices.add(new TrackSelectionOverride(g.getMediaTrackGroup(), Collections.singletonList(i)));
-            }
-        String title = type == C.TRACK_TYPE_VIDEO ? getString(R.string.text_available_source_quality) : type == C.TRACK_TYPE_AUDIO ? getString(R.string.text_audio) : getString(R.string.text_subtitles);
-        show(new TvDialog(this, getString(R.string.text_playback_options), title, "")
-            .choices(labels.toArray(new String[0]), n -> {
-                if (player == null) return;
-                TrackSelectionParameters.Builder parameters = player.getTrackSelectionParameters().buildUpon().clearOverridesOfType(type);
-                parameters.setTrackTypeDisabled(type, type == C.TRACK_TYPE_TEXT && n == 0);
-                if (choices.get(n) != null) parameters.addOverride(choices.get(n)); player.setTrackSelectionParameters(parameters.build());
-            }).action(getString(R.string.text_back), this::settings));
-    }
+    @Override public android.content.Context context() { return this; }
+    @Override public Player player() { return player; }
+    @Override public PlayerView view() { return view; }
+    @Override public android.content.SharedPreferences preferences() { return getSharedPreferences("player", 0); }
+    @Override public boolean seekable() { return player != null && !player.isCurrentMediaItemLive() && player.getDuration() != C.TIME_UNSET && player.isCurrentMediaItemSeekable(); }
+    @Override public float speed() { return speed; }
+    @Override public void speed(float value) { speed = value; }
 
     // ---- Lifecycle -------------------------------------------------------------------------
     private void save() {

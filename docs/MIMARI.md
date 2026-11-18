@@ -108,7 +108,8 @@ Oynatma ekranı kapanınca motor serbest bırakılır, VOD konumu saklanır. Can
 - Liste ayrıştırma veya URL kuralları: `media-core`; saf Java testleri ekle.
 - Yeni kaynak biçimi: `SourceAdapter` ve test fixture'ı.
 - Telefon aktarım protokolü: `PhonePortal` ve socket testleri; eşleştirmeyi bozacak değişikliğe geçiş planı ekle.
-- Oynatma politikası: `PlayerActivity`; codec ve altyazıyı gerçek cihazda kontrol et.
+- Oynatma politikası: `PlayerActivity` ve `DeviceProfile`; codec ve altyazıyı gerçek cihazda kontrol et.
+- Oynatıcı seçenekleri menüsü: `player/.../options`. Her satır `PlayerOption` arayüzünü uygular (görünür mü, başlık, geçerli değer, seçimler); sırayı `PlayerOptions.defaults()` belirler, hepsini `OptionsMenu` aynı biçimde çizer. Yeni bir seçenek bir sınıf ve bir satırdır. Seçenekler oynatmaya yalnızca `PlayerActivity`'nin uyguladığı `PlayerOption.Host` üzerinden erişir.
 
 Genel kod, cihaz IP'sini veya kullanıcının kanal listesini bilmemelidir. Cihazdan alınan günlük/yedekler bu deponun parçası değildir.
 

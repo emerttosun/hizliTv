@@ -92,5 +92,6 @@ Test new adapters with synthetic fixtures and no account data. They should not r
 - Playlist/URL/index rules: `media-core`, with plain-Java tests.
 - Source formats: adapters and synthetic fixtures.
 - Phone protocol: `PhonePortal`, with socket tests and pairing compatibility.
-- Track/buffer policy: `PlayerActivity`, verified on actual hardware.
+- Track/buffer policy: `PlayerActivity` and `DeviceProfile`, verified on actual hardware.
+- Player options menu: `player/.../options`. Each entry implements `PlayerOption` (availability, title, current value, choices); `PlayerOptions.defaults()` sets the order and `OptionsMenu` draws every option the same way, so a new option is one class plus one line. Options read and change playback only through `PlayerOption.Host`, which `PlayerActivity` implements.
 - Translations: English/Turkish resource pairs and the phone-page catalog.

@@ -66,6 +66,7 @@ Yeni TV'de önceden HızlıTV olmadığı için her imza kurulur. Sonradan küt�
 Çoğu model kod değişikliği istemez. İsterse değişiklik birkaç yerde kalır:
 
 - **Video sınırı ve tampon:** `tv-ui/src/main/java/tr/hizlitv/ui/DeviceProfile.java`; unit testleri `tv-ui/src/test` içinde.
+- **Oynatıcı seçenekleri** (kare hızı veya ses gibi modele özel bir seçenek eklemek): `player/src/main/java/tr/hizlitv/player/options` içinde yeni bir `PlayerOption`, `PlayerOptions.defaults()` içine kaydedilir.
 - **Kumanda tuş eşlemeleri:** `player/src/main/java/tr/hizlitv/player/PlayerActivity.java` (`dispatchKeyEvent`).
 - **Hazır favoriler, AirPlay paketleri, orijinal başlatıcı:** `launcher/src/main/java/tr/hizlitv/home/AppTargets.java`.
 - **Bellek ekranının asla kapatmayacağı uygulamalar** (başlatıcılar, ayarlar): `LocalAdb.PROTECTED` ve `AppManagerActivity.protectedPackage`. TV üreticisinin başlatıcısını veya sistem uygulamalarını buraya ekle.
