@@ -28,9 +28,16 @@ jobs:
           python3 scripts/check_translations.py
           python3 -m unittest discover -s airplay/tests
       - name: Test, lint and assemble
+        shell: bash
         run: |
           chmod +x gradlew
-          ./gradlew --no-daemon :media-core:test :player:testDebugUnitTest :tv-ui:testDebugUnitTest :launcher:lintDebug :player:lintDebug :tv-ui:lintDebug :launcher:assembleDebug
+          mkdir -p build/ci
+          # Keep a copy of the console so a failure can be reported as annotations below.
+          ./gradlew --no-daemon :media-core:test :player:testDebugUnitTest :tv-ui:testDebugUnitTest :launcher:lintDebug :player:lintDebug :tv-ui:lintDebug :launcher:assembleDebug 2>&1 | tee build/ci/gradle.txt
+          exit "${PIPESTATUS[0]}"
+      - name: Report failures as annotations
+        if: failure()
+        run: python3 scripts/ci_failures.py
       - name: Check optional legacy migration tool
         run: ./gradlew --no-daemon -PincludeLegacyBridge=true :legacy-bridge:lintDebug :legacy-bridge:assembleDebug
       - uses: actions/upload-artifact@v4
@@ -45,6 +52,7 @@ jobs:
           path: |
             media-core/build/reports/tests/
             player/build/reports/tests/
+            tv-ui/build/reports/tests/
             launcher/build/reports/lint-results-debug.html
             player/build/reports/lint-results-debug.html
             tv-ui/build/reports/lint-results-debug.html
