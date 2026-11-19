@@ -6,7 +6,7 @@ Android TV için sade bir ana ekran ve kişisel medya oynatıcısı. Büyük kar
 
 ![HızlıTV ana ekranı](docs/images/home.png)
 
-**Tek APK: HızlıTV 0.9.0** (`tr.hizlitv.home`). Ana ekran, cihaz araçları ve Player aynı uygulamanın içindedir. Player kartı; M3U kanallarını, bağlantıdan video bulmayı, altyazı/ses/kalite seçimini ve telefonla göndermeyi açar. Oynatma motoru yalnız video oynatıldığında oluşturulur.
+**Tek APK: HızlıTV 0.9.0** (`tr.hizlitv.home`). Ana ekran, cihaz araçları ve Player aynı uygulamanın içindedir. Ana ekranda RAM özetli selamlama paneli, favori rafı, altında tüm uygulamalar ve dört araç simgesi (AirPlay, Bellek, Ayarlar, Eski ana ekran) bulunur. Player kartı; M3U kanallarını, bağlantıdan video bulmayı ve telefonla göndermeyi açar; eşleştirme QR'ı kütüphanenin yanında hep görünür. Oynatıcıda kumanda odaklı bilgi şeridi, ◀ ▶ ile sarma, ▲ ▼ / CH± ile kanal geçişi, uzun OK ile kalite/ses/altyazı/görüntü/hız seçenekleri, kaldığın yerden devam ve 4K panellerde 4K'ya kadar oynatma vardır. Oynatma motoru yalnız video oynatıldığında oluşturulur.
 
 Android 6 / API 23 ve üzeri TV cihazları hedeflenir. Gerçek cihaz doğrulaması Android 11 çalıştıran Mi TV Stick üzerinde yapılır; diğer üretici/sürüm kombinasyonları ayrıca denenmelidir. Uygulama target SDK 35 kullanır. HOME tuşu veya varsayılan sistem başlatıcısı değiştirilmez. Player ayrı bir uygulama olarak kurulmaz.
 
@@ -16,7 +16,9 @@ Android 6 / API 23 ve üzeri TV cihazları hedeflenir. Gerçek cihaz doğrulamas
 2. HızlıTV'yi uygulama listesinden aç. Sağ/sol/yukarı/aşağı ile gezin, OK ile seç. Uzun OK, favoriyi değiştirir.
 3. **Player**'ı aç ve kütüphanenin yanında duran QR'ı okut. Aynı yerel ağdaki telefonundan video bağlantısı veya M3U metni gönder.
 4. Ana ekrandaki **EN/TR** düğmesinden Sistem dili, English veya Türkçe seçebilirsin; Android sistem dili değişmez.
-5. TV'de **Oynat** veya **Listeyi ekle** seç. Gönderilen bağlantı kendiliğinden oynatılmaz.
+5. TV'de **Oynat** veya **Listeyi ekle** seç. Telefondan gönderilen bağlantı kendiliğinden oynatılmaz; kütüphanedeki bir kayda OK basınca doğrudan oynar.
+
+![Eşleştirme paneliyle Player kütüphanesi (örnek QR kod)](docs/images/library.png)
 
 QR alıcısı yalnızca Player kütüphane ekranı görünürken çalışır. Arka planda sürekli bir alıcı servisi yoktur. Bu sınırlamayı günlük kullanımda hesaba kat: göndermeden önce Player ekranını aç.
 

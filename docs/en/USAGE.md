@@ -8,6 +8,8 @@ Four round icons beside the clock open an installed AirPlay receiver (hidden whe
 
 ## Library
 
+![Player library; the QR code is a placeholder, the real pairing code is hidden](../images/library-en.png)
+
 - **Send from phone panel:** the QR code stays visible beside the library; pairing is created automatically on first use. OK on the panel enlarges it and offers **New QR code**. Existing shortcuts do not need a new QR code unless addressing/pairing changed.
 - **Link / playlist:** enter a direct link, supported web page, M3U URL or M3U text.
 - **Undo:** shown only while an undo backup exists; reverts the most recent library edit (one level).

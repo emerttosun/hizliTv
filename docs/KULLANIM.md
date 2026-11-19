@@ -12,7 +12,7 @@ Saatin yanındaki dört yuvarlak simge **AirPlay** (alıcı kurulu değilse gizl
 
 ## Kütüphane
 
-![Player kütüphanesi](images/library.png)
+![Player kütüphanesi; QR kod örnektir, gerçek eşleştirme kodu gizlendi](images/library.png)
 
 - **Telefondan gönder paneli:** QR kod kütüphanenin sağında hep görünür; ilk açılışta eşleştirme kendiliğinden oluşur. Panelde OK büyük QR'ı ve **Yeni QR kod** seçeneğini açar. Daha önce kurulmuş Kestirme için tekrar QR okutmak gerekmez; kütüphane görünür olsun.
 - **Göster düğmesi:** Tümü, Favoriler veya bir M3U grubu arasında seçim yapar.

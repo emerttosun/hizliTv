@@ -16,11 +16,11 @@ The app supports **English and Turkish**. It follows the device language when su
 
 | Feature | Behavior |
 | --- | --- |
-| TV dashboard | Installed-app cards, favorites, clear DPAD focus and visible shortcuts |
+| TV dashboard | Greeting panel with RAM summary, a favorites shelf above all installed apps, and four tool icons (AirPlay, Memory, Settings, Stock home) |
 | Built-in Player | Direct video links, HLS/DASH streams, M3U channel lists and a private library |
-| Phone sharing | Scan a local QR page, paste a link/list, or use an iPhone Share Sheet shortcut |
+| Phone sharing | The pairing QR code stays beside the library; scan it, paste a link/list, or use an iPhone Share Sheet shortcut. The TV still asks before playing |
 | Source discovery | Looks for supported video sources and subtitle tracks on a supplied page, then asks before playing or saving |
-| Playback controls | Source-provided quality, audio and subtitle options; black video surroundings; saved VOD positions |
+| Playback | Remote-first overlay (title, LIVE badge, progress, clock); OK pause, ◀ ▶ seek, ▲ ▼ / CH± next channel; hold OK for quality, audio, subtitles, picture and speed; resume or start over; quiet reconnect; up to 4K on 4K panels |
 | Memory panel | Current system RAM information, plus optional diagnostics and selected-app management |
 | AirPlay shortcut | Opens the independent receiver; no AirPlay protocol code is linked into the main APK |
 
@@ -72,6 +72,8 @@ Replace `TV_IP` and `TV_SERIAL` with your own device. Wireless debugging varies 
 2. Open **Player** and scan the QR code shown beside the library. Keep both devices on the same local network.
 3. Paste a supported video page, direct stream or M3U text/URL. Choose **Play**, **Add to library**, or **Add playlist** on the TV.
 4. For repeat iPhone sharing, create the documented [Share Sheet shortcut](docs/en/IPHONE.md). Automatic background clipboard synchronization is not implemented.
+
+![Player library with the pairing panel (placeholder QR code)](docs/images/library-en.png)
 
 **Keep the Player library screen open when sending.** Its local HTTP listener stops when the library is no longer visible, including while a video is playing. It is not an always-on cloud casting service. Treat the QR address/token as a private pairing credential; use a trusted local network.
 
