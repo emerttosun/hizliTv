@@ -2,7 +2,7 @@
 
 [English](en/TESTING.md) · **Türkçe**
 
-Sürüm: **HızlıTV 0.9.0**, gömülü Player, tek APK. Tarih: 29 Ekim 2026.
+Sürüm: **HızlıTV 0.10.0**, gömülü Player, tek APK. Tarih: 19 Kasım 2026; aşağıdaki 0.9.0 bölümleri geçmiş kayıt olarak duruyor.
 
 ## Otomatik kontroller
 
@@ -29,6 +29,19 @@ python3 scripts/check_public.py
 | Telefon alıcısı | Token/köken doğrulama, JSON, kararlı yeniden başlama ve özel veriyi loglamayan tanılama |
 
 Testler özel hesap, çalışan kanal listesi veya kişisel HTML yedeği gerektirmez. Socket testleri loopback üzerinde geçici port açar; harici film sitelerine bağlanmaz. `org.json` JVM test bağımlılığı Android'in gerçek çalışma zamanı uygulaması yerine yalnız test ortamında kullanılır.
+
+## 0.10.0 Mi TV Stick doğrulaması
+
+0.9.0'ın üzerine özgün imzayla kuruldu (versionCode 24); kütüphane, konumlar ve mevcut telefon eşleştirmesi korundu, eski eşleştirme adresine POST HTTP202 döndü. `adb input` üzerinden gerçek DPAD/OK yolu kullanıldı:
+
+- Ana ekran: simge satırı, araç adlarının selamlama panelinde görünmesi, paneldeki RAM, favori rafı ve tüm uygulamalar; kartlardan ▲ simgelere ulaşır, Menü tüm uygulamalara atlar, Geri döner. Kaydırılan satırların panelin üstüne çizilmesi kök görünümün kırpması geri getirilerek düzeltildi.
+- Bellek ekranı RAM'i rahatlat ilk düğmeyle açılıyor; arka plan uygulamalarını kapattığı için basılmadı.
+- Kütüphane: QR paneli, Göster filtresi, ekle/geri al sonrası beliren Geri al, kayıtta OK ile doğrudan oynatma, TV stilinde bağlantı, filtre, kayıt ve QR pencereleri. Düzenlemeden sonra odağın "← HızlıTV"ye kaçması ve odakta olmayan listedeki ikinci vurgu bulunup düzeltildi.
+- Açık örneklerle oynatıcı (320×180 MP4, çok kaliteli DASH, WebVTT altyazılı yerel sayfa): bilgi şeridi, kaldığın yerden / baştan başla, ◀ ▶ sarma, OK duraklatma (ses durumu `paused` → `started`), ▼ ile listedeki sonraki kayda geçiş, işaretli seçimler ve geçerli değerlerle uzun OK seçenekleri, kalite seçimi (380p), altyazı boyutu, uyku zamanlayıcısı değeri, Yeniden dene/Geri seçenekli anlaşılır HTTP hatası. Yüklenmekte olan filmde kısa süre görünen CANLI rozeti bulunup düzeltildi.
+- `HizliTV.Device` çıktısı `panel=1920x1080 ram=1990MB video=1920x1080 bufferMB=24`; yani bu stick'te test edilmiş sınırlar değişmedi.
+- Bu cihazda video kareleri `screencap` ile alınamıyor (donanım yüzeyi beyaz çıkıyor); bilgi şeridi görüntüleri yayınlanmayan geçici bir TextureView sürümüyle alındı.
+
+Cihazda denenmeyenler: gerçek bir canlı IPTV yayını ve sessiz yeniden bağlanması, fiziksel kumandada CH± ve medya tuşları, uyku zamanlayıcısının gerçekten dolması, fiziksel iPhone (QR okutma, kopyalama düğmeleri, Paylaş kestirmesi) ve herhangi bir 4K veya Google TV cihazı.
 
 ## 0.9.0 iki dil doğrulaması
 

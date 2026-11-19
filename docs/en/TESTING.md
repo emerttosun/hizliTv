@@ -2,7 +2,7 @@
 
 [English](TESTING.md) · [Türkçe](../TEST.md)
 
-Version **0.9.0**, embedded Player / single APK. Recorded on 29 October 2026.
+Version **0.10.0**, embedded Player / single APK. Recorded on 19 November 2026; the 0.9.0 sections below are kept as history.
 
 ## Automated checks
 
@@ -16,7 +16,7 @@ python3 -m unittest discover -s airplay/tests
 ./gradlew -PincludeLegacyBridge=true :legacy-bridge:lintDebug :legacy-bridge:assembleDebug
 ```
 
-The main JVM suite has **18 passing tests** (8 media-core, 10 player), with no failures or skipped tests. The AirPlay integration tool has **3 passing Python tests**. Android lint and debug/release assembly pass locally. The translation checker verifies **226 matching English/Turkish entries**, including plural forms and format placeholders. These counts describe this version, not all future commits.
+The main JVM suite has **30 passing tests** (9 media-core, 19 player, 2 tv-ui), with no failures or skipped tests. The AirPlay integration tool has **3 passing Python tests**. Android lint and debug/release assembly pass locally and in CI. The translation checker verifies **271 matching English/Turkish entries**, including plural forms and format placeholders. These counts describe this version, not all future commits.
 
 | Area | Evidence |
 | --- | --- |
@@ -28,6 +28,19 @@ The main JVM suite has **18 passing tests** (8 media-core, 10 player), with no f
 | AirPlay profiles | Validated settings/PIN/volume invariants, rejected invalid settings, partial-failure undo state |
 
 Socket tests bind temporary loopback ports. They do not require real subscription lists, provider accounts or private movie-page responses. JVM `org.json` is a test dependency; Android supplies its implementation at runtime.
+
+## 0.10.0 on the Mi TV Stick
+
+Installed over 0.9.0 with the original signing identity (versionCode 24); library, positions and the existing phone pairing were kept, and a POST with the old pairing address returned HTTP202. Checked with the real DPAD/OK path through `adb input`:
+
+- Dashboard: icon row, tool names in the greeting panel, RAM in the panel, favorites shelf and all apps; ▲ from cards reaches the icons, Menu jumps to all apps and Back returns. Scrolled rows drew over the panel until the root view's clipping was restored (fixed before release).
+- Memory screen opens with Free memory first; it was not pressed because it closes background apps.
+- Library: inline QR panel, Show filter, contextual Undo after add/undo, OK playing entries directly, TV-style link, filter, entry and QR dialogs. Focus falling to "← HızlıTV" after edits and a second highlight on the unfocused list were found and fixed.
+- Player with public samples (320×180 MP4, multi-quality DASH, a local page with a WebVTT track): overlay, resume / start over, ◀ ▶ seek, OK pause (audio state `paused` → `started`), ▼ switching to the next list entry, hold OK options with check marks and current values, quality override (380p), subtitle size, sleep timer value, readable HTTP error with Retry/Back. The LIVE badge briefly showing on a still-loading film was found and fixed.
+- `HizliTV.Device` reported `panel=1920x1080 ram=1990MB video=1920x1080 bufferMB=24`, i.e. the tested limits are unchanged on this stick.
+- Video frames cannot be captured with `screencap` on this device (the hardware surface comes out white); overlay screenshots were taken from a temporary TextureView build that was not shipped.
+
+Not checked on hardware: a real live IPTV stream and its quiet reconnect, CH± and media keys on a physical remote, the sleep timer actually expiring, a physical iPhone (QR scan, copy buttons, Share shortcut), and any 4K or Google TV device.
 
 ## Physical-device evidence
 
