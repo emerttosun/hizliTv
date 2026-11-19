@@ -58,8 +58,12 @@ public class PhonePortalTest {
         String token = PhonePortal.newToken(); int port;
         try (PhonePortal first = new PhonePortal(value -> true, token, 0)) { port = first.port(); }
         for (int i = 0; i < 20; i++) {
-            try (PhonePortal portal = new PhonePortal(value -> true, token, port)) {
-                assertEquals(202, post(portal.address("127.0.0.1"), token, null, "https://example.org/" + i));
+            PhonePortal portal = new PhonePortal(value -> true, token, port);
+            try { assertEquals(202, post(portal.address("127.0.0.1"), token, null, "https://example.org/" + i)); }
+            finally {
+                long started = System.nanoTime(); portal.close();
+                // close() runs on the UI thread when the library stops; it must stay quick.
+                assertTrue("close took too long", System.nanoTime() - started < 500_000_000L);
             }
         }
     }

@@ -27,6 +27,7 @@ final class PhonePortal implements AutoCloseable {
     private final Receiver receiver;
     private final Diagnostic diagnostic;
     private final ServerSocket listener;
+    private final Thread acceptor;
     private final String token;
     private final long expires;
     private volatile boolean running = true;
@@ -50,7 +51,7 @@ final class PhonePortal implements AutoCloseable {
         // A taken port surfaces as BindException so the caller can fall back to a free one; never leak the socket.
         try { listener.bind(new java.net.InetSocketAddress(port), 4); } catch (IOException taken) { listener.close(); throw taken; }
         listener.setSoTimeout(1000);
-        Thread thread = new Thread(this::accept, "PhonePortal"); thread.setDaemon(true); thread.start();
+        acceptor = new Thread(this::accept, "PhonePortal"); acceptor.setDaemon(true); acceptor.start();
     }
     static String newToken() {
         byte[] random = new byte[24]; new SecureRandom().nextBytes(random);
@@ -171,5 +172,10 @@ final class PhonePortal implements AutoCloseable {
         running = false; try { listener.close(); } catch (IOException ignored) { }
         for (Socket peer : peers.toArray(new Socket[0])) closeQuietly(peer);
         workers.shutdown();
+        // The JDK releases a listening socket's descriptor only after the thread blocked in accept()
+        // leaves it; until then the port still counts as bound. Waking takes milliseconds.
+        if (Thread.currentThread() != acceptor) {
+            try { acceptor.join(1500); } catch (InterruptedException interrupted) { Thread.currentThread().interrupt(); }
+        }
     }
 }
