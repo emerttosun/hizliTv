@@ -2,7 +2,6 @@ package tr.hizlitv.player;
 
 import tr.hizlitv.ui.R;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -30,7 +29,7 @@ final class PhoneCompanion {
     private final PhonePortal.Receiver receiver;
     private final Events events;
     private PhonePortal portal;
-    private AlertDialog dialog;
+    private tr.hizlitv.ui.TvDialog dialog;
     PhoneCompanion(Activity activity, PhonePortal.Receiver receiver, Events events) { this.activity = activity; this.receiver = receiver; this.events = events; }
     private SharedPreferences preferences() { return activity.getSharedPreferences("phone", 0); }
     /** Pairing is created on first use so the QR code is ready without an extra dialog. */
@@ -79,12 +78,12 @@ final class PhoneCompanion {
             LinearLayout content = new LinearLayout(activity); content.setOrientation(LinearLayout.VERTICAL); content.setGravity(Gravity.CENTER);
             ImageView qr = new ImageView(activity); qr.setImageBitmap(qr(address, 440));
             content.addView(qr, new LinearLayout.LayoutParams(d(180), d(180)));
-            TextView instruction = TvUi.text(activity, activity.getString(R.string.text_scan_with_your_iphone_camera_paste_a_link_or_channel_list), 13, TvUi.MUTED, false);
-            instruction.setGravity(Gravity.CENTER); instruction.setPadding(d(18), d(10), d(18), d(8)); content.addView(instruction);
-            TextView manual = TvUi.text(activity, address, 10, TvUi.MUTED, false); manual.setGravity(Gravity.CENTER); manual.setPadding(d(12), 0, d(12), d(10)); content.addView(manual);
-            dialog = new AlertDialog.Builder(activity).setTitle(activity.getString(R.string.text_add_from_phone)).setView(content)
-                .setNeutralButton(activity.getString(R.string.phone_new_qr_code), (d, w) -> confirmForget()).setNegativeButton(activity.getString(R.string.text_close), null).create();
-            dialog.setOnDismissListener(d -> dialog = null); dialog.show(); events.audit("phone_pairing_open");
+            qr.setBackgroundColor(Color.WHITE);
+            TextView manual = TvUi.text(activity, address, 11, TvUi.MUTED, false); manual.setGravity(Gravity.CENTER); manual.setPadding(d(12), d(10), d(12), 0); content.addView(manual);
+            tr.hizlitv.ui.TvDialog shown = new tr.hizlitv.ui.TvDialog(activity, activity.getString(R.string.player_eyebrow), activity.getString(R.string.text_add_from_phone),
+                activity.getString(R.string.text_scan_with_your_iphone_camera_paste_a_link_or_channel_list))
+                .content(content).action(activity.getString(R.string.text_close), null).action(activity.getString(R.string.phone_new_qr_code), this::confirmForget);
+            dialog = shown; shown.setOnDismissListener(d -> { if (dialog == shown) dialog = null; }); shown.show(); events.audit("phone_pairing_open");
         } catch (Exception failure) {
             // Keep a working receiver; only the enlarged QR view failed (usually no local address).
             closeDialog(); publish(); events.status(activity.getString(R.string.text_phone_transfer_could_not_start_check_that_both_devices_are));
@@ -92,14 +91,15 @@ final class PhoneCompanion {
     }
     private int d(int value) { return TvUi.dp(activity, value); }
     private void confirmForget() {
-        new AlertDialog.Builder(activity).setTitle(activity.getString(R.string.text_forget_phone_pairing))
-            .setMessage(activity.getString(R.string.text_the_current_qr_address_and_iphone_shortcut_will_stop_worki))
-            .setPositiveButton(activity.getString(R.string.text_forget), (d, w) -> {
+        // Cancel is first, so a stray OK never invalidates the phone's shortcut.
+        new tr.hizlitv.ui.TvDialog(activity, activity.getString(R.string.player_eyebrow), activity.getString(R.string.text_forget_phone_pairing),
+            activity.getString(R.string.text_the_current_qr_address_and_iphone_shortcut_will_stop_worki))
+            .action(activity.getString(R.string.text_cancel), null)
+            .action(activity.getString(R.string.text_forget), () -> {
                 stop(); preferences().edit().clear().commit(); events.audit("phone_pairing_forgotten");
                 // A fresh identity replaces the old one immediately; the panel shows the new QR code.
                 onStart(); if (portal != null) events.status(activity.getString(R.string.phone_pairing_renewed));
-            })
-            .setNegativeButton(activity.getString(R.string.text_cancel), null).show();
+            }).show();
     }
     void closeDialog() { if (dialog != null) { dialog.dismiss(); dialog = null; } }
     void stop() {

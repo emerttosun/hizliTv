@@ -7,10 +7,12 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class PlayerOptionsTest {
-    @Test public void menuOrderIsQualityAudioSubtitlesPictureSpeed() {
+    @Test public void menuOrderIsTracksSubtitleSizePictureSpeedSleep() {
         java.util.List<PlayerOption> options = PlayerOptions.defaults();
-        assertEquals(5, options.size());
-        assertTrue(options.get(0) instanceof TrackOption); assertTrue(options.get(3) instanceof PictureOption); assertTrue(options.get(4) instanceof SpeedOption);
+        assertEquals(7, options.size());
+        assertTrue(options.get(0) instanceof TrackOption); assertTrue(options.get(2) instanceof TrackOption);
+        assertTrue(options.get(3) instanceof SubtitleSizeOption); assertTrue(options.get(4) instanceof PictureOption);
+        assertTrue(options.get(5) instanceof SpeedOption); assertTrue(options.get(6) instanceof SleepTimerOption);
         try { options.add(new SpeedOption()); fail("the default list must not be changed at runtime"); } catch (UnsupportedOperationException expected) { }
     }
     @Test public void trackLabelsUseHeightBitrateLabelOrLanguage() {
@@ -26,5 +28,15 @@ public class PlayerOptionsTest {
         assertEquals(0, PictureOption.index(AspectRatioFrameLayout.RESIZE_MODE_FIT));
         assertEquals(2, PictureOption.index(AspectRatioFrameLayout.RESIZE_MODE_FILL));
         assertEquals(0, PictureOption.index(AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH)); // unknown modes fall back to Fit
+    }
+    @Test public void subtitleSizesGrowAndDefaultToMedia3Normal() {
+        assertEquals(androidx.media3.ui.SubtitleView.DEFAULT_TEXT_SIZE_FRACTION, SubtitleSizeOption.FRACTIONS[SubtitleSizeOption.DEFAULT], 0f);
+        for (int i = 1; i < SubtitleSizeOption.FRACTIONS.length; i++) assertTrue(SubtitleSizeOption.FRACTIONS[i] > SubtitleSizeOption.FRACTIONS[i - 1]);
+    }
+    @Test public void sleepTimerRoundsRemainingMinutesUp() {
+        assertEquals(0, SleepTimerOption.minutesLeft(0)); assertEquals(0, SleepTimerOption.minutesLeft(-5));
+        assertEquals(1, SleepTimerOption.minutesLeft(1)); assertEquals(1, SleepTimerOption.minutesLeft(60_000));
+        assertEquals(2, SleepTimerOption.minutesLeft(60_001)); assertEquals(30, SleepTimerOption.minutesLeft(30 * 60_000));
+        assertEquals(0, SleepTimerOption.MINUTES[0]);
     }
 }

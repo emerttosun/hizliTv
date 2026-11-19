@@ -29,7 +29,7 @@ The playback overlay shows the title, group/source, list position, a LIVE badge 
 | OK / Play-Pause | Play or pause (OK acts when released) |
 | ◀ ▶ / Rewind, Fast-forward | Seek 10 s; holding speeds up to 30 s and 60 s steps (films only) |
 | ▲ ▼ / CH−, CH+ | Previous/next entry of the list it was opened from (the current filter or search); repeated presses pick the target, playback switches when you stop |
-| Hold OK / Menu / Info | Options: quality, audio, subtitles, picture (fit, zoom, stretch) and speed (films only). Holding OK works on remotes without a Menu key |
+| Hold OK / Menu / Info | Options: quality, audio, subtitles, subtitle size (remembered), picture (fit, zoom, stretch), speed (films only) and a sleep timer (15–90 min; pauses and asks, then closes after a minute without an answer). Holding OK works on remotes without a Menu key |
 | Back | Hide the overlay, then leave playback |
 
 A film with a saved position of at least one minute asks **Resume** or **Start over**; Back on that question resumes. If a stream that was already playing loses its connection, the player retries quietly up to three times before showing an error. Errors explain the likely cause (refused/expired link, no connection, unsupported format, copy protection) with Retry, Next (inside a list) and Back. Unsupported or missing tracks are not invented. Video surroundings are black; Fit keeps the aspect ratio and is the default, and the picture choice is remembered.

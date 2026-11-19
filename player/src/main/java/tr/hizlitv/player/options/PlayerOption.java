@@ -23,6 +23,10 @@ public interface PlayerOption {
         /** Playback speed that survives channel changes, which rebuild the player. */
         float speed();
         void speed(float value);
+        /** Sleep timer: the last chosen length (0 = off), time left, and start/cancel (0 cancels). */
+        int sleepMinutes();
+        long sleepRemainingMs();
+        void sleepAfter(int minutes);
     }
     /** A selectable value; {@code selected} draws the check mark. */
     final class Choice {

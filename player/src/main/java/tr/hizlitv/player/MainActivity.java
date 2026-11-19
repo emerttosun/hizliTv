@@ -2,12 +2,10 @@ package tr.hizlitv.player;
 
 import tr.hizlitv.ui.R;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -61,9 +59,10 @@ public final class MainActivity extends tr.hizlitv.ui.LocalizedActivity implemen
     @Override public void phone() { if (libraryReady && !libraryBusy) phone.open(); }
     @Override public void input() {
         if (!libraryReady || libraryBusy) return;
-        EditText field = new EditText(this); field.setTextSize(15); field.setHint(getString(R.string.link_example)); field.setMaxLines(5);
-        new AlertDialog.Builder(this).setTitle(getString(R.string.text_link_or_channel_list)).setView(field)
-            .setPositiveButton(getString(R.string.text_find_sources), (d, w) -> submit(field.getText().toString())).setNegativeButton(getString(R.string.text_cancel), null).show();
+        TvDialog dialog = new TvDialog(this, getString(R.string.player_eyebrow), getString(R.string.text_link_or_channel_list), "").field(getString(R.string.link_example));
+        dialog.action(getString(R.string.text_find_sources), () -> { String text = dialog.text().trim(); if (!text.isEmpty()) submit(text); })
+            .action(getString(R.string.text_cancel), null);
+        showSource(dialog);
     }
     /** Library entries are the user's own choice on the TV, so direct streams play without a prompt. */
     @Override public void open(List<MediaEntry> visible, int index) {
@@ -119,14 +118,16 @@ public final class MainActivity extends tr.hizlitv.ui.LocalizedActivity implemen
             .action(getString(R.string.text_cancel), null));
     }
     @Override public void edit(MediaEntry entry) {
-        new AlertDialog.Builder(this).setTitle(entry.title)
-            .setItems(new String[]{entry.favorite ? getString(R.string.text_remove_favorite) : getString(R.string.text_add_favorite), getString(R.string.text_remove_entry)}, (d, n) -> {
-                if (beginEdit()) repository.edit(entry, n == 1, result(getString(R.string.text_changes_could_not_be_saved)));
-            }).setNegativeButton(getString(R.string.text_back), null).show();
+        String[] labels = {entry.favorite ? getString(R.string.text_remove_favorite) : getString(R.string.text_add_favorite), getString(R.string.text_remove_entry)};
+        showSource(new TvDialog(this, getString(R.string.player_eyebrow), entry.title, "")
+            .choices(labels, n -> { if (beginEdit()) repository.edit(entry, n == 1, result(getString(R.string.text_changes_could_not_be_saved))); })
+            .action(getString(R.string.text_back), null));
     }
     @Override public void filter() {
         ArrayList<String> labels = new ArrayList<>(); labels.add(getString(R.string.text_all)); labels.add("★ " + getString(R.string.text_favorites)); labels.addAll(library.groups());
-        new AlertDialog.Builder(this).setTitle(getString(R.string.library_filter)).setItems(labels.toArray(new String[0]), (d, n) -> screen.filter(n == 1, n < 2 ? "" : labels.get(n))).show();
+        showSource(new TvDialog(this, getString(R.string.player_eyebrow), getString(R.string.library_filter), "")
+            .choices(labels.toArray(new String[0]), n -> screen.filter(n == 1, n < 2 ? "" : labels.get(n)))
+            .action(getString(R.string.text_back), null));
     }
     @Override public void undo() { if (beginEdit()) repository.undo(result(getString(R.string.text_nothing_to_undo_or_the_backup_could_not_be_read))); }
     @Override protected void onStart() { super.onStart(); started = true; if (libraryReady) phone.onStart(); }

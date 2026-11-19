@@ -14,9 +14,13 @@ public final class PlayerOptions {
             new TrackOption(C.TRACK_TYPE_VIDEO),
             new TrackOption(C.TRACK_TYPE_AUDIO),
             new TrackOption(C.TRACK_TYPE_TEXT),
+            new SubtitleSizeOption(),
             new PictureOption(),
-            new SpeedOption())));
+            new SpeedOption(),
+            new SleepTimerOption())));
     }
-    /** Applies the remembered picture mode to a new player view. */
-    public static void restorePicture(androidx.media3.ui.PlayerView view, android.content.SharedPreferences preferences) { PictureOption.restore(view, preferences); }
+    /** Applies remembered view settings (picture mode, subtitle size) to a new player view. */
+    public static void restore(androidx.media3.ui.PlayerView view, android.content.SharedPreferences preferences) {
+        PictureOption.restore(view, preferences); SubtitleSizeOption.restore(view, preferences);
+    }
 }

@@ -262,4 +262,17 @@
     <string name="player_error_format">"Bu video biçimi bu cihazda desteklenmiyor."</string>
     <string name="player_error_drm">"Bu video kopya korumalı (DRM); burada oynatılamaz."</string>
     <string name="player_error_generic">"Video beklenmedik şekilde durdu."</string>
+    <string name="player_subtitle_size">"Altyazı boyutu"</string>
+    <string name="player_size_small">"Küçük"</string>
+    <string name="player_size_normal">"Normal"</string>
+    <string name="player_size_large">"Büyük"</string>
+    <string name="player_size_xlarge">"Çok büyük"</string>
+    <string name="player_sleep">"Uyku zamanlayıcısı"</string>
+    <string name="player_sleep_off">"Kapalı"</string>
+    <string name="player_minutes">"%1$d dk"</string>
+    <string name="player_sleep_left">"%1$d dk kaldı"</string>
+    <string name="player_sleep_title">"Uyku zamanlayıcısı doldu"</string>
+    <string name="player_sleep_message">"Oynatma duraklatıldı. Bir dakika içinde seçim yapılmazsa oynatıcı kapanır."</string>
+    <string name="player_continue">"Devam et"</string>
+    <string name="player_exit">"Çık"</string>
 </resources>

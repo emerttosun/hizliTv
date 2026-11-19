@@ -471,4 +471,17 @@
     <string name="player_error_format">"This video format is not supported on this device."</string>
     <string name="player_error_drm">"This video is copy-protected (DRM) and cannot be played here."</string>
     <string name="player_error_generic">"The video stopped unexpectedly."</string>
+    <string name="player_subtitle_size">"Subtitle size"</string>
+    <string name="player_size_small">"Small"</string>
+    <string name="player_size_normal">"Normal"</string>
+    <string name="player_size_large">"Large"</string>
+    <string name="player_size_xlarge">"Extra large"</string>
+    <string name="player_sleep">"Sleep timer"</string>
+    <string name="player_sleep_off">"Off"</string>
+    <string name="player_minutes">"%1$d min"</string>
+    <string name="player_sleep_left">"%1$d min left"</string>
+    <string name="player_sleep_title">"Sleep timer ended"</string>
+    <string name="player_sleep_message">"Playback is paused. The player closes if nothing is chosen within a minute."</string>
+    <string name="player_continue">"Continue"</string>
+    <string name="player_exit">"Exit"</string>
 </resources>

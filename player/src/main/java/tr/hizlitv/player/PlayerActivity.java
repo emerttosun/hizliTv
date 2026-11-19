@@ -54,6 +54,10 @@ public final class PlayerActivity extends tr.hizlitv.ui.LocalizedActivity implem
     private tr.hizlitv.ui.DeviceProfile device;
     private String positionKey;
     private final Runnable zap = this::applyZap;
+    private final Runnable reconnect = () -> { if (player != null) { player.prepare(); player.play(); } };
+    private final Runnable sleep = this::sleepNow, sleepExit = this::finish;
+    private long sleepAt;
+    private int sleepMinutes;
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state); alive = true;
@@ -74,7 +78,7 @@ public final class PlayerActivity extends tr.hizlitv.ui.LocalizedActivity implem
             // The video keeps its aspect ratio by default; uncovered space and loading frames stay black.
             view.setBackgroundColor(android.graphics.Color.BLACK); view.setShutterBackgroundColor(android.graphics.Color.BLACK);
             view.setUseController(false); view.setShowBuffering(PlayerView.SHOW_BUFFERING_WHEN_PLAYING);
-            tr.hizlitv.player.options.PlayerOptions.restorePicture(view, preferences());
+            tr.hizlitv.player.options.PlayerOptions.restore(view, preferences());
             overlay = new PlayerOverlay(this);
             FrameLayout root = new FrameLayout(this); root.setBackgroundColor(android.graphics.Color.BLACK);
             root.addView(view, new FrameLayout.LayoutParams(-1, -1)); root.addView(overlay, new FrameLayout.LayoutParams(-1, -1));
@@ -176,7 +180,7 @@ public final class PlayerActivity extends tr.hizlitv.ui.LocalizedActivity implem
         // A stream that already played and then dropped is retried quietly a few times before asking.
         if (everReady && network(code) && reconnects < 3) {
             reconnects++; overlay.show(); overlay.message(getString(R.string.player_reconnecting), 0);
-            ui.postDelayed(() -> { if (player != null) { player.prepare(); player.play(); } }, 2000L * reconnects); return;
+            ui.removeCallbacks(reconnect); ui.postDelayed(reconnect, 2000L * reconnects); return;
         }
         overlay.clearMessage();
         TvDialog dialog = new TvDialog(this, getString(R.string.player_eyebrow), getString(R.string.text_cannot_play_this_stream),
@@ -275,6 +279,21 @@ public final class PlayerActivity extends tr.hizlitv.ui.LocalizedActivity implem
     @Override public boolean seekable() { return player != null && !player.isCurrentMediaItemLive() && player.getDuration() != C.TIME_UNSET && player.isCurrentMediaItemSeekable(); }
     @Override public float speed() { return speed; }
     @Override public void speed(float value) { speed = value; }
+    @Override public int sleepMinutes() { return sleepMinutes; }
+    @Override public long sleepRemainingMs() { return sleepAt == 0 ? 0 : Math.max(0, sleepAt - android.os.SystemClock.elapsedRealtime()); }
+    @Override public void sleepAfter(int minutes) {
+        ui.removeCallbacks(sleep); ui.removeCallbacks(sleepExit); sleepMinutes = minutes;
+        sleepAt = minutes <= 0 ? 0 : android.os.SystemClock.elapsedRealtime() + minutes * 60_000L;
+        if (minutes > 0) ui.postDelayed(sleep, minutes * 60_000L);
+    }
+    /** Timer ended: pause and ask; with no answer within a minute the player closes. */
+    private void sleepNow() {
+        sleepAt = 0; sleepMinutes = 0; if (player != null) player.pause();
+        show(new TvDialog(this, getString(R.string.player_eyebrow), getString(R.string.player_sleep_title), getString(R.string.player_sleep_message))
+            .action(getString(R.string.player_continue), () -> { ui.removeCallbacks(sleepExit); if (player != null) player.play(); })
+            .action(getString(R.string.player_exit), this::finish));
+        ui.postDelayed(sleepExit, 60_000);
+    }
 
     // ---- Lifecycle -------------------------------------------------------------------------
     private void save() {
@@ -286,7 +305,7 @@ public final class PlayerActivity extends tr.hizlitv.ui.LocalizedActivity implem
     }
     @Override protected void onSaveInstanceState(Bundle out) { save(); out.putLong("position", position); out.putBoolean("play", resume); super.onSaveInstanceState(out); }
     private void stopPlayer() {
-        save(); ui.removeCallbacksAndMessages(null);
+        save(); ui.removeCallbacks(reconnect); ui.removeCallbacks(zap);
         if (player != null) {
             androidx.media3.exoplayer.DecoderCounters counters = player.getVideoDecoderCounters();
             if (counters != null) {
@@ -299,8 +318,8 @@ public final class PlayerActivity extends tr.hizlitv.ui.LocalizedActivity implem
         }
     }
     @Override protected void onStop() {
-        if (prompt != null) prompt.dismiss(); pendingIndex = -1; okDown = false; stopPlayer(); overlay.hideNow();
+        if (prompt != null) prompt.dismiss(); pendingIndex = -1; okDown = false; sleepAfter(0); stopPlayer(); overlay.hideNow();
         super.onStop();
     }
-    @Override protected void onDestroy() { alive = false; if (overlay != null) overlay.release(); audit.shutdown(); super.onDestroy(); }
+    @Override protected void onDestroy() { alive = false; ui.removeCallbacksAndMessages(null); if (overlay != null) overlay.release(); audit.shutdown(); super.onDestroy(); }
 }

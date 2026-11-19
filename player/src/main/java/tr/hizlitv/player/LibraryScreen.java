@@ -81,7 +81,11 @@ final class LibraryScreen extends LinearLayout {
         phonePanel.setContentDescription(getContext().getString(R.string.text_send_from_phone)); phonePanel.setOnClickListener(v -> actions.phone()); edits.add(phonePanel);
         LayoutParams pp = new LayoutParams(d(188), -2); pp.leftMargin = d(16); body.addView(phonePanel, pp);
         list = new ListView(c); list.setDivider(new android.graphics.drawable.ColorDrawable(0)); list.setDividerHeight(d(8));
-        list.setSelector(TvUi.shape(c, 0x223d6baf, 14, TvUi.TEXT)); list.setDrawSelectorOnTop(true); list.setVerticalScrollBarEnabled(false);
+        // ListView keeps drawing its selection when focus moves to a button; show the frame only while
+        // the list itself has focus so there is never a second highlight on screen.
+        android.graphics.drawable.Drawable selection = TvUi.shape(c, 0x223d6baf, 14, TvUi.TEXT), none = new android.graphics.drawable.ColorDrawable(0);
+        list.setSelector(none); list.setDrawSelectorOnTop(true); list.setVerticalScrollBarEnabled(false);
+        list.setOnFocusChangeListener((v, focused) -> list.setSelector(focused ? selection : none));
         adapter = new BaseAdapter() {
             public int getCount() { return visible.size(); }
             public Object getItem(int n) { return visible.get(n); }

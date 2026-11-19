@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -22,6 +23,7 @@ public final class TvDialog extends Dialog {
     private final Activity activity;
     private final LinearLayout panel, buttons;
     private View firstFocus;
+    private android.widget.EditText field;
 
     public TvDialog(Activity activity, String eyebrow, String title, String message) {
         super(activity, R.style.HizliTvDialogTheme); this.activity = activity;
@@ -85,6 +87,24 @@ public final class TvDialog extends Dialog {
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(-1, d(53) * Math.min(5, labels.length));
         p.topMargin = d(17); panel.addView(list, panel.indexOfChild(buttons), p);
         firstFocus = list; return this;
+    }
+
+    /** Adds a text field (first focus); read it with {@link #text()} inside an action. */
+    public TvDialog field(String hint) {
+        field = new android.widget.EditText(activity); field.setTextSize(16); field.setTextColor(TvUi.TEXT); field.setHintTextColor(TvUi.MUTED);
+        field.setHint(hint); field.setMaxLines(5); field.setPadding(d(16), d(12), d(16), d(12));
+        field.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_URI | android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        StateListDrawable states = new StateListDrawable();
+        states.addState(new int[]{android.R.attr.state_focused}, TvUi.shape(activity, TvUi.SURFACE, 14, TvUi.TEXT));
+        states.addState(new int[]{}, TvUi.shape(activity, TvUi.SURFACE, 14, 0)); field.setBackground(states);
+        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(-1, -2); p.topMargin = d(17);
+        panel.addView(field, panel.indexOfChild(buttons), p); firstFocus = field; return this;
+    }
+    public String text() { return field == null ? "" : field.getText().toString(); }
+    /** Adds caller-built content (for example a QR image) above the buttons. */
+    public TvDialog content(View view) {
+        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(-1, -2); p.topMargin = d(17);
+        panel.addView(view, panel.indexOfChild(buttons), p); return this;
     }
 
     @Override public void show() {

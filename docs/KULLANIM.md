@@ -35,7 +35,7 @@ Oynatma ekranının üstünde başlık, grup/kaynak, listedeki sıra, canlı yay
 | OK / Oynat-Duraklat | Oynat veya duraklat (OK bırakılınca çalışır) |
 | ◀ ▶ / Geri sar, İleri sar | 10 sn sar; basılı tutunca 30 ve 60 sn adımlara hızlanır (yalnız filmler) |
 | ▲ ▼ / CH−, CH+ | Açıldığı listedeki (geçerli filtre veya arama) önceki/sonraki kayıt; art arda basınca hedef değişir, bırakınca geçer |
-| Uzun OK / Menü / Info | Seçenekler: kalite, ses, altyazı, görüntü (sığdır, yakınlaştır, uzat) ve hız (yalnız filmler). Uzun OK, Menü tuşu olmayan kumandalarda da çalışır |
+| Uzun OK / Menü / Info | Seçenekler: kalite, ses, altyazı, altyazı boyutu (hatırlanır), görüntü (sığdır, yakınlaştır, uzat), hız (yalnız filmler) ve uyku zamanlayıcısı (15–90 dk; süre dolunca duraklatıp sorar, bir dakika cevap gelmezse kapanır). Uzun OK, Menü tuşu olmayan kumandalarda da çalışır |
 | Geri | Önce bilgi şeridini gizler, sonra oynatmadan çıkar |
 
 Kayıtlı konumu en az bir dakika olan film **Kaldığın yerden** / **Baştan başla** sorar; bu soruda Geri kaldığı yerden devam eder. Oynamaya başlamış bir yayının bağlantısı koparsa oynatıcı hata göstermeden önce üç kez sessizce yeniden bağlanmayı dener. Hata penceresi olası nedeni (reddedilen/süresi dolmuş bağlantı, bağlantı yok, desteklenmeyen biçim, kopya koruması) söyler; Yeniden dene, listede Sonraki ve Geri seçenekleri sunar. Kaynağın sunmadığı seçenek üretilmez. Video çevresindeki boşluklar siyahtır; Sığdır en-boy oranını korur ve varsayılandır, görüntü seçimi hatırlanır.
