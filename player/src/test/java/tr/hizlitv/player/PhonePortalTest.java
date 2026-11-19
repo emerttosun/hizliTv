@@ -52,6 +52,17 @@ public class PhonePortalTest {
     private int post(String address, String token, String origin, String value) throws Exception {
         return request(address, token, origin, value, "text/plain;charset=UTF-8");
     }
+    @Test public void theSamePortCanBeReboundRightAfterServingRequests() throws Exception {
+        // Regression: on Linux CI a just-closed listener whose last connection was still open kept the
+        // port busy, so an immediate restart failed with "Address already in use".
+        String token = PhonePortal.newToken(); int port;
+        try (PhonePortal first = new PhonePortal(value -> true, token, 0)) { port = first.port(); }
+        for (int i = 0; i < 20; i++) {
+            try (PhonePortal portal = new PhonePortal(value -> true, token, port)) {
+                assertEquals(202, post(portal.address("127.0.0.1"), token, null, "https://example.org/" + i));
+            }
+        }
+    }
     @Test public void shortcutJsonAndStablePairingSurviveListenerRestart() throws Exception {
         String token = PhonePortal.newToken(); AtomicReference<String> text = new AtomicReference<>();
         int port;

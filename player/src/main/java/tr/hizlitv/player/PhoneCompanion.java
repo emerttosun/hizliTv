@@ -55,8 +55,14 @@ final class PhoneCompanion {
         PhonePortal.Diagnostic log = event -> android.util.Log.i("HizliTV.Phone", event);
         // Keep the saved port so QR codes and shortcuts stay valid; if another app on this TV
         // already uses it, take any free port instead of failing (the QR code then shows the new one).
-        try { portal = new PhonePortal(receiver, token, prefs.getInt("port", 8198), log); }
-        catch (java.net.BindException taken) { portal = new PhonePortal(receiver, token, 0, log); events.audit("phone_port_changed"); }
+        int saved = prefs.getInt("port", 8198);
+        try { portal = new PhonePortal(receiver, token, saved, log); }
+        catch (java.net.BindException busy) {
+            // A port that is only briefly busy (the previous listener still closing) must not move the
+            // QR address for good: retry once, and switch ports only if it is really taken.
+            try { Thread.sleep(250); portal = new PhonePortal(receiver, token, saved, log); }
+            catch (java.net.BindException taken) { portal = new PhonePortal(receiver, token, 0, log); events.audit("phone_port_changed"); }
+        }
         prefs.edit().putInt("port", portal.port()).apply();
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }

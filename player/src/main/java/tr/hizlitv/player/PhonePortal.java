@@ -30,6 +30,8 @@ final class PhonePortal implements AutoCloseable {
     private final String token;
     private final long expires;
     private volatile boolean running = true;
+    /** Open phone connections; closed with the listener so the port is free for an immediate restart. */
+    private final java.util.Set<Socket> peers = java.util.Collections.newSetFromMap(new java.util.concurrent.ConcurrentHashMap<>());
     private final ThreadPoolExecutor workers = new ThreadPoolExecutor(2, 2, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(4));
     PhonePortal(Receiver receiver) throws IOException {
         this(receiver, newToken(), 0, true, event -> { });
@@ -60,9 +62,10 @@ final class PhonePortal implements AutoCloseable {
     private void accept() {
         while (running && System.nanoTime() < expires) {
             try {
-                Socket socket = listener.accept(); socket.setSoTimeout(3000);
-                try { workers.execute(() -> handle(socket)); }
-                catch (java.util.concurrent.RejectedExecutionException full) { socket.close(); }
+                Socket socket = listener.accept(); socket.setSoTimeout(3000); peers.add(socket);
+                if (!running) { closeQuietly(socket); break; }
+                try { workers.execute(() -> { try { handle(socket); } finally { peers.remove(socket); } }); }
+                catch (java.util.concurrent.RejectedExecutionException full) { closeQuietly(socket); }
             } catch (java.net.SocketTimeoutException ignored) { }
             catch (IOException e) { break; }
         }
@@ -159,5 +162,14 @@ final class PhonePortal implements AutoCloseable {
             "Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'\r\n\r\n";
         OutputStream out = peer.getOutputStream(); out.write(head.getBytes(StandardCharsets.US_ASCII)); out.write(bytes); out.flush();
     }
-    public void close() { running = false; try { listener.close(); } catch (IOException ignored) { } workers.shutdown(); }
+    private void closeQuietly(Socket socket) { peers.remove(socket); try { socket.close(); } catch (IOException ignored) { } }
+    /**
+     * Stops listening and closes connections still being answered. On Linux a port with a live
+     * connection cannot be bound again yet, which made an immediate restart fail ("Address already in use").
+     */
+    public void close() {
+        running = false; try { listener.close(); } catch (IOException ignored) { }
+        for (Socket peer : peers.toArray(new Socket[0])) closeQuietly(peer);
+        workers.shutdown();
+    }
 }
