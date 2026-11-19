@@ -2,6 +2,11 @@
 
 [English](en/CHANGELOG.md) · **Türkçe**
 
+## 0.10.1 — 19 Kasım 2026
+
+- Telefon alıcısı kütüphane kapanınca portunu tamamen bırakıyor; kütüphaneyi hemen yeniden açınca QR adresi aynı kalıyor. Önceden kısa bir yarış durumu alıcıyı başka bir porta taşıyıp mevcut iPhone kestirmesini bozabiliyordu.
+- CI: Gradle önbelleği, bağımlılık indirme hatasında bir kez yeniden deneme ve aynı portu 20 kez yeniden açan bir regresyon testi.
+
 ## 0.10.0 — 19 Kasım 2026
 
 0.9.0'ın üzerine aynı imza anahtarıyla kurulur; kütüphane, oynatma konumları ve telefon eşleştirmesi korunur.

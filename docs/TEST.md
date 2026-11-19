@@ -2,7 +2,7 @@
 
 [English](en/TESTING.md) · **Türkçe**
 
-Sürüm: **HızlıTV 0.10.0**, gömülü Player, tek APK. Tarih: 19 Kasım 2026; aşağıdaki 0.9.0 bölümleri geçmiş kayıt olarak duruyor.
+Sürüm: **HızlıTV 0.10.1**, gömülü Player, tek APK. Tarih: 19 Kasım 2026; aşağıdaki 0.9.0 bölümleri geçmiş kayıt olarak duruyor.
 
 ## Otomatik kontroller
 
@@ -31,6 +31,8 @@ python3 scripts/check_public.py
 Testler özel hesap, çalışan kanal listesi veya kişisel HTML yedeği gerektirmez. Socket testleri loopback üzerinde geçici port açar; harici film sitelerine bağlanmaz. `org.json` JVM test bağımlılığı Android'in gerçek çalışma zamanı uygulaması yerine yalnız test ortamında kullanılır.
 
 ## 0.10.0 Mi TV Stick doğrulaması
+
+0.10.1 itibarıyla 31 JVM testi (9 media-core, 20 player, 2 tv-ui) ve AirPlay araçlarının 3 Python testi geçiyor; İngilizce/Türkçe kaynaklarda 271 girdi eşleşiyor. Lint ile debug/release derlemeleri yerelde ve CI’da geçiyor.
 
 0.9.0'ın üzerine özgün imzayla kuruldu (versionCode 24); kütüphane, konumlar ve mevcut telefon eşleştirmesi korundu, eski eşleştirme adresine POST HTTP202 döndü. `adb input` üzerinden gerçek DPAD/OK yolu kullanıldı:
 

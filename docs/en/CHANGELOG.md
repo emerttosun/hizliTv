@@ -2,6 +2,11 @@
 
 [English](CHANGELOG.md) · [Türkçe](../DEGISIKLIKLER.md)
 
+## 0.10.1 — 19 November 2026
+
+- The phone receiver frees its port completely when the library closes, so reopening the library right away keeps the same QR address. Before, a brief race could move the receiver to another port and break an existing iPhone shortcut.
+- CI: Gradle cache, one retry after a dependency download failure, and a regression test that reopens the same port 20 times.
+
 ## 0.10.0 — 19 November 2026
 
 Install over 0.9.0 with the same signing key; the library, playback positions and phone pairing are kept.

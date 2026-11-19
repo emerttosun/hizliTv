@@ -2,7 +2,7 @@
 
 [English](TESTING.md) · [Türkçe](../TEST.md)
 
-Version **0.10.0**, embedded Player / single APK. Recorded on 19 November 2026; the 0.9.0 sections below are kept as history.
+Version **0.10.1**, embedded Player / single APK. Recorded on 19 November 2026; the 0.9.0 sections below are kept as history.
 
 ## Automated checks
 
@@ -16,7 +16,7 @@ python3 -m unittest discover -s airplay/tests
 ./gradlew -PincludeLegacyBridge=true :legacy-bridge:lintDebug :legacy-bridge:assembleDebug
 ```
 
-The main JVM suite has **30 passing tests** (9 media-core, 19 player, 2 tv-ui), with no failures or skipped tests. The AirPlay integration tool has **3 passing Python tests**. Android lint and debug/release assembly pass locally and in CI. The translation checker verifies **271 matching English/Turkish entries**, including plural forms and format placeholders. These counts describe this version, not all future commits.
+The main JVM suite has **31 passing tests** (9 media-core, 20 player, 2 tv-ui), with no failures or skipped tests. The AirPlay integration tool has **3 passing Python tests**. Android lint and debug/release assembly pass locally and in CI. The translation checker verifies **271 matching English/Turkish entries**, including plural forms and format placeholders. These counts describe this version, not all future commits.
 
 | Area | Evidence |
 | --- | --- |

@@ -10,7 +10,7 @@ The app supports **English and Turkish**. It follows the device language when su
 
 ![HızlıTV home screen](docs/images/home-en.png)
 
-**Current version: 0.10.0** ([changes](docs/en/CHANGELOG.md)). The dashboard and Player are one APK: `tr.hizlitv.home`. AirPlay is an optional **separate** open-source companion; its pinned source, setup profiles and undo tool are included under [airplay](airplay/README.md).
+**Current version: 0.10.1** ([changes](docs/en/CHANGELOG.md)). The dashboard and Player are one APK: `tr.hizlitv.home`. AirPlay is an optional **separate** open-source companion; its pinned source, setup profiles and undo tool are included under [airplay](airplay/README.md).
 
 ## What it does
 
